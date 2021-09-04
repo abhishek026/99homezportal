@@ -1,0 +1,488 @@
+<!-- Modal -->
+<div id="editLead" class="modal" role="dialog">
+  <div class="modal-dialog" role="document">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Update Lead</h4>
+      </div>
+      <div class="modal-body" style="padding-top: 0px;">
+        <div class="form-container">
+
+          <div class="form-item field-wrapper">
+            <!-- // changes done by Nalini - To add country calling code -->
+            <label style="width: 100%;" for="mobile_no">Mobile
+              <span class="text-danger">*</span>
+            </label>
+            <span class="countryCallingCode" style="width: 22%">
+              <select id="country_id" class="form-ctrl"
+                  [(ngModel)]="editLead.country_id" name="country_id"
+                  [disabled]="countryDetails.length<=1"
+                  (change)="onChangeObj($event.target.value)"
+                  style="height: 29px;padding: 0;border-radius: 4px;width: 25%;float: left;">
+                  <option value=""></option>
+                  <option [value]="data.id" selected
+                      *ngFor='let data of countryDetails'>
+                      {{data.country_code}} +{{data.country_calling_code}}
+                  </option>
+              </select>
+          </span>
+            <input type="text" style="width: 75%;" value="" id="mobile_no"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+              [(ngModel)]="editLead.phone" name="name" autocomplete="off" maxlength="10" required placeholder="Contact Number" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="editLead.name" name="name"
+              maxlength="50" required placeholder="Name" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="gender">Gender</label>
+            <select class="form-ctrl" [(ngModel)]="editLead.gender" name="gender" id="gender">
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="email2">Email ID</label>
+            <input type="text" value="" id="email2" class="form-ctrl" [(ngModel)]="editLead.emailId" name="email2"
+              placeholder="Email ID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="address">Address</label>
+            <input type="text" value="" id="address" class="form-ctrl" [(ngModel)]="editLead.address" name="address"
+              maxlength="50" required placeholder="Address" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="city">City</label>
+            <input type="text" value="" id="city" class="form-ctrl" [(ngModel)]="editLead.city" name="city"
+              maxlength="50" required placeholder="City" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="referredBy">Referred By</label>
+            <select class="form-ctrl" name="referredBy" [(ngModel)]="editLead.referredBy">
+              <option value="-1">Select Referred By</option>
+              <option [value]="referred.id" *ngFor="let referred of referredByList">{{referred.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="source">Source</label>
+            <select class="form-ctrl" name="source" [(ngModel)]="editLead.source">
+              <option value="-1">Select Source</option>
+              <option [value]="source.id" *ngFor="let source of sourceList">{{source.name}}</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="fullBlue btn" (click)="updateLead()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="addLead" class="modal" role="dialog">
+  <div class="modal-dialog" style="margin-top: 10%;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create Lead</h4>
+      </div>
+      <div class="modal-body" style="padding-top: 0px;">
+        <div class="form-container">
+
+          <div class="form-item field-wrapper">
+            <label for="mobile_no" style="width: 100%;">Mobile
+              <span class="text-danger">*</span>
+            </label>
+            <!-- // changes done by Nalini - To add country calling code -->
+            <span class="countryCallingCode" style="width: 22%">
+              <select id="country_id" class="form-ctrl"
+                  [(ngModel)]="addLead.country_id" name="country_id"
+                  [disabled]="countryDetails.length<=1"
+                  (change)="onChangeObj($event.target.value)"
+                  style="height: 29px;padding: 0;border-radius: 4px;width: 25%;float: left;">
+                  <option value=""></option>
+                  <option [value]="data.id" selected
+                      *ngFor='let data of countryDetails'>
+                      {{data.country_code}} +{{data.country_calling_code}}
+                  </option>
+              </select>
+          </span>
+            <input type="text" style="width: 75%;" value="" id="mobile_no"
+              onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+              [(ngModel)]="addLead.phone" autocomplete="off" name="name" maxlength="10" required placeholder="Contact Number" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="name">Name
+              <span class="text-danger">*</span>
+            </label>
+            <input type="text" value="" id="name" class="form-ctrl" [(ngModel)]="addLead.name" name="name"
+              maxlength="50" required placeholder="Name" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="gender">Gender</label>
+            <select class="form-ctrl" [(ngModel)]="addLead.gender" name="gender" id="gender">
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="NA">NA</option>
+            </select>
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="email2">Email ID</label>
+            <input type="text" value="" id="email2" class="form-ctrl" [(ngModel)]="addLead.emailId" name="email2"
+              placeholder="Email ID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z.]{2,5}$" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="address">Address</label>
+            <input type="text" value="" id="address" class="form-ctrl" [(ngModel)]="addLead.address" name="address"
+              maxlength="50" required placeholder="Address" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="city">City</label>
+            <input type="text" value="" id="city" class="form-ctrl" [(ngModel)]="addLead.city" name="city"
+              maxlength="50" required placeholder="City" />
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="referredBy">Referred By</label>
+            <select class="form-ctrl" name="referredBy" [(ngModel)]="addLead.referredBy">
+              <option value="-1">Select Referred By</option>
+              <option [value]="referred.id" *ngFor="let referred of referredByList">{{referred.name}}</option>
+            </select>
+          </div>
+
+          <div class="form-item field-wrapper">
+            <label for="source">Source
+              <span class="text-danger">*</span>
+            </label>
+            <select class="form-ctrl" name="source" [(ngModel)]="addLead.source">
+              <option value="-1">Select Source</option>
+              <option [value]="source.id" *ngFor="let source of sourceList">{{source.name}}</option>
+            </select>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="fullBlue btn" (click)="saveNewLead()">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="SMS" class="modal" role="dialog">
+  <div class="modal-dialog" style="width: 723px;margin-top: 5%;">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" style="font-weight: 500;">Send Promotional SMS</h4>
+      </div>
+      <table style="width: 96%;margin-left: 2%;" class="camp-table">
+        <thead>
+          <th style="padding: 8px;">
+            Message
+          </th>
+
+        </thead>
+        <!-- <tr>
+          <th></th>
+          <th></th>
+        </tr> -->
+        <tbody>
+          <tr *ngFor="let msg of promoSMSList; let i = index;">
+            <td class="c-lg-12 c-md-12 c-sm-12" style="width: 12%;padding-left: 15px;">
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" (click)="selectMsg(msg)" id="check{{i}}" value="" name="" class="form-checkbox"
+                  style="cursor: pointer;">
+                <label for="check{{i}}"></label>
+              </div>
+            </td>
+            <td style="text-align: left;width: 92%;">
+              {{msg.message}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <div class="modal-body">
+        <p>Message
+          <span class="text-danger">*</span>
+        </p>
+        <div class="msg-list-container" style="border-radius: 4px;">
+          <div class="msg-item" *ngFor="let msg of promoSMSList; let i = index;"
+            style="border-bottom: 1px solid lightgrey;padding-bottom: 0px;">
+            <div class="msg-checkbox field-checkbox-wrapper">
+              <input type="checkbox" (click)="selectMsg(msg)" id="check{{i}}" value="" name="" class="form-checkbox">
+              <label for="check{{i}}"></label>
+            </div>
+            <div class="msg-span">
+              <span>{{msg.message}}</span>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="modal-footer">
+        <button type="button" class="add-class-btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="add-class-btn btn-default" (click)="sendSMS()">Send</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<section class="clearFix" style="padding-right: 2%;padding-top: 2px !important;">
+  <!-- Header and Navigation -->
+  <div>
+    <div class="w98 p-15">
+        <nav aria-label="breadcrumb ">
+            <ol class="breadcrumb arr-right">
+                <li class="breadcrumb-item "><a>Leads</a></li>
+                <li class="breadcrumb-item "><a>SMS Campaign</a></li>
+            </ol>
+        </nav>
+        <!-- Nav tabs -->
+        <ul class="nav main-shadow">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" routerLink="/view/leads/campaign">Add Campaign</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" routerLink="/view/leads/manage-campaign">Manage Campaign</a>
+            </li>
+        </ul>
+    </div>
+  </div>
+  <section>
+    <div class="filter-container">
+      <div class="filter-first-row-container" [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
+        <div class="filter-item field-wrapper">
+          <input type="text" class="form-ctrl" name="" value="" placeholder="Name" [(ngModel)]="filters.stundetName">
+        </div>
+        <div class="filter-item field-wrapper">
+          <input type="text" class="form-ctrl" name="" value="" placeholder="Contact Number"
+            [(ngModel)]="filters.contactNumber">
+        </div>
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filters.campaignName">
+            <option value="-1">Select Campaign</option>
+            <option title="{{campaign.list_name}}" [value]="campaign.list_id" *ngFor="let campaign of campaignList">
+              {{ (campaign.list_name.length > 30) ? (campaign.list_name | slice:0:30) + '...' : campaign.list_name }}
+            </option>
+          </select>
+        </div>
+        <div class="filter-item" style="width: 8%;" id="searchBtn1">
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
+        </div>
+        <div class="filter-item" id="advBtn1">
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Show Advance
+            Filter</button>
+        </div>
+      </div>
+      <div class="filter-second-row-container" id="advance_filter"
+        [ngClass]="(jsonFlag.toggle)? 'show-filter' : 'hide-filter'">
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filters.referredBy">
+            <option value="-1">Select Referred By</option>
+            <option title="{{referred.name}}" [value]="referred.id" *ngFor="let referred of referredByList">
+              {{ (referred.name.length > 30) ? (referred.name | slice:0:30) + '...' : referred.name }}</option>
+          </select>
+        </div>
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filters.source">
+            <option value="-1">Select Source</option>
+            <option title="{{source.name}}" [value]="source.id" *ngFor="let source of sourceList">
+              {{ (source.name.length > 30) ? (source.name | slice:0:30) + '...' : source.name }}</option>
+          </select>
+        </div>
+        <div class="filter-item field-wrapper">
+          <select class="form-ctrl" name="" [(ngModel)]="filters.assignedTo">
+            <option value="-1">Select Assigned To</option>
+            <option [value]="assigned.userid" *ngFor="let assigned of assignedToList">{{assigned.name}}</option>
+          </select>
+        </div>
+        <div class="filter-item" style="width: 8%;" id="searchBtn2">
+          <button type="button" class="search-btn fullBlue" name="button" (click)="searchCampaign(0)">Search</button>
+        </div>
+        <div class="filter-item" id="advBtn2">
+          <button type="button" class="advance-filter-btn" name="button" (click)="toggleFilter()">Hide Advance
+            Filter</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="campaign-activity-container">
+      <div class="activity-item field-wrapper">
+        <input type="text" value="" id="search_bar" [(ngModel)]="leadSearchInput" name="leadSearchInput"
+          (keyup)="searchDatabase(search)" placeholder="Search here..." class="search-box" #search>
+      </div>
+      <div class="activity-item">
+        <button type="button" name="button" class="add-student-btn" data-toggle="modal" data-target="#addLead">Add
+          Lead</button>
+      </div>
+      <div class="activity-item" *ngIf="downloadEnquiryReportAccess">
+        <i class="fa fa-file-pdf-o"
+          style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -13px;"
+          aria-hidden="true" (click)="downloadPdf()"></i>
+        <!-- <button type="button" title="Download PDF" name="button" class="download-btn" (click)="downloadPdf()">
+          <i class="fa fa-download" aria-hidden="true"></i> -->
+        <!-- PDF
+        </button> -->
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="student-list-table-container">
+      <div class="list-heading-container">
+        <div class="heading-item sm-item field-checkbox-wrapper" style="margin-top: 8px;">
+          <input type="checkbox" value="" id="check_all" name="check_all" class="form-checkbox"
+            (click)="checkAllLead($event)" [(ngModel)]="checkAll">
+          <label for="check_all"></label>
+        </div>
+        <div class="heading-item md-item">
+          <span>Contact No.</span>
+        </div>
+        <div class="heading-item lg-item">
+          <span>Name</span>
+        </div>
+        <div class="heading-item lg-item">
+          <span>Email</span>
+        </div>
+        <div class="heading-item lg-item">
+          <span>City</span>
+        </div>
+        <div class="heading-item lg-item">
+          <span>Address</span>
+        </div>
+        <div class="heading-item sm-item align-center">
+          <span>Gender</span>
+        </div>
+        <div class="heading-item lg-item align-center">
+          <span>Referred By</span>
+        </div>
+        <div class="heading-item lg-item align-center">
+          <span>Source</span>
+        </div>
+        <div class="heading-item lg-item align-center">
+          <span>Action</span>
+        </div>
+      </div>
+      <div class="list-value-outer-container" id="lead-value-container">
+        <div class="list-value-container" *ngFor="let lead of leadsList; let i = index; trackBy: i;"
+          [ngClass]="{'converted-lead': lead.converted != '0'}">
+          <div class="value-item sm-item field-checkbox-wrapper" style="margin-top: 8px;">
+            <input type="checkbox" (click)="rowCheckBoxClick(lead)" id="check{{i}}" value="" name=""
+              class="form-checkbox" *ngIf="lead.converted == 0" [(ngModel)]="lead.select">
+            <label for="check{{i}}" *ngIf="lead.converted == 0"></label>
+          </div>
+          <div class="value-item md-item">
+            <span>{{lead.mobile}}</span>
+          </div>
+          <div class="value-item lg-item">
+            <span *ngIf="lead.name.length == 0">-</span>
+            <span *ngIf="lead.name.length != 0"
+              title="{{lead.name}}">{{ (lead.name.length > 15) ? (lead.name | slice:0:15) + '...' : lead.name }}</span>
+          </div>
+          <div class="value-item lg-item">
+            <span *ngIf="lead.email.length == 0">-</span>
+            <span *ngIf="lead.email.length != 0"
+              title="{{lead.email}}">{{ (lead.email.length > 15) ? (lead.email | slice:0:15) + '...' : lead.email }}</span>
+          </div>
+          <div class="value-item lg-item">
+            <span *ngIf="lead.city.length == 0">-</span>
+            <span *ngIf="lead.city.length != 0">{{lead.city}}</span>
+          </div>
+          <div class="value-item lg-item">
+            <span *ngIf="lead.address.length == 0">-</span>
+            <span *ngIf="lead.address.length != 0"
+              title="{{lead.address}}">{{ (lead.address.length > 15) ? (lead.address | slice:0:15) + '...' : lead.address }}</span>
+          </div>
+          <div class="value-item sm-item align-center">
+            <span *ngIf="lead.gender.length == 0">-</span>
+            <span *ngIf="lead.gender.length != 0">{{lead.gender}}</span>
+          </div>
+          <div class="value-item lg-item align-center">
+            <span *ngIf="lead.referred_name.length == 0">-</span>
+            <span *ngIf="lead.referred_name.length != 0">{{lead.referred_name}}</span>
+          </div>
+          <div class="value-item lg-item align-center">
+            <span *ngIf="lead.source_name.length == 0">-</span>
+            <span *ngIf="lead.source_name.length != 0">{{lead.source_name}}</span>
+          </div>
+          <div class="value-item lg-item align-center">
+            <div *ngIf="lead.converted == 0">
+              <i class="fa fa-pencil edit-lead" title="Edit Lead" *ngIf="lead.converted == 0" data-toggle="modal"
+                data-target="#editLead" aria-hidden="true" (click)="editLeadRow(lead)"></i>
+              <i class="fa fa-trash delete-lead" title="Delete Lead" *ngIf="lead.converted == 0" aria-hidden="true"
+                (click)="deleteLead(lead)"></i>
+            </div>
+            <div *ngIf="lead.converted != 0">
+              <span>-</span>
+            </div>
+          </div>
+        </div>
+        <div class="no-records" *ngIf="leadsList?.length == 0">
+          <span>No Records Found</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="campaign-footer-section">
+      <div class="pagination-container">
+        <div class="row filter-res pagination" #pager id="pager" style="width: 100%;">
+          <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+              [pagesToShow]="5" [page]="pageIndex" [perPage]="displayBatchSize"
+              (sizeChange)="updateTableBatchSize($event)" [count]="totalCount">
+            </pagination>
+          </div>
+        </div>
+      </div>
+      <div class="campaign-action-btn-container">
+        <div class="action-btn-item">
+          <button type="button" name="button" class="action-btn" (click)="showPromoSMS()">Send Promotional SMS</button>
+        </div>
+        <div class="action-btn-item">
+          <button type="button" name="button" class="action-btn" (click)="convertToEnq()">Convert to Enquiry</button>
+        </div>
+        <div class="action-btn-item" style="margin-right: 10px;">
+          <button type="button" name="button" class="action-btn" (click)="deleteMultipleLeads()">Delete Leads</button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</section>

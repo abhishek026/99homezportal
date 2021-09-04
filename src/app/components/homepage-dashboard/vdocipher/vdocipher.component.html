@@ -1,0 +1,36 @@
+
+<div class="actb-top-header clearfix" >
+  <span class="heading">
+    Video Details
+  </span>
+</div>
+<div class="general-s-bottom" >
+  <ul *ngIf="enable_vdoCipher_feature">
+    <li>
+      <label>Storage Capacity</label> 
+      <a>{{(storageData.vDOCipher_allocated_storage?storageData.vDOCipher_allocated_storage:0)| number:'.2-3'}} GB</a>
+    </li>
+    <li>
+      <label>Bandwidth Capacity</label>
+      <a>{{(storageData.vDOCipher_allocated_bandwidth?storageData.vDOCipher_allocated_bandwidth:0)| number:'.2-3'}} GB</a>
+    </li>
+    <li>
+      <label>Used Storage Capacity</label> 
+      <a>{{(storageData.vDOCipher_used_storage?storageData.vDOCipher_used_storage:0) | number:'.2-3'}} GB</a>
+    </li>
+    <li>
+      <label>Used Bandwidth Capacity</label>
+      <a>{{(storageData.vDOCipher_used_bandwidth?storageData.vDOCipher_used_bandwidth:0)| number:'.2-3'}} GB</a>
+    </li>
+  </ul>
+  <ul *ngIf="enable_vimeo_feature">
+    <li>
+      <label>Vimeo Allocated Storage Capacity</label> 
+      <a>{{(storageData.vimeo_allocated_storage?storageData.vimeo_allocated_storage:0)| number:'.2-3'}} GB</a>
+    </li>
+    <li>
+      <label>Vimeo Used Storage Capacity</label>
+      <a>{{(storageData.vimeo_consumed_storage?storageData.vimeo_consumed_storage:0)| number:'.2-3'}} GB</a>
+    </li>
+  </ul>
+</div>

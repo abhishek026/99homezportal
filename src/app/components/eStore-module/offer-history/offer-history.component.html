@@ -1,0 +1,58 @@
+<div class="container-fluid product-wrapper p-0">
+    <div class="row m-0 pt-3 pb-3">
+        <div class="col-md-8" style="padding-left: 0;">
+            <section class="middle-top clearFix bulk-header">
+                <div>
+                    <h1 class="pull-left">
+                        <a routerLink="/view/reports/list" style="padding:0px; ">
+                          Reports
+                        </a>
+                        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+                        <span> Offer History </span>
+                    </h1>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="search-filter">
+        <div class="filter-item-1">
+            <div class="header-item">
+                <input type="text" name="" [(ngModel)]="searchFilter" class="filer-input" placeholder="Search here... "
+                    (keyup.enter)="fectchTableDataByPage(1)">
+            </div>
+
+            <div class="go-btn-container">
+                <button type="button" name="button" class="fullBlue gobtn" (click)="fectchTableDataByPage(1)">GO</button>
+            </div>
+
+        </div>
+        <!-- Excel Export Added by ashwini gupta  and used the app-basic-table shared component and implemented pagination separately-->
+        <div style="margin-top: 1%;margin-left: 18%;" *ngIf="this.varJson.total_items != 0">
+            <i class="fa fa-file-pdf-o"
+                style="font-size: 28px;color: darkred;cursor: pointer;margin-right: 5px;margin-left: -36px;"
+                aria-hidden="true" (click)="exportToPdf()"></i>
+            <i class="fa fa-file-excel-o" style="font-size: 28px;color: green;cursor: pointer;" aria-hidden="true"
+                (click)="exportToExcel()"></i>
+        </div>
+
+    </div>
+
+    <div class="table table-responsive">
+        <app-basic-table [headers]="headerSetting" [displayData]="offerHistoryData" [tableSetting]="tableSetting"
+            [rowColumnSetting]="rowColumns">
+        </app-basic-table>
+
+        <!-- <data-display-table #child [displayKeys]="tableSetting" [displayData]="offerHistoryData"
+            (editView)='optionSelected($event)'>
+        </data-display-table> -->
+    </div>
+    <div>
+        <pagination (goPage)="fectchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+            [pagesToShow]="10" [page]="varJson.PageIndex" [perPage]="varJson.displayBatchSize"
+            [sizeArr]="varJson.sizeArr" (sizeChange)="updateTableBatchSize($event)" [count]="varJson.total_items">
+        </pagination>
+
+    </div>
+    <!-- End -->
+</div>

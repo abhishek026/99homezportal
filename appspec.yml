@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/web.proctur.com/
+hooks:
+  BeforeInstall:
+    - location: scripts/clear_prev_data
+      timeout: 900
+ # AfterInstall:
+ #   - location: scripts/create_student_portal_dir
+  #    timeout: 300

@@ -1,0 +1,299 @@
+<section class="clearfix ">
+
+
+  <div class="row head-section">
+    <h2 class="pull-left">
+      <a routerLink="/view/online-exam/">
+        Online Test
+      </a>
+      <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>ExamDesk Course Assignment</h2>
+    <div class="pull-right">
+      <div class="search-filter-wrapper">
+        <input type="text" class="normal-field" [(ngModel)]="searchValue" placeholder="Search" (keyup)="searchInList()">
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+
+    <table>
+      <thead>
+        <tr>
+          <!-- changes by Nalini - to handle school model conditions -->
+          <th>{{schoolModel ? 'Section' : 'Course'}} Name</th>
+          <th>Total Assigned Student</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="coursesList.length > 0">
+        <tr *ngFor="let data of coursesList">
+          <td>{{data.course_type}}</td>
+          <td>{{data.total_assigned_student_count}}</td>
+          <td>
+            <a style="cursor: pointer;" (click)="assignStudent(data)">Assign Student</a>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="coursesList.length == 0 && dataStatus === 1">
+        <tr *ngFor="let dummy of dummyArr">
+          <td *ngFor="let c of columnMaps">
+            <div class="skeleton">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="(coursesList.length == 0 && dataStatus === 2)">
+        <tr>
+          <td colspan="6">
+            No data found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Paginator Here -->
+    <!-- <div class="row filter-res pagination" style="width: 100%;">
+      <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+        <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()" [pagesToShow]="10"
+          [page]="PageIndex" [perPage]="studentdisplaysize" [count]="totalRow">
+        </pagination>
+      </div>
+    </div> -->
+
+  </div>
+
+</section>
+
+
+<proctur-popup [sizeWidth]="'medium'" *ngIf="assignPopUp">
+
+  <span class="closePopup pos-abs fbold show" (click)="closePopup()" close-button>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
+    </svg>
+  </span>
+<!-- changes by Nalini - to handle school model conditions -->
+  <h2 popup-header>{{schoolModel ? 'Section' : 'Course'}} Name : {{tempData.course_type}}</h2>
+
+  <div popup-content class="student-assign-popup">
+    <div class=" filter-section">
+      <div class="row">
+        <div class="c-sm-5 c-md-5 c-lg-5 radio-button">
+          <div class="field-radio-wrapper">
+            <input type="radio" name="bothRadio" id="bothRadio" class="form-radio" value="0" [(ngModel)]="radioOption"
+              (ngModelChange)="onRadioButtonChange()">
+            <label for="bothRadio">Both</label>
+          </div>
+          <div class="field-radio-wrapper">
+            <input type="radio" name="assignRadio" id="assignRadio" value="1" class="form-radio"
+              [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+            <label for="assignRadio">Assigned</label>
+          </div>
+          <div class="field-radio-wrapper">
+            <input type="radio" name="unassignStudent" id="unassignStudent" value="2" class="form-radio"
+              [(ngModel)]="radioOption" (ngModelChange)="onRadioButtonChange()">
+            <label for="unassignStudent">UnAssigned</label>
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3 radio-button">
+
+          <div class="field-radio-wrapper" *ngIf="isCourseModule">
+            <input type="radio" name="standardRadio" id="standardRadio" value="0" class="form-radio"
+              [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
+            <label for="standardRadio">Standard</label>
+          </div>
+          <div class="field-radio-wrapper" *ngIf="isCourseModule">
+            <input type="radio" name="courseStudent" id="courseStudent" value="1" class="form-radio" [(ngModel)]="filterOption" (ngModelChange)="onfilterOptionChange()">
+            <label for="courseStudent">{{schoolModel ? 'Section' : 'Course'}}</label>
+          </div>
+        </div>
+        <div class="c-sm-4 c-md-4 c-lg-4 ">
+          <div class="c-sm-12 c-md-12 c-lg-12">
+            <div class="c-sm-4 c-md-4 c-lg-4">
+              <div class="search-filter-wrapper">
+                <input #searchVal type="text" class="normal-field" placeholder="Search" id="searchStudent"
+                  name="searchData" [(ngModel)]="searchData">
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="row extraMargin" *ngIf="(!isCourse)&&isCourseModule">
+        <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
+          <div class="field-wrapper">
+            <label for="master">Standard
+            </label>
+            <select class="form-ctrl" [(ngModel)]="standard_id" (change)="onfilterOptionChange()">
+              <option value="-1">Standard</option>
+              <option *ngFor="let i of standardList" [value]="i.standard_id">
+                {{i.standard_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row extraMargin" *ngIf="isCourse&&isCourseModule">
+        <!-- changes by Nalini - to handle school model conditions -->
+        <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
+          <div class="field-wrapper">
+            <label for="master">{{schoolModel ? 'Standard' : 'Master Course'}}
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.master_course_name" (change)="getCourses($event.target.value)">
+              <option value="">{{schoolModel ? 'Standard' : 'Master Course'}}</option>
+              <option *ngFor="let i of masterCourse" [value]="i.master_course">
+                {{i.master_course}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-lg-4 c-md-4 c-sm-4 c-xs-4">
+          <div class="field-wrapper">
+            <label for="course">{{schoolModel ? 'Section' : 'Course'}}
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.course_id">
+              <option value="-1">{{schoolModel ? 'Section' : 'Course'}}</option>
+              <option *ngFor="let i of courses" [value]="i.course_id">
+                {{i.course_name}}
+              </option>>
+            </select>
+
+          </div>
+        </div>
+
+        <div class="c-lg-2 c-md-2 c-sm-2 c-xs-2 text-center">
+          <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit"
+            (click)="getExamAssignmentData()"> Go </button>
+
+        </div>
+      </div>
+      <div class="row extraMargin" *ngIf="(!isCourseModule)">
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="master">Master Course
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.standard_id"
+              (change)="clearData(1);getData($event.target.value)">
+              <option value="-1">Master Course</option>
+              <option *ngFor="let i of standardList" [value]="i.standard_id">
+                {{i.standard_name}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="course">Course
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.subject_id"
+              (change)="clearData(2);getData($event.target.value)">
+              <option value="-1">Course</option>
+              <option *ngFor="let i of subjectList" [value]="i.subject_id">
+                {{i.subject_name}}
+              </option>>
+            </select>
+
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3 c-xs-3">
+          <div class="field-wrapper">
+            <label for="course">Batch
+            </label>
+            <select class="form-ctrl" [(ngModel)]="examAssignmentData.batch_id">
+              <option value="-1">Batch</option>
+              <option *ngFor="let i of batchList" [value]="i.batch_id">
+                {{i.batch_name}}
+              </option>>
+            </select>
+
+          </div>
+        </div>
+        <div class="c-lg-2 c-md-2 c-sm-2 c-xs-2 text-center">
+          <button id="btnSave" class="btn fullBlue" style="margin-top: 1rem;" type="submit"
+            (click)="getExamAssignmentData()"> Go </button>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <div class="field-checkbox-wrapper">
+                <input type="checkbox" class="form-checkbox" [(ngModel)]="headerChecked"
+                  (ngModelChange)="onHeaderCheckBox($event)">
+                <label></label>
+              </div>
+            </th>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Contact No</th>
+            <th>Joining Date</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="tableData.length > 0 && dataStatus === 2">
+          <tr *ngFor="let data of (tableData | searchPipe:searchData)">
+            <td style="text-align: left">
+              <div class="field-checkbox-wrapper">
+                <input [disabled]="data.user_type == '99'" type="checkbox" class="form-checkbox"
+                  [(ngModel)]="data.assigned" (ngModelChange)="checkIfHeaderChecked()">
+                <label></label>
+              </div>
+            </td>
+            <td>
+              {{data.student_disp_id}}
+            </td>
+            <td>
+              {{data.student_name}}
+            </td>
+            <td>
+              {{data.student_phone}}
+            </td>
+            <td>
+              {{data.doj}}
+            </td>
+            <td>
+              <span *ngIf="data.user_type == '99'">Guest User</span>
+              <span *ngIf="data.user_type == '1'">Enrolled Student</span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 1">
+          <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMapsTr">
+              <div class="skeleton">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="tableData.length == 0 && dataStatus === 2">
+          <tr>
+            <td colspan="6">
+              <h3>No Student Record Found</h3>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix" style="margin-top :10px">
+      <aside class="pull-right popup-btn">
+        <input type="button" value="Cancel" class="btn" (click)="closePopup()">
+        <input type="button" value="Add Student" class="fullBlue btn" (click)="addStudentToCourse()">
+      </aside>
+    </div>
+  </div>
+
+</proctur-popup>

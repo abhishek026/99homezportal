@@ -1,0 +1,235 @@
+<div class="sidebar-wrapper">
+
+    <div class="header-row">
+        <div class="student-details-wrapper">
+            <ul>
+                <li style="border-top: none;">
+                    <h3>#{{rowData.student_disp_id}}</h3>
+                </li>
+                <li style="border-top: none;">
+                    <h4>{{rowData.student_name}}</h4>
+                </li>
+                <li style="border-top: none;text-overflow: ellipsis;cursor:pointer;" (click)="emitNotes($evnent)">
+                    <h5>
+                        <i style="font-family: FontAwesome;" class="fa fa-sticky-note" aria-hidden="true"
+                            title="Add comment"></i>
+                        {{studentDetails.comments}}
+                    </h5>
+                </li>
+            </ul>
+        </div>
+        <div class="profile-details-wrapper">
+            <div class="profile-wrapper">
+                <proctur-image [containerWidth]="containerWidth" [isSidenav]="true" [serverImg]="studentServerImage"
+                    [readonly]="readonly" [defaultImg]="'assets/images/student_icon.png'" [thumbnailAvailable]="true" [studdentEdit]="studdentEdit">
+                </proctur-image>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <button aria-expanded="true" class="dropdown-trigger" (click)="openMenu()">
+            <span class="svg-icon-wrap">
+                <span class="visually-hidden"></span>
+                <div aria-hidden="true" type="ellipsis-horizontal-icon">
+                    <svg viewBox="0 0 24 24" width="24px" height="24px" x="0" y="0" preserveAspectRatio="xMinYMin meet"
+                        class="artdeco-icon" focusable="false">
+                        <path d="M2,10H6v4H2V10Zm8,4h4V10H10v4Zm8-4v4h4V10H18Z" class="large-icon"
+                            style="fill: currentColor"></path>
+                    </svg>
+                </div>
+            </span>
+        </button>
+
+        <div class="dd-list-container" *ngIf="showMenu">
+            <div class="dropdown-list">
+                <div class="dd-list-inner">
+                    <ul class="actions-menu">
+
+                        <li class="action-item" *ngIf="allowEdit" (click)="emitEdit($event)">
+                            <a class="">
+                                <img src="../../../../assets/images/students/Edit.svg" alt="">Edit Student
+                            </a>
+                        </li>
+
+                        <li class="action-item" *ngIf="!isSubAdmin" (click)="emitDelete($event)">
+                            <a class="">
+                                <img src="../../../../assets/images/students/delete.svg" alt="">Delete Student
+                            </a>
+                        </li>
+
+                        <li *ngIf="!isSchoolModel" class="action-item" (click)="emitLeave($event)">
+                            <a class="">
+                                <img src="../../../../assets/images/students/Leave.svg" alt="">Mark Leave
+                            </a>
+                        </li>
+
+                        <li class="action-item" (click)="emitEditLeave($event)" *ngIf="Fee_menu">
+                            <a class="enq-act enq-act--five">
+                                <img src="../../../../assets/images/students/Manage_Fee.svg" alt="">Manage Fee
+                            </a>
+                        </li>
+
+                        <li *ngIf="!isSchoolModel" class="action-item" (click)="emitEditInv($event)">
+                            <a class="enq-act enq-act--five">
+                                <img src="../../../../assets/images/students/inventory.svg" alt="">
+                                Manage Inventory
+                            </a>
+
+                        </li>
+
+                        <li class="action-item" (click)="gotoStudentReportcard()">
+                            <a class="">
+                                <i class="fa fa-eye" aria-hidden="true" style="font-size: 16px;"></i>   View Report
+                            </a>
+                        </li>
+                        <li class="action-item" (click)="downloadStudentReportCard()" *ngIf="downloadStudentReportAccess && studentReport">
+                            <a id="downloadFileClick1"></a>
+                            <a class="">
+                                <img src="../../../../assets/images/students/download_report_card.svg" alt="">
+                                Download Report Card
+                            </a>
+                        </li>
+                        <li class="action-item" (click)="downloadStudentIDCard()" *ngIf="downloadStudentReportAccess">
+                            <a class="">
+                                <img src="../../../../assets/images/students/download_id_card.svg" alt="">
+                                Download ID Card
+                            </a>
+                        </li>
+
+                        <!-- <li class="action-item" *ngIf="institute_id==100058||institute_id==101196||institute_id==101197||institute_id==101198||institute_id==100127||institute_id==101281||institute_id==101282||institute_id==100292||institute_id==102026||institute_id==100135">
+                            <a class="" target="_blank" (click)="gotodownloadCertificate()" class="fa fa-download">
+                               <span style="font-size: 14px;font-weight: 400;margin-left: 12px; font-family: 'Open Sans', sans-serif;"> Download Certificate</span>
+                            </a>
+                        </li> -->
+
+                        <li class="action-item">
+                            <a class="" target="_blank" data-toggle="modal" data-target="#myModal1" class="fa fa-download">
+                               <span style="font-size: 14px;font-weight: 400;margin-left: 12px; font-family: 'Open Sans', sans-serif;"> Generate Certificate</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div class="acc-wrapper">
+        <ul>
+            <li #one class="">
+                <div class="row lihead" (click)="toggleAccordian('one')">
+                    <i></i>
+                    <h2>Basic Details</h2>
+                </div>
+                <section>
+                    <div class="detail-wrapper">
+                        <div class="form-wrapper c-xs-12">
+                            <div class="field-wrapper" style="padding-top: 25px;" (click)="editCourseAllocated()">
+                                <label *ngIf="isProfessional" style="top: 0px;" for="Batches">Batches <span style="
+                                    float: right;
+                                    font-size: 8px;
+                                    color: #0084f6;
+                                    text-transform: capitalize;
+                                    cursor: pointer;
+                                ">
+                                        Click to edit</span></label>
+                                <label *ngIf="!isProfessional" style="top: 0px;" for="Batches">{{isSchoolModel?'Sections':'Courses'}} <span style="
+                                    float: right;
+                                    font-size: 8px;
+                                    color: #0084f6;
+                                    text-transform: capitalize;
+                                    cursor: pointer;
+                                ">
+                                        Click to edit</span></label>
+                                <div [ngClass]="{'hide': batch == ''}" class="chipped"
+                                    *ngFor="let batch of getBatchListArr()">
+                                    {{batch}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="dob">Date Of Birth</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.dob" type="text"
+                                name="dob">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="doj">Date Of Admission</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.doj" type="text"
+                                name="doj">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="doj">Student Email</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_email"
+                                type="text" name="email">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentName">Parent Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_name"
+                                type="text" name="ParentName">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentPhone">Parent Phone</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_phone"
+                                type="text" name="ParentPhone">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="ParentEmail">Parent Email ID</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.parent_email"
+                                type="text" name="ParentEmail">
+                        </div>
+
+                        <!-- <div class="form-wrapper c-xs-12">
+                            <label for="GuardianName">Guardian Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_name" type="text" name="Guardian Name">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="GuardianPhone">Guardian Phone</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_phone" type="text" name="GuardianPhone">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="Guardian Email"></label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.guardian_email" type="text" name="Guardian Email">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="SchoolName">School Name</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.school_name" type="text" name="SchoolName">
+                        </div>
+                        <div class="form-wrapper c-xs-12">
+                            <label for="student_class">Student Class</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_class" type="text" name="student_class">
+                        </div> -->
+                        <div class="form-wrapper c-xs-12">
+                            <label for="Address">Address</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="studentDetails.student_curr_addr"
+                                type="text" name="Address">
+                        </div>
+                    </div>
+                </section>
+            </li>
+
+            <li #two class="liclosed">
+                <div class="row lihead" (click)="toggleAccordian('two')">
+                    <i></i>
+                    <h2>Other Details</h2>
+                </div>
+                <section>
+                    <div class="detail-wrapper" *ngFor="let custom of customComponent">
+                        <div class="form-wrapper c-xs-12">
+                            <label for="{{custom.label}}">{{custom.label}}</label>
+                            <input readonly="true" class="side-form-ctrl" [(ngModel)]="custom.enq_custom_value"
+                                type="text" name="{{custom.label}}">
+                        </div>
+                    </div>
+                </section>
+            </li>
+
+        </ul>
+    </div>
+
+</div>
+<!-- ======================================certificateModel====================== -->
+
+  

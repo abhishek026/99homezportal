@@ -1,0 +1,481 @@
+<proctur-popup [sizeWidth]="'medium'">
+  <div popup-header class="popup-header-content shareHeader">
+    <div class="row">
+      <div class="c-lg-2">
+        <h2>
+          Share File
+        </h2>
+      </div>
+      <div class="c-lg-10" style="padding:0">
+        <div class="row">
+          <div class="c-lg-12">
+            <div class="c-lg-12 " style="margin-bottom: 10px;">
+              <div style="width: 90%;">
+              <span class="form-file">File Name :
+              </span>
+              <span class="bold-font" title="{{fileName.res.file_name}}">{{(fileName.res.file_name.length > 45) ? (fileName.res.file_name | slice:0:45) + '...' : fileName.res.file_name}} </span>
+              </div>
+              <div>
+              <span class="closePopup pos-abs fbold show" style="top: 0;" close-button (click)="close()">
+                <svg style="color: #109CF1;" class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24" width="24px" x="0" y="0">
+                  <path  class="large-icon" d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z" style="fill: currentColor"></path>
+                </svg>
+              </span>
+            </div>
+            </div>
+            <div class="c-lg-12">
+              <div style="padding:0" class="c-lg-4">
+              <span class="form-file">Downloads :
+              </span>
+              <span class="bold-font">{{fileName.res.downloads}}</span>
+            </div>
+              <div style="padding:0" class="c-lg-4">
+                <span class="form-file">
+                  File Size :
+                </span>
+                <span class="bold-font">{{fileName.res.size}} KB</span>
+              </div>
+              <div style="padding:0" class="c-lg-4">
+                <span class="form-file">
+                  Category :
+                </span>
+                <span class="bold-font">{{fileName.res.category_name}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div popup-content class="popup-header-content" style="margin-top: 10px;">
+    <div class="row" *ngIf="activeSession == 1">
+      <div class="c-lg-2 field-radio-wrapper" style="margin-top: 10px; margin-left: 15px;">
+        <input type="radio" class="form-radio" name="common" id="batch" [(ngModel)]="getBatch" (ngModelChange)="fetchCoursesData(subjectId , $event)"
+          [value]="'0'">
+        <label for="batch">{{schoolModel ? 'Section' : 'Batch'}} Level</label>
+      </div>
+      <div class="c-lg-3 field-radio-wrapper" style="margin-top: 10px; margin-left: 15px;">
+        <input type="radio" class="form-radio" name="common" id="student" [(ngModel)]="getStudent" (ngModelChange)="fetchCoursesData(subjectId , $event, editBatchShare)"
+          [value]="1">
+        <label for="student">Student Level</label>
+      </div>
+    </div>
+    <div class="shareTab" [ngStyle]="{'margin-top': (activeSession == 1) ? '' : '25px'}" style="box-shadow:0px 0px 8px rgb(0 0 0 / 15%)">
+    <input *ngIf="!schoolModel" type="button" id="tab1" style="border-radius: 4px;" (click)="selectTab(1)" [ngClass]="(activeSession == 1) ? 'activeSession' : '' " class="btn shareToBtn" value="Student"
+      [disabled]="categoryId == '62'">
+    <input *ngIf="!schoolModel" type="button" id="tab2" style="border-radius: 4px;" [ngClass]="(activeSession == 2) ? 'activeSession' : '' " (click)="selectTab(2)" class="btn" value="Public">
+    <input *ngIf="!schoolModel" type="button" id="tab3" style="border-radius: 4px;" (click)="selectTab(3)" [ngClass]="(activeSession == 3) ? 'activeSession' : '' " class="btn" value="Institute"
+      [disabled]="categoryId != '62'">
+    </div>
+    <br/>
+    <div style="min-height: 40vh;">
+    <div id="tab1Content">
+      <div class="tab">
+        <div class="row">
+          <div class="c-lg-3 field-wrapper" style="padding-right: 0;">
+            <!-- <label class="forms" *ngIf="isProfessional">Master Course</label>
+            <label class="forms" *ngIf="!isProfessional">Standards</label> -->
+            <select class="form-ctrl" [(ngModel)]="getStandardsId" (ngModelChange)="getAllSubjects($event)">
+              <option value=""> {{isProfessional ? 'Select Master Course' : 'Select Standards'}}</option>
+              <option *ngFor="let i of getStandards" [value]="i.standard_id">
+                {{(i.standard_name.length > 30) ? (i.standard_name | slice:0:30) + '...' : i.standard_name}} 
+              </option>
+            </select>
+          </div>
+          <div class="c-lg-3 field-wrapper" style="padding-right: 0;">
+            <!-- <label class="forms" *ngIf="isProfessional">Course</label>
+            <label class="forms" *ngIf="!isProfessional">Subjects</label> -->
+            <select class="form-ctrl" [(ngModel)]="subjectId" (ngModelChange)="getBatches(1)">
+              <option value=""> {{isProfessional ? 'Select Course' : 'Select Subjects'}} </option>
+              <option *ngFor="let i of getSubjects" [value]="i.subject_id">
+                {{(i.subject_name.length > 30) ? (i.subject_name | slice:0:30) + '...' : i.subject_name}}
+              </option>
+            </select>
+          </div>
+          <div class="c-lg-6 field-wrapper">
+            <!-- <label class="forms">Comments</label> -->
+            <textarea class="form-ctrl" placeholder="comments" style="height: 31px;" [(ngModel)]="fetchShareOption.desc"></textarea>
+          </div>
+        </div>
+      </div>
+      <div style="border-top: none;width: 100%;min-height: 30vh;">
+
+        <div class="table table-responsive table-ne" style="margin-left: 24px;
+        max-width: 94%;">
+          <table>
+            <thead *ngIf="batchesId">
+              <tr>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  <div class="field-checkbox-wrapper" style="display: inline-block;
+                  margin-right: 10px; margin-left: 15px;vertical-align: middle;">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="isChecked" (ngModelChange)="fileSharedBatches($event)">
+                    <label></label>
+                  </div>
+                  <span>
+                  {{schoolModel ? 'Section' : 'Batch'}} Name
+                </span>
+                </th>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  Access Start Date
+                </th>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  Access End Date
+                </th>
+              </tr>
+            </thead>
+            <thead *ngIf="studentsId">
+              <tr style="text-align: left;
+              padding: 5px 0px 10px 5px;">
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%); ">
+                  <div class="field-checkbox-wrapper" style="display: inline-block;margin-right: 10px; margin-left: 15px;vertical-align: middle;">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="isStudentChecked" (ngModelChange)="fileSharedStudents($event)">
+                    <label></label>
+                  </div>
+                  <span>
+                  Id
+                </span>
+                </th>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  Student Name
+                </th>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  Access Start Date
+                </th>
+                <th style="box-shadow: 0px 4px 4px rgb(0 0 0 / 10%);">
+                  Access End Date
+                </th>
+              </tr>
+            </thead>
+            <tbody *ngIf="batchesId && getBatchesData.length!=0">
+              <tr *ngFor="let i of getBatchesData ; let j =index;">
+                <td style="text-align: left; ">
+                  <div style="vertical-align: middle;margin-right: 10px;margin-left: 0;" class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getFileSharedBatches($event , j)">
+                    <label></label>
+                  </div>
+                <span title="{{i.batch_name}}">{{(i.batch_name.length > 30) ? (i.batch_name | slice:0:30) + '...' : i.batch_name}}</span>
+                </td>
+                <td style="text-align: left; padding: 0px;">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" style="border: none;" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_start_time">
+                  </div>
+                  <!-- <div class="row row-fix">
+                    <div class="c-lg-12">
+                      <div class="c-lg-3">
+                        <label class="norm">Date</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_date" (ngModelChange)="getStartDate($event , j)">
+                          <option></option>
+                          <option *ngFor="let date of date" [value]="date">
+                            {{date}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-3">
+                        <label class="norm">Month</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_month" (ngModelChange)="getStartMonth($event  , j)">
+                          <option></option>
+                          <option *ngFor="let month of month" [value]="month">
+                            {{month}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-5">
+                        <label class="norm">Year</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_year" (ngModelChange)="getStartYear($event  , j)">
+                          <option></option>
+                          <option *ngFor="let year of year" [value]="year">
+                            {{year}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
+                </td>
+                <td style="text-align: left; padding: 0px;">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" style="border: none;" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_end_time">
+                  </div>
+                  <!-- <div class="row row-fix">
+                    <div class="c-lg-12">
+                      <div class="c-lg-3">
+                        <label class="norm">Date</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_date" (ngModelChange)="getEndDate($event  , j)">
+                          <option></option>
+                          <option *ngFor="let year of date" [value]="year">
+                            {{year}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-3">
+                        <label class="norm">Month</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_month" (ngModelChange)="getEndMonth($event  , j)">
+                          <option></option>
+                          <option *ngFor="let month of month" [value]="month">
+                            {{month}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-5">
+                        <label class="norm">Year</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_year" (ngModelChange)="getEndYear($event  , j)">
+                          <option></option>
+                          <option *ngFor="let year of year" [value]="year">
+                            {{year}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="batchesId && getBatchesData.length==0 && dataStatus === false">
+              <tr>
+                <td colspan="3">No Records Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="batchesId && getBatchesData.length == 0 && dataStatus === true">
+              <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMaps" style="padding:10px;">
+                  <div class="skeleton">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="studentsId && getStudentsData.length!=0">
+              <tr *ngFor="let i of getStudentsData ; let j =index;">
+                <td style="text-align: left; width:21%;">
+                  <div style="vertical-align: middle;margin-right: 10px;margin-left: 0;" class="field-checkbox-wrapper">
+                    <input type="checkbox" class="form-checkbox" [(ngModel)]="i.isChecked" (ngModelChange)="getFileSharedStudents($event , j)">
+                    <label></label>
+                  </div>
+                  {{i.student_disp_id}}
+                </td>
+                <td style="text-align: left;" title="{{i.student_name}}">
+                  {{(i.student_name.length > 20) ? (i.student_name | slice:0:20) + '...' : i.student_name}}
+                </td>
+                <td style="text-align: left; padding: 0px;">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" style="border: none;" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_start_time">
+                  </div>
+                  <!-- <div class="row row-fix">
+                    <div class="c-lg-12">
+                      <div class="c-lg-3">
+                        <label class="norm">Date</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_date" (ngModelChange)="getStartDate($event , j)">
+                          <option></option>
+                          <option *ngFor="let date of date" [value]="date">
+                            {{date}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-3">
+                        <label class="norm">Month</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_month" (ngModelChange)="getStartMonth($event , j)">
+                          <option></option>
+                          <option *ngFor="let month of month" [value]="month">
+                            {{month}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-5">
+                        <label class="norm">Year</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.start_year" (ngModelChange)="getStartYear($event , j)">
+                          <option></option>
+                          <option *ngFor="let year of year" [value]="year">
+                            {{year}}
+                          </option>
+
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
+                </td>
+                <td style="text-align: left; padding: 0px;">
+                  <div class="field-wrapper datePickerBox">
+                    <input type="text" style="border: none;" readonly="true" class="form-ctrl" bsDatepicker [(ngModel)]="i.file_access_end_time">
+                  </div>
+                  <!-- <div class="row row-fix">
+                    <div class="c-lg-12">
+                      <div class="c-lg-3">
+                        <label class="norm">Date</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_date" (ngModelChange)="getEndDate($event , j)">
+                          <option></option>
+                          <option *ngFor="let date of date" [value]="date">
+                            {{date}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-3">
+                        <label class="norm">Month</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_month" (ngModelChange)="getEndMonth($event , j)">
+
+                          <option></option>
+                          <option *ngFor="let month of month" [value]="month">
+                            {{month}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="c-lg-5">
+
+                        <label class="norm">Year</label>
+                        <select style="border: 1px solid #efefef;" [(ngModel)]="i.end_year" (ngModelChange)="getEndYear($event , j)">
+
+                          <option></option>
+                          <option *ngFor="let year of year" [value]="year">
+                            {{year}}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div> -->
+                </td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="studentsId && getStudentsData.length==0 && dataStatus === false">
+              <tr>
+                <td colspan="4">No Records Found</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="studentsId && getStudentsData.length == 0 && dataStatus === true">
+              <tr *ngFor="let dummy of dummyArr">
+                <td *ngFor="let c of columnMaps" style="padding:10px;">
+                  <div class="skeleton">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="tab2Content">
+      <div class="tab" *ngIf="categoryId!=62">
+        <div class="row">
+          <div class="c-lg-4 field-wrapper">
+            <label class="forms" *ngIf="isProfessional">Master Course</label>
+            <label class="forms" *ngIf="!isProfessional">Standards</label>
+            <select class="form-ctrl" [(ngModel)]="fileSharePublic.standard_id" (ngModelChange)="getAllSubjects($event)">
+              <option value="-1">{{isProfessional ? 'Select Master Course' : 'Select Standards'}}</option>
+              <option *ngFor="let i of getStandards" [value]="i.standard_id">
+                {{(i.standard_name.length > 30) ? (i.standard_name | slice:0:30) + '...' : i.standard_name}}
+              </option>
+            </select>
+          </div>
+          <div class="c-lg-4 field-wrapper">
+            <label class="forms" *ngIf="isProfessional">Course</label>
+            <label class="forms" *ngIf="!isProfessional">Subjects</label>
+            <select class="form-ctrl" [(ngModel)]="fileSharePublic.subject_id">
+              <option value="-1">{{isProfessional ? 'Select Course' : 'Select Subjects'}}</option>
+              <option *ngFor="let i of getSubjects" [value]="i.subject_id">
+                {{(i.subject_name.length > 30) ? (i.subject_name | slice:0:30) + '...' : i.subject_name}}
+              </option>
+            </select>
+          </div>
+          <div class="c-lg-4 field-wrapper">
+            <label class="forms">Course Types<span class="text-danger">*</span></label>
+            <select id="courses" class="form-ctrl" multiple [(ngModel)]="courseType" style="height: 75px;" (ngModelChange)="courseTypeSelection($event)">
+              <option *ngFor="let i of courseMappingArray" [value]="i.course_type_id" [selected]="prefillSelected(i.course_type_id)">{{i.course_type}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab3Content" class="">
+
+    </div>
+  </div>
+  </div>
+
+  <div popup-footer style="margin-top: 2%;">
+    <div *ngIf="tabChoice == 'institute'" class="row" style="text-align: right ; width:94%;">
+      <div class="c-lg-8" *ngIf="!editInstituteShare">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="width:26%;">
+          <input type="checkbox" class="form-checkbox"
+          id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
+          <label for="institute">
+            Read Only
+          </label>
+        </div>
+      </div>
+      <div class="c-lg-6" *ngIf="editInstituteShare">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="width:26%;">
+          <input type="checkbox" class="form-checkbox" id="institute" [(ngModel)]="isReadonlyInst" (ngModelChange)="getReadonlyinst($event)">
+          <label for="institute">
+            Read Only
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-2" *ngIf="!editInstituteShare" style="text-align: right;">
+        <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+      </div>
+      <div class="c-lg-2" *ngIf="editInstituteShare">
+        <input type="button" value="Update" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+      </div>
+      <div class="c-lg-2" *ngIf="editInstituteShare">
+        <input type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')" style="width:100%">
+      </div>
+      <div class="c-lg-2">
+        <input type="button" value="Close" class="btn fullBlue" (click)="close()" style="width:100%">
+      </div>
+    </div>
+
+    <div *ngIf="tabChoice == 'public'" class="row" style="text-align: right ; width:94%">
+      <div class="c-lg-8" *ngIf="!editPublicShare">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="width:26%;">
+          <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
+          <label for="public">
+            Read Only
+          </label>
+        </div>
+
+      </div>
+      <div class="c-lg-6" *ngIf="editPublicShare">
+        <div class="c-lg-4 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="width:36%;">
+          <input type="checkbox" class="form-checkbox" id="public" [(ngModel)]="isReadonlyPub" (ngModelChange)="getReadonlypublic($event)">
+          <label for="public">
+            Read Only
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-2" *ngIf="!editPublicShare" style="text-align: right;">
+        <input type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+      </div>
+      <div class="c-lg-2" *ngIf="editPublicShare ">
+        <input type="button" value="Update" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+      </div>
+      <div class="c-lg-2" *ngIf="editPublicShare">
+        <input type="button" value="UnShare" class="btn fullBlue" (click)="shareFile('1')" style="width:100%">
+      </div>
+      <div class="c-lg-2">
+        <input type="button" value="Close" class="btn fullBlue" (click)="close()" style="width:100%">
+      </div>
+    </div>
+
+    <div *ngIf="tabChoice == 'student'" class="row" style="text-align: right ; width:94%">
+      <div class="c-lg-8">
+        <div class="c-lg-3 field-checkbox-wrapper" *ngIf="getFileType == 'pdf'" style="float: left;width:26%;">
+          <input type="checkbox" class="form-checkbox" id="student" [(ngModel)]="isReadonlyStu" (ngModelChange)="getReadonlystu($event)">
+          <label for="student">
+            Read Only
+          </label>
+        </div>
+      </div>
+
+      <div class="c-lg-2">
+        <input *ngIf="!editBatchShare " type="button" value="Share" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+        <input *ngIf="editBatchShare" type="button" value="Update" class="btn fullBlue" (click)="shareFile()" style="width:100%">
+      </div>
+      <div class="c-lg-2">
+        <input type="button" value="Close" class="btn fullBlue" (click)="close()" style="width:100%">
+      </div>
+    </div>
+  </div>
+
+</proctur-popup>

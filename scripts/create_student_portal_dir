@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /var/www/html/webtest/
+sudo mkdir sPortal
+cd sPortal/
+cp -r /var/www/html/sPortal/* .

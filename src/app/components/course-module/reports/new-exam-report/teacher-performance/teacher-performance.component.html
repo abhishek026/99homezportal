@@ -1,0 +1,187 @@
+<div class="middle-section clear-fix" style="    padding: 2%;padding-top: 2px;">
+  <section class="middle-top clearFix bulk-header">
+    <div>
+      <h1 class="pull-left">
+        <a routerLink="/view/course" *ngIf="!jsonFlag.isProfessional">
+          Course
+        </a>
+        <a routerLink="/view/batch" *ngIf="jsonFlag.isProfessional">
+          Batch
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/{{jsonFlag.type}}/reports" style="padding:0px; ">
+          Report
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <a routerLink="/view/{{jsonFlag.type}}/reports/exam-dashboard" style="padding:0px; ">
+          Exam Dashboard
+        </a>
+        <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>
+        <span>Teacher Wise</span>
+      </h1>
+    </div>
+  </section>
+
+  <section>
+    <div class="teacher-performance-container">
+      <div class="section-title">
+        <span>Teacher Performance</span>
+      </div>
+      <div class="teacher-table-container">
+        <div class="table-heading-container">
+          <div class="table-heading-item">
+            <span>Teacher</span>
+          </div>
+          <div class="table-heading-item">
+            <span>Mastercourse</span>
+          </div>
+          <div class="table-heading-item">
+            <span>Course</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>No. of Test</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>Attendance updated</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>Marks Updated</span>
+          </div>
+          <!-- <div class="table-heading-item">
+            <span>Avg Marks</span>
+          </div> -->
+        </div>
+        <div class="table-value-outer-container">
+          <div class="table-value-container" *ngFor="let report of teachersReport">
+            <div class="table-value-item">
+              <span
+                title="{{report.subject_name}}">{{ (report.teacher_name.length > 20) ? (report.teacher_name | slice:0:20) + '...' : report.teacher_name }}</span>
+            </div>
+            <div class="table-value-item">
+              <span
+                title="{{report.master_course_name}}">{{ (report.master_course_name.length > 20) ? (report.master_course_name | slice:0:20) + '...' : report.master_course_name }}</span>
+            </div>
+            <div class="table-value-item">
+              <span
+                title="{{report.course_name}}">{{ (report.course_name.length > 20) ? (report.course_name | slice:0:20) + '...' : report.course_name }}</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <span>{{report.total_exam}}</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <span>{{report.total_attandance_updated}}</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <span>{{report.total_marks_updated}}</span>
+            </div>
+            <!-- <div class="table-value-item">
+              <span>{{report.avarage_marks}}</span>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="subject-wise-container">
+      <div class="section-title">
+        <span>Subject-wise:- {{subjectName}}</span>
+      </div>
+      <div class="subject-wise-table-container">
+        <div class="table-heading-container">
+          <div class="table-heading-item">
+            <span>Date</span>
+          </div>
+          <div class="table-heading-item">
+            <span>Mastercourse</span>
+          </div>
+          <div class="table-heading-item">
+            <span>Course</span>
+          </div>
+          <div class="table-heading-item">
+            <span>Teacher</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>Total Student</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>Student Present</span>
+          </div>
+          <div class="table-heading-item text-align-center">
+            <span>Total Marks</span>
+          </div>
+          <!-- <div class="table-heading-item">
+            <span>Percentage</span>
+          </div> -->
+          <div class="table-heading-item">
+            <span>Status</span>
+          </div>
+          <!-- <div class="table-heading-item">
+            <span></span>
+          </div> -->
+          <div class="table-heading-item">
+            <span>Action</span>
+          </div>
+        </div>
+        <div class="table-value-outer-container">
+          <div class="table-value-container" *ngFor="let report of subjectsReport" [ngClass]="{'border-completed-class': report.exam_status == 'Mks. Updated',
+                        'border-updated-class': report.exam_status == 'Mks. pending',
+                        'border-pending-class': report.exam_status == 'Att. Pending',
+                        'border-upcoming-class': report.exam_status == 'Upcoming',
+                        'border-cancelled-class': report.exam_status == 'Cancelled'}">
+            <div class="table-value-item">
+              <span>{{report.exam_date | date: 'dd-MMM-yyyy'}}</span>
+            </div>
+            <div class="table-value-item">
+              <span
+                title="{{report.master_course_name}}">{{ (report.master_course_name.length > 15) ? (report.master_course_name | slice:0:15) + '...' : report.master_course_name }}</span>
+            </div>
+            <div class="table-value-item">
+              <span
+                title="{{report.course_name}}">{{ (report.course_name.length > 15) ? (report.course_name | slice:0:15) + '...' : report.course_name }}</span>
+            </div>
+            <div class="table-value-item">
+              <span>{{report.teacher_name}}</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <span>{{report.total_student}}</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <!-- <span>{{report.total_student}}</span> -->
+              <span *ngIf="report.exam_status != 'Att. Pending'">{{report.total_present_student}}</span>
+              <span *ngIf="report.exam_status == 'Att. Pending'">-</span>
+            </div>
+            <div class="table-value-item text-align-center">
+              <span>{{report.total_marks}}</span>
+            </div>
+            <!-- <div class="table-value-item">
+              <span *ngIf="report.batch_marks_percentage">{{report.batch_marks_percentage}}%</span>
+              <span *ngIf="!report.batch_marks_percentage">-</span>
+            </div> -->
+            <div class="table-value-item">
+              <span [ngClass]="{'completed': report.exam_status == 'Mks. Updated',
+                            'mark_pending': report.exam_status == 'Mks. pending',
+                            'pending': report.exam_status == 'Att. Pending',
+                            'upcoming': report.exam_status == 'Upcoming',
+                            'cancelled': report.exam_status == 'Cancelled'}">{{report.exam_status}}</span>
+            </div>
+            <!-- <div class="table-value-item">
+              <span *ngIf="report.exam_status != 'Mks. Updated'">{{report.exam_status}}</span>
+              <span *ngIf="report.exam_status == 'Mks. Updated'" style="color: #00E172;">{{report.exam_status}}</span>
+            </div> -->
+            <div class="table-value-item" style="width: 15%">
+              <span *ngIf="report.exam_status != 'Mks. Updated'">-</span>
+              <span *ngIf="report.exam_status == 'Mks. Updated' && report.marks_update_level == '2'">Marks updated on
+                course level</span>
+              <button *ngIf="report.exam_status == 'Mks. Updated' && report.marks_update_level == '1'" type="button"
+                name="button" class="view-result-btn" (click)="routeTo(report.exam_schd_id)">View Result</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+</div>

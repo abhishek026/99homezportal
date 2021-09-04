@@ -1,0 +1,57 @@
+<section class="" style="padding-right:2%">
+  <section class="header-section">
+    <div>
+      <div class="header-title">
+        <h2>
+          <a style="color: #0084f6;">
+           <!-- {{ type | titlecase }}-->
+           Classes
+          </a>
+          <i style="font-family: 'FontAwesome';" class="fas fa-angle-right"></i>Course Deletion
+        </h2>
+      </div>
+    </div>
+  </section>
+  <div class="course-menu-section-container">
+
+    <div class="course-menu-item" *ngIf="isProfessional" routerLink="./batches">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span> Delete Batches</span>
+      </div>
+      <div class="menu-description">
+        <span> Select and delete the old batches</span>
+      </div>
+    </div>
+    <div class="course-menu-item" *ngIf="isProfessional" routerLink="./batchesArchivedReport">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span> Deleted Batch Report</span>
+      </div>
+      <div class="menu-description">
+        <span> Report of old deleted batches</span>
+      </div>
+    </div>
+
+    <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./courses">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span> Delete Courses</span>
+      </div>
+      <div class="menu-description">
+        <span> Select and delete the old courses</span>
+      </div>
+    </div>
+
+    <div class="course-menu-item" *ngIf="!isProfessional" routerLink="./coursesArchivedReport">
+      <div class="menu-title">
+        <img src="./assets/images/course/create-course.svg" alt="create course">
+        <span>Course Deletion Report</span>
+      </div>
+      <div class="menu-description">
+        <span> Report of old deleted courses</span>
+      </div>
+    </div>
+
+  </div>
+</section>

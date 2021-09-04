@@ -1,0 +1,288 @@
+<div class="oldUI">
+<section *ngIf="isLangInstitue" style="margin-top: 10px; margin-bottom: 10px;">
+    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+        <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="false" id='Active'
+                (ngModelChange)="getAllStandardList()">
+            <label for="Active" style="font-weight: 100;">Active</label>
+        </div>
+    </div>
+    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+        <div class="field-radio-wrapper">
+            <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="true" id='InActive'
+                (ngModelChange)="getAllStandardList()">
+            <label for="InActive" style="font-weight: 100;">In Active</label>
+        </div>
+    </div>
+    <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
+    <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 33%;">
+        <input type="text" class="searchBox" style="margin-right: 10px;" placeholder="Search" name="searchData" #searchVal
+            (keyup)="searchInList(searchVal)">
+        <button class="btn" *ngIf="(isLangInstitue != true )" (click)="toggleCreateNewStandard()"
+            value="Add Standard">Add Standard</button>
+
+        <button class="btn" *ngIf="(isLangInstitue == true )" (click)="toggleCreateNewStandard()"
+            value="Add Master Course">Add Master Course</button>
+    </div>
+</section>
+
+ <section *ngIf="isLangInstitue">
+    <div>
+        <div>
+            <section class="clearFix create-standard-form" *ngIf="createNewStandard">
+                <div class="c-lg-6 c-sm-6 c-md-6">
+                    <div class="row create-standard-field">
+                        <div class="c-lg-8 c-md-6 c-ms-6">
+                            <div class="field-wrapper">
+                                <label (click)="clickSN()" *ngIf="(isLangInstitue != true)" for="StdName">Standard Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <label (click)="clickSN()" *ngIf="(isLangInstitue == true)" for="StdName">Master Course
+                                    Name
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-ctrl" [(ngModel)]="newStandardDetails.standard_name"
+                                    name="standard_name" id="StdName" #standard_name="ngModel" required courseInput>
+
+
+                                <div *ngIf="standard_name.invalid && (standard_name.dirty || standard_name.touched)"
+                                    class="alert invalid-alert">
+                                    <div *ngIf="standard_name.errors.required">
+                                        <span *ngIf="(isLangInstitue != true)">Please enter valid Standard Name</span>
+                                        <span *ngIf="(isLangInstitue == true)">Please enter valid Master Course</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>* Example X XII, B.Com</p>
+                        </div>
+                        <div class="c-lg-4 c-md-4 c-ms-4" style="padding-top:10px">
+                            <div class="field-checkbox-wrapper">
+
+                                <input type="checkbox" name="check" class="form-checkbox"
+                                    [(ngModel)]="newStandardDetails.is_active" id="isAct">
+                                <label for="isAct">Is Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="c-lg-3 c-sm-4 c-md-4">
+                    <aside class="" style="padding-top: 20px">
+                        <input type="button" value="Create" class="btn fullBlue" (click)="addNewStandard()">
+                        <input type="button" value="Cancel" class="btn cancel-btn" (click)="toggleCreateNewStandard()">
+                    </aside>
+                </div>
+            </section>
+            <div style="margin-top: 13px;">
+                <div>
+                    <table class="tableBodyScroll">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <label>ID</label>
+                                </th>
+                                <th style="width: 32%;">
+                                    <label *ngIf="(isLangInstitue != true)">Standard</label>
+                                    <label *ngIf="(isLangInstitue == true)">Master Course</label>
+                                </th>
+                                <th>
+                                    <label style="padding-left: 3px;">Is
+                                        Active</label>
+                                </th>
+                                <th style="padding-left: 3px;">
+                                    <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')"
+                                        class="fas fa-caret-up" style="font-family: FontAwesome;"></i>
+                                    <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')"
+                                        class="fas fa-caret-down" style="font-family: FontAwesome;"></i>
+                                    <label style="cursor:pointer;" (click)="sortTable('created_date')">Added
+                                        Date</label>
+                                </th>
+                                <th>
+                                    <label>Action</label>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="( standardList.length != 0)"
+                            [ngStyle]="{'max-height':createNewStandard == true ? '40vh' : '57vh','min-height':createNewStandard == true ? '40vh' : '57vh' }">
+
+                            <tr (click)="rowClickEvent(i)" class="displayComp" id="row{{i}}"
+                                *ngFor="let row of standardList; let i = index; trackBy: i;"
+                                [class.selected]="i == selectedRow">
+                                <td>
+                                    {{row.standard_id}}
+                                </td>
+
+                                <td class="view-comp" style="width: 32%;">
+                                    {{row.standard_name}}
+                                </td>
+                                <td class="edit-comp" style="width: 32%;">
+                                    <div class="field-wrapper">
+                                        <input type="text" class="form-ctrl" [(ngModel)]="row.standard_name"
+                                            name="label" style="width:100%;text-align: left;">
+                                    </div>
+                                </td>
+
+                                <td class="view-comp">
+                                    {{row.is_active}}
+                                </td>
+                                <td class="edit-comp">
+                                    <div class="field-wrapper has-value">
+                                        <select id="issearchable" class="form-ctrl" name="issearchable"
+                                            [(ngModel)]="row.is_active">
+                                            <option value="Y">Yes</option>
+                                            <option value="N">No</option>
+                                        </select>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    {{row.created_date | date: 'dd-MMM-yy'}}
+                                </td>
+
+                                <td class="view-comp">
+                                    <i class="fa fa-pencil" aria-hidden="true"
+                                        style="cursor: pointer;color:#0084f6;    font-size: 14px;" (click)="editRow(i)"
+                                        title="Edit"></i>
+                                    <i class="fa fa-trash"
+                                        style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
+                                        (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
+                                </td>
+                                <td class="edit-comp">
+                                    <i class="fa fa-floppy-o"
+                                        style="cursor: pointer;margin-right: 10px; font-size: 14px;color: green;"
+                                        (click)="updateRow(row,i)" title="Save" aria-hidden="true"></i>
+                                    <i class="fa fa-times" style="cursor: pointer;font-size: 14px;color: red;"
+                                        (click)="cancelRow(i)" title="Cancel" aria-hidden="true"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="standardList.length == 0 && dataStatus === 1">
+                            <tr *ngFor="let dummy of dummyArr">
+                                <td *ngFor="let c of columnMaps">
+                                    <div class="skeleton">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="standardList.length == 0 && dataStatus === 2">
+                            <tr>
+                                <td colspan="5" style="text-align:center">
+                                    No data found
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row filter-res pagination pagination-correct" style="width: 100%;">
+                <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+                    <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+                        (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize"
+                        [count]="totalRow" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)">
+                    </pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+
+
+<div id="two" class="tab-pane active" *ngIf="!isLangInstitue">
+             
+    <div class="display space16">
+       <div class="flexc">
+         <div>
+           <label class="checkbox">
+             <span class="checkbox__input">
+               <input type="checkbox" [(ngModel)]="activeList" id='Active'
+               (ngModelChange)="getAllStandardList()" name="checked">
+               <span class="checkbox__control">
+                <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                   <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+               </span>
+             </span>
+           </label>
+         </div>
+         <div>
+           <label class="labelactive">Is&nbsp;Active</label>
+         </div>
+       </div>
+       <div>
+         <input type="text" class="mr10 input search" placeholder="Search" name="searchData" #searchVal
+         (keyup)="searchInList(searchVal)">
+         <button class="blue_button buttonshadow" data-toggle="modal" data-target="#standardModal"> {{(isLangInstitue != true ) ? 'Add Standard' : 'Add Master Course'}}</button>
+       </div>
+    </div>
+    <br>
+    <div class="standard">
+      <div class="table_head">
+        <div>ID</div>
+        <div>{{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}}</div>
+        <div>Added Date</div>
+        <div>Actions</div>
+      </div>
+       <div class="scroll">
+          <div class="table_body" *ngFor="let row of standardList">
+            <div>{{row.standard_id}}</div>
+            <div>{{row.standard_name}}</div>
+            <div>{{row.created_date | date: 'dd-MMM-yy'}}</div>
+            <div class="actionImg">
+               <img src="../../../assets/img2/edit.svg" (click)="editRow(row)" class="mr10 table_action" >
+               <img src="../../../assets/img2/delete.svg" (click)="deleteRow(row)" class="table_action">
+            </div>
+          </div>
+       </div>
+
+    </div>
+    <!-- Paginator Here -->
+    <div class="row filter-res pagination pagination-correct" style="width: 100%;">
+        <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+            <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()"
+                (goPrev)="fetchPrevious()" [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize"
+                [count]="totalRow" [sizeArr]="sizeArr" (sizeChange)="updateTableBatchSize($event)">
+            </pagination>
+        </div>
+    </div>
+    <div class="modal fade" id="standardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+       <div class="modal-dialog" role="document">
+         <div class="modal-content">
+           <div class="modal-header">
+             <h5 class="modal-title" style="float: left;" id="exampleModalLabel">{{isEdit ? 'Update' : 'Add'}} {{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}}</h5>
+             <button type="button" style="float: right;" class="close" (click)="closePopup()" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+             </button>
+           </div>
+           <div class="modal-body">
+           <div>
+             <p>{{(isLangInstitue != true ) ? 'Standard' : 'Master Course'}} Name <span class="red">*</span></p>
+             <input type="text" placeholder="{{(isLangInstitue != true ) ? 'Add Standard' : 'Add Master Course'}} " [(ngModel)]="newStandardDetails.standard_name" name="standard_name" class="input">
+            <div class="display">
+             <div></div>
+             <div> <span class="info">* Example X XII, B.Com</span></div>
+            </div>
+           </div>
+           <div class="flexc" *ngIf="isEdit">
+            <div>
+              <label class="checkbox">
+                <span class="checkbox__input">
+                  <input type="checkbox" [(ngModel)]="newStandardDetails.is_active" id='is_active' name="is_active">
+                  <span class="checkbox__control">
+                   <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                      <path fill='none' stroke='currentColor'  d='M1.3 12.91l6.37 6.37L22.79 4.59' /></svg>
+                  </span>
+                </span>
+              </label>
+            </div>
+            <div>
+              <label class="labelactive">Is&nbsp;Active</label>
+            </div>
+          </div>
+           </div>
+           <div class="modal-footer">
+             <button type="button" class="white_button" (click)="closePopup()">Close</button>
+             <button type="button" class="blue_button" (click)="saveStandard()">{{isEdit ? 'Save' : 'Create'}}</button>
+           </div>
+         </div>
+       </div>
+     </div>
+ </div>

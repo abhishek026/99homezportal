@@ -1,0 +1,1338 @@
+<mat-toolbar class="tool mattoolbar" id="topMenu">
+    <div class="c-lg-12 sbox">
+        <div class="col-lg-10">
+            <form autocomplete="off" #form="ngForm">
+                <img src="./assets/images/sidebar/searchIco.svg" alt=""
+                    style="    margin-left: 6px;position: absolute;margin-top: 11px;">
+                <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput
+                    [ngClass]="{'has-focus': isResultDisplayed}" (click)="triggerSearchBox($event)" autocomplete="off"
+                    placeholder="Search here..." style="padding-left: 3%;margin-left:0%;"
+                    class="search-input searchbox form-ctrl-head search-item searchBox effect ">
+    
+            </form>
+        </div>
+        <div class="col-lg-2">
+           <button class="download_app" data-toggle="modal" data-target="#appModal">Download App  <img src="../../../../assets/img/Vector.svg"></button>
+        </div>
+    </div>
+    <!--Datasetup-->
+    <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+
+        <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+            <div class="side-section" id="datasetup">
+                <div class="side-section-item">
+
+                    <span class="dropSize" (click)="routerLink('/view/course/setup/teacher/list');activeSession=null">
+                        Data Setup
+                    </span>
+                </div>
+                <!-- <div class="side-section-item">
+
+                    <span class="dropSize" (click)="routerLink('/view/course/create/standardlist');activeSession=null">Manage {{schoolModel?'Section':(isLangInstitute ? 'Batch' : 'Course')}}</span>
+
+                </div>
+                <div class="side-section-item" *ngIf="!schoolModel" (click)="routerLink('/view/course/master-tag')">
+
+                    <span class="dropSize">Manage tag</span>
+                </div> -->
+            </div>
+        </div>
+    </div>
+  
+    <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+
+        <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+            <div class="side-section" id="quick">
+                <div class="side-section-item">
+
+                    <span class="dropSize" *ngIf="!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)"
+                        (click)="routerLink('/view/students/add','setting');activeSession=null">
+                        Add Student
+                    </span>
+                </div>
+                <div *ngIf="(checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_MANAGE_ENQUIRY))" class="side-section-item" routerLink="/view/leads/add">
+
+                    <span class="dropSize">Add Enquiry</span>
+
+                </div>
+                <div *ngIf="jsonFlags.isAdminforLeave" class="side-section-item" routerLink="/view/course/teacher/add">
+
+                    <span class="dropSize">Add Teacher</span>
+                </div>
+                <div *ngIf="showManageRole" class="side-section-item" routerLink="/view/manage/user/addedit">
+
+                    <span class="dropSize">Add User</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="expenses-container" id="expenses-container" *ngIf="showExpenses">
+        <button type="button" name="button" class="close_button" (click)="closeShowList()">X</button>
+        <app-manage-expenses></app-manage-expenses>
+    </div>
+    <div class="toDoList-container" id="toDoList-container" *ngIf="showToDo">
+       <!--<button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button>-->
+        <app-to-do-list (loaderOn)="onOfLoaderFromTodoList($event)"> <button type="button" name="button" class="close_todo" (click)="closeShowList()">X</button></app-to-do-list>
+    </div>
+
+    <div class="spacer"></div>
+    <div style="margin-right: 4%;">
+
+        <a mat-button style=" margin-left: 15px;" data-toggle="modal" data-target="#modalapp1"><img
+            src="./assets/images/sidebar/chaticon.svg" title="Chat" alt=""></a>
+
+        <!-- DataSetup-->
+        <a data-toggle="modal" *ngIf="!isProfessional" data-dismiss="modal" href="#releaseNote" mat-button style="margin-right: 0;">
+                <img style="width: auto;" src="./assets/images/sidebar/Announcement.svg" title="What's New ?" alt="">
+        </a>
+
+        <!-- Quick Add -->
+        <a *ngIf="(!facultyAccount && checkIfUserHadAccess(role_feature.STUDENT_ADD_UPLOAD)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_MANAGE_ENQUIRY)) || jsonFlags.isAdminforLeave || showManageRole" mat-button (click)="showSubSection('quick')"> <img src="./assets/images/sidebar/newQuickAdd.svg"
+                title="Quick Add" alt="">
+        </a>
+
+        <!-- Help -->
+        <!-- <a mat-button style="margin-left: -15px;"> <img src="./assets/images/sidebar/helpIcon.svg" title="Help" alt=""
+                (click)="showSubSection('help1')"></a> -->
+        <!-- Setting -->
+
+        <a mat-button style="margin-left: -15px;" *ngIf="showSMSSetting" routerLink="/view/setting">
+            <img src="./assets/images/sidebar/Vector.svg" title="Institute Settings" alt="">
+        </a>
+        <!-- My Account -->
+        <a mat-button style=" margin-left: -15px;" (click)="showSubSection('account')"><img
+                src="./assets/images/sidebar/myAccount.svg" title="My Account" alt=""></a>
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="help1">
+                    <div class="side-section-item" (click)="openInNewTab('https://desk.zoho.com/portal/procturapp/')">
+                        <span class="dropSize">Raise Your Query</span>
+                    </div>
+                    <div class="side-section-item" (click)="routerLink('/view/training-video' ,'help')">
+                        <span class="dropSize">Training
+                            Videos</span>
+                    </div>
+                    <div class="side-section-item">
+                        <span class="dropSize" (click)="openInNewTab('https://anydesk.com/en/downloads/')">Download
+                            Anydesk</span>
+                    </div>
+                    <div class="side-section-item">
+                        <span class="dropSize">+91-
+                            9971839153</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="setup">
+                    <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                        <span class="dropSize" (click)="routerLink('/view/inventory','setup')"><img
+                                src="./assets/images/sidebar/inventory.svg" alt="phone" class="helpSection">Manage
+                            Inventory</span>
+                    </div>
+                    <div class="side-section-item" *ngIf="jsonFlags.isAdminforLeave && !schoolModel">
+                        <span class="dropSize" (click)="routerLink('/view/formField/home','setup')"><img
+                                src="./assets/images/sidebar/custom_form_field.svg" alt="phone"
+                                class="helpSection">Custom
+                            Form Field</span>
+                    </div>
+                    <div class="side-section-item" *ngIf="!facultyAccount">
+                        <span class="dropSize" (click)="routerLink('/view/master/areaCity','setup')"><img
+                                src="./assets/images/sidebar/city_area_map.svg" alt="phone" class="helpSection">City
+                            Area
+                            Map</span>
+                    </div>
+                    <div class="side-section-item" *ngIf="jsonFlags.isShowLibrabry">
+                        <span class="dropSize" (click)="routerLink('/view/library/master','setup')"><img
+                                src="./assets/images/sidebar/master_data.svg" alt="phone"
+                                class="helpSection">Library</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}"
+            style="width: auto;  overflow-y: auto; max-height: 56%;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="account">
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="accHead">
+                            {{user_name}} {{userType == '3' ? '(Faculty)' : ''}} (ID- {{globalSearchForm.instituteId}})
+                        </div>
+                        <div class="row">
+                            <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
+                                 <div class="row" *ngIf="jsonFlags.isAdminforLeave && !facultyAccount && isProfessional">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/formField/home','setup')">Custom
+                                                Form Field</span>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" (click)="changePasswordClick()">
+                                                Change
+                                                Password</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-6">
+                                <div class="row" *ngIf="jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" (click)="showExpensesList()">
+                                                Manage Expense</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                                            <span class="dropSize" (click)="showToDoList();closeMenu()">To Do
+                                                List</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="side-section-item" *ngIf="hideForUsers()">
+                            <span class="dropSize" (click)="routerLink('/view/account','account')">
+                                My
+                                Account</span>
+                        </div>
+                    </div>
+                    <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="font-size: 14px;">
+                        BRANCHES
+                    </div>
+                    <div *ngIf="isMainBranch == 'Y' && checkAdmin" style="border-bottom: 1px solid lightgrey;">
+                        <div class="side-section-item" *ngFor="let data of branchesList">
+                            <span class="dropSize" (click)=" onSubBranchClick(data)">{{data.institute_name}}</span>
+                        </div>
+                    </div>
+                    <div class="setting-item" (click)="showSubMenu('branches')"
+                        style="font-size: 14px;cursor: pointer;margin-left: 28%;" *ngIf="(showMainBranchBackBtn)"><span
+                            (click)="loginToMainBranch()">
+
+                            Back
+                            To
+                            Main Branch </span>
+                        <!-- <img src="./assets/images/sidebar/branches.svg" title="Back To Main Branch" alt=""
+                            > -->
+                    </div>
+                    <div style="    
+                    padding: 10px;border-bottom: 1px solid lightgrey;">
+                        <input type="button" class="logout" (click)="logout()" value="Logout">
+                    </div>
+                    <div class="row" *ngIf="jsonFlags.isShowPowerBy">
+                        <div class="c-lg-6 ">
+                            <div class="side-section-item">
+                                <span class="dropSize" style="margin-left: 20px;"><a
+                                        href="https://proctur.com/website/privacy-policy" target="_blank">Privacy policy</a>
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="c-lg-6 ">
+                            <div class="side-section-item">
+
+                                <span class="dropSize"><a href="https://proctur.com/website/terms" target="_blank">Terms of
+                                        Service</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="setting" [ngStyle]="{'bottom':jsonFlags.isShowPowerBy?'20px':'0px'}" style="width: auto;">
+            <div class="setting-item" #divMyAccountTag id="divMyAccountTag">
+                <div class="side-section" id="help">
+                    <div style="border-bottom: 1px solid lightgrey;">
+                        <div class="row">
+                            <div class="c-lg-6" style="    border-right: 1px solid lightgrey;">
+                                <div class="yourInstitute">
+                                    Your Institute
+                                </div>
+                                <div class="row" *ngIf="showSMSSetting">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/setting','setting');activeSession=null">
+                                                Institute Settings</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row" *ngIf="showManageRole">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/manage','user');activeSession=null">
+                                                Manage Users</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize" (click)="openInNewTab('https://bit.ly/3c1ig58')">
+                                                Download Admin App</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="c-lg-6" *ngIf="!facultyAccount">
+                                <div style="font-size: 14px;float: left; margin-left: 33px;">
+                                    Setup
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item" *ngIf="hasInventoryAccess()">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/inventory','setup')">Manage
+                                                Inventory</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="jsonFlags.isAdminforLeave && !schoolModel">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/formField/home','setup')">Custom
+                                                Form Field</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="c-lg-12">
+                                        <div class="side-section-item">
+                                            <span class="dropSize"
+                                                (click)="routerLink('/view/master/areaCity','setup')">City Area
+                                                Map</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="appModal">
+        <div class="modal-dialog" >
+          <div class="modal-content">
+          
+            <div class="modal-body">
+                <h4>Download Mobile App</h4>
+              <p>Did you know that Proctur Admin App can save admin, faculty, users time and efforts by <b>50%</b>?
+               </p>
+                
+                <div class="display1 icon_app">
+                    <div>
+                        <a href="https://bit.ly/2F3cbdy" target="_blank"><img src="../../../../assets/modal/android.svg"></a>
+                    </div>
+                    <div>
+                        <a href="https://apple.co/3vlW2Fw" target="_blank"><img src="../../../../assets/modal/apple.svg"></a>
+                    </div>
+                </div>
+                <label class="space1">Get a link to download app</label>
+               <div>
+                <!-- <select class="input">
+                    <option>IND +91</option>
+                </select> -->
+              <input  placeholder="Enter Your Number" maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" [(ngModel)]="contact_no" class="input">
+              <button class="blue_button" (click)="downloadApp()">Send App Link</button>
+               </div>
+               <div class="line">
+
+               </div>
+                <p class="two">For More Details Watch Demo Video Of Admin App <a href="https://bit.ly/3vpmL3M" target="_blank">Click here</a></p>
+            </div>
+          
+          </div>
+        </div>
+      </div>
+
+
+</mat-toolbar>
+
+<section>
+
+    <div class="nav" (click)="closeMenu()">
+        <div class="search-container">
+            <!-- <form autocomplete="off" #form="ngForm">
+                <input type="text" value="" id="search_bar" [(ngModel)]="userInput" name="userInput" #searchInput [ngClass]="{'has-focus': isResultDisplayed}" (focus)="triggerSearchBox($event)" autocomplete="off" placeholder="Search here..." class="search-input searchbox form-ctrl-head search-item searchBox">
+            </form>
+            <i class="fa fa-search search-icon" aria-hidden="true"></i> -->
+            <section class="search-dropdown search-item" #seachResult
+                style="margin-left: 3%;margin-top: 2%;width: 40%;z-index: 9999;">
+                <search-box (closeSearch)="closeSearch($event)" [searchValue]="inputValue" [resultStat]="resultStat"
+                    [studentResult]="studentResult" (viewAll)="viewMoreRecods($event)"
+                    (searchAgain)="searchAgain($event)" (stuSelected)="selectedStudent($event)"
+                    (enqSelected)="selectedEnquiry($event)" [enquiryResult]="enquiryResult"
+                    (actionSelected)="actionSelected($event)" (closeMenu)="closeMenu()">
+                </search-box>
+            </section>
+        </div>
+    </div>
+    <div class="paneldd"></div>
+    <div class="page-wrapper">
+        <nav id="sidebar" class="sidebar-wrapper">
+            <div class="sidebar-content">
+                <div class="sidebar-brand">
+                    <span title="{{instituteName}}">{{(instituteName?.length > 65) ? (instituteName | slice:0:65) + '...' : instituteName}}
+                    </span>
+                </div>               
+                <ul class="icons" (click)="closeMenu()">
+                    <li [ngClass]="activeSession === 'lizero' ? 'liActiveBG' : ''" (click)="toggler('lizero')">
+                        <a routerLink="/view/home" class="dropbtn">
+                            <img [src]="activeSession === 'lizero' ? './assets/images/sidemenuicon/Home.svg' : './assets/images/sidemenuicon/Home.svg'"
+                                alt="">
+                            <p>Home</p>
+                        </a>
+                    </li>
+                    <li *ngIf="checkIfUserHadAccess(role_feature.DASHBOARD_MENU)" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                        <a routerLink="/view/dashboard">
+                            <img [src]="activeSession === 'litwelve' ? './assets/images/sidemenuicon/Dashboard.svg':'./assets/images/sidemenuicon/Dashboard.svg'"
+                                alt="">
+                            <p>Dashboard</p>
+                        </a>
+                    </li>
+                    <li (mouseenter)="mouseenter(((checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_SETUP)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowManageEnquiry) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowCampaign)))"
+                    (mouseleave)="mouseleave()"
+                    [ngClass]="((checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_SETUP)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowManageEnquiry) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowCampaign)) ? 'dropdown':''"
+                        [ngStyle]="{display: jsonFlags.isShowLead ? 'block' : 'none'}" (click)="toggler('lione')">
+                        <div *ngIf="jsonFlags.isShowLead">
+                            <a class="dropbtn">
+                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/Leads.png':'./assets/images/sidemenuicon/Leads.svg'"
+                                    alt="">
+                                <p>Leads</p>
+                                <i *ngIf="((checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_SETUP)) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowManageEnquiry) || (checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowCampaign))"  class="fa fa-angle-right"></i>
+
+                            </a>
+
+                            <div class="dropdown-content">
+                                <a routerLink="/view/leads/setup" *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || checkIfUserHadAccess(role_feature.LEAD_SETUP)">
+                                    <span>Setup</span>
+                                </a>
+                                <a routerLink="/view/leads/enquiry" *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowManageEnquiry">
+                                    <span>Enquiries</span>
+                                </a>
+                                <a routerLink="/view/leads/campaign"
+                                    *ngIf="checkIfUserHadAccess(role_feature.LEAD_ENQUIRY_FULL_ACCESS) || jsonRolesFlags.isShowCampaign">
+                                    <span>SMS Campaign</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+                    <li *ngIf="jsonFlags.isShowStudent" [ngClass]="activeSession === 'litwo'? 'liActiveBG':''"
+                        (click)="toggler('litwo')">
+                        <div>
+                            <a routerLink="/view/students">
+                                <img [src]="activeSession === 'litwo' ? './assets/images/sidemenuicon/Student.svg':'./assets/images/sidebar_images/Student.svg'"
+                                    alt="">
+                                <p>Students</p>
+                                <!-- <i class="fa fa-angle-right"></i> -->
+                            </a>
+
+                            <!-- <div class="dropdown-content">
+                            <a routerLink="/view/students">
+                                <span>Manage</span>
+                        </a>
+                        <a routerLink="/view/students">
+                                <span>Attendance</span>
+                        </a>
+                        <a routerLink="/view/students">
+                                <span>Leave</span>
+                        </a>
+                        </div> -->
+                        </div>
+
+                    </li>
+
+                    <li (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.FEE_SETUP)) || (checkIfUserHadAccess(role_feature.FEE_ASSIGN)) || (checkIfUserHadAccess(role_feature.FEE_UPDATE)) || (checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.FEE_SETUP)) || (checkIfUserHadAccess(role_feature.FEE_ASSIGN)) || (checkIfUserHadAccess(role_feature.FEE_UPDATE)) || (checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE))) ? 'dropdown':''" [ngStyle]="{display: jsonFlags.isShowFee ? 'block' : 'none'}"
+                        (click)="toggler('lifour')">
+                        <div *ngIf="jsonFlags.isShowFee">
+                            <a  class="dropbtn">
+                                <img [src]=" activeSession === 'lifour' ? './assets/images/sidemenuicon/feesIcon2.png':'./assets/images/sidebar_images/fees.svg'"
+                                    alt="">
+                                <p>Fees</p><i *ngIf="((checkIfUserHadAccess(role_feature.FEE_SETUP)) || (checkIfUserHadAccess(role_feature.FEE_ASSIGN)) || (checkIfUserHadAccess(role_feature.FEE_UPDATE)) || (checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE)))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/fee/data-setup/fee-type" *ngIf="checkIfUserHadAccess(role_feature.FEE_SETUP)">
+                                    <span>Setup</span>
+                                </a>
+                                <a routerLink="/view/fee/assign-fee" *ngIf="checkIfUserHadAccess(role_feature.FEE_ASSIGN)">
+                                    <span>Assign</span>
+                                </a>
+                                <a routerLink="/view/fee/update-fee" *ngIf="checkIfUserHadAccess(role_feature.FEE_UPDATE)">
+                                    <span>Update</span>
+                                </a>
+                                <!-- <a routerLink="/view/fee/monitoring-dashboard/home">
+                                <span>Assign</span>
+                        </a>
+                        <a routerLink="/view/fee/monitoring-dashboard/home">
+                                <span>Update</span>
+                        </a> -->
+                                <a routerLink="/view/fee/cheque" *ngIf="checkIfUserHadAccess(role_feature.FEE_CHEQUE_MANAGE)">
+                                    <span>Cheques</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li *ngIf="checkIfUserHadAccess(role_feature.TEACHERS_MENU)" [ngClass]="activeSession === 'litwelve' ?'liActiveBG':''" (click)="toggler('litwelve')">
+                        <a routerLink="/view/course/teacher/list">
+                            <img [src]=" activeSession === 'litwelve' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
+                                alt="">
+                            <p>Teachers</p>
+                        </a>
+                    </li>
+
+                    <li (mouseenter)="mouseenter(((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)) || (checkIfUserHadAccess(role_feature.CLASSES_DATA_ARCHIVING))))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)) || (checkIfUserHadAccess(role_feature.CLASSES_DATA_ARCHIVING))) ? 'dropdown':''"
+                        [ngStyle]="{display: (!isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}"
+                        (click)="toggler('lithree')">
+                        <div *ngIf="!isLangInstitute && jsonFlags.isShowCourse">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/Classes.svg':'./assets/images/sidemenuicon/Classes.svg'"
+                                    alt="">
+                                <p>Classes</p><i *ngIf="((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)) || (checkIfUserHadAccess(role_feature.CLASSES_DATA_ARCHIVING)))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SETUP)" (click)="setSetupSession('class')" routerLink="/view/course/setup/academic">
+                                    <span>Setup</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_COURSES)" routerLink="/view/course/create-section/courselist">
+                                    <span>{{schoolModel ? 'Section' : 'Courses'}}</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)" routerLink="/view/course/coursePlanner/class">
+                                    <span> Schedule</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_ATTENDANCE)" routerLink="/view/course/class-attendance">
+                                    <span> Attendance</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)" routerLink="/view/course/timeTable">
+                                    <span>TimeTable</span>
+                                </a>
+                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.CLASSES_DATA_ARCHIVING)" routerLink="/view/course/archiving">
+                                    <span>Course Deletion</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li (mouseenter)="mouseenter(((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE))))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE))) ? 'dropdown':''"
+                        [ngStyle]="{display: (isLangInstitute && jsonFlags.isShowCourse) ? 'block' : 'none'}">
+                        <div *ngIf="isLangInstitute && jsonFlags.isShowCourse">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'lithree' ? './assets/images/sidemenuicon/Classes.svg':'./assets/images/sidemenuicon/Classes.svg'"
+                                    alt="">
+                                <p>Batch</p><i *ngIf="((checkIfUserHadAccess(role_feature.CLASSES_SETUP)) || (checkIfUserHadAccess(role_feature.CLASSES_COURSES)) || (checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)) || (checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a (click)="setSetupSession('class')" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_SETUP) "
+                                    routerLink="/view/course/setup/academic">
+                                    <span>Setup</span>
+                                </a>
+                                <a routerLink="/view/batch/create" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_COURSES)">
+                                    <span>Batches</span>
+                                </a>
+                                <a routerLink="/view/batch/coursePlanner/class"
+                                    *ngIf="jsonCourseFlags.isShowClassPlanner && checkIfUserHadAccess(role_feature.CLASSES_SCHEDULE)">
+                                    <span>Schedule</span>
+                                </a>
+                                <a routerLink="/view/batch/timeTable" *ngIf="checkIfUserHadAccess(role_feature.CLASSES_TIMETABLE)">
+                                    <span>Timetable</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li (mouseenter)="mouseenter(((checkIfUserHadAccess(role_feature.EXAMS_SETUP)) || (checkIfUserHadAccess(role_feature.EXAMS_SCHEDULE)) || (checkIfUserHadAccess(role_feature.EXAMS_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.EXAM_MARKS)) || (!schoolModel && checkIfUserHadAccess(role_feature.REPORT_COURSE_EXAM_DASHBOARD))))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.EXAMS_SETUP)) || (checkIfUserHadAccess(role_feature.EXAMS_SCHEDULE)) || (checkIfUserHadAccess(role_feature.EXAMS_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.EXAM_MARKS)) || (!schoolModel && checkIfUserHadAccess(role_feature.REPORT_COURSE_EXAM_DASHBOARD))) ? 'dropdown':''"
+                        [ngStyle]="{display: (jsonCourseFlags.isShowExam) ? 'block' : 'none'}">
+                        <div *ngIf="jsonCourseFlags.isShowExam">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'liExam' ? './assets/images/sidemenuicon/Exam.svg':'./assets/images/sidemenuicon/Exam.svg'"
+                                    alt="">
+                                <p>Exams</p><i *ngIf="((checkIfUserHadAccess(role_feature.EXAMS_SETUP)) || (checkIfUserHadAccess(role_feature.EXAMS_SCHEDULE)) || (checkIfUserHadAccess(role_feature.EXAMS_ATTENDANCE)) || (checkIfUserHadAccess(role_feature.EXAM_MARKS)) || (!schoolModel && checkIfUserHadAccess(role_feature.REPORT_COURSE_EXAM_DASHBOARD)))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_SETUP)" (click)="setSetupSession('exam')"
+                                    routerLink="/view/course/exam-setup/manage-exam-grades">
+                                    <span>Setup</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_SCHEDULE)"
+                                    routerLink="{{schoolModel ? '/view/exams/schedule' : '/view/course/coursePlanner/exam'}}">
+                                    <span>Schedule</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAMS_ATTENDANCE)" routerLink="/view/course/exam-attendance">
+                                    <span>Attendance</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXAM_MARKS)"
+                                    routerLink="{{schoolModel ? '/view/exams/marks/schedule-list' : '/view/course/exam-marks'}}">
+                                    <span>Marks</span>
+                                </a>
+                                <a *ngIf="!schoolModel && checkIfUserHadAccess(role_feature.REPORT_COURSE_EXAM_DASHBOARD)" routerLink="/view/course/reports/exam-dashboard">
+                                    <span>Exam Dashboard</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li class="dropdown"
+                        [ngStyle]="{display: ((jsonFlags.isShowLiveclass || is_zoom_integration_enable) && checkIfUserHadAccess(role_feature.LIVE_CLASS_MENU)) ? 'block' : 'none'}"
+                        [ngClass]="activeSession === 'lifive' ? 'liActiveBG':''" (click)="toggler('lifive');">
+                        <div *ngIf="((jsonFlags.isShowLiveclass || is_zoom_integration_enable) && checkIfUserHadAccess(role_feature.LIVE_CLASS_MENU))">
+                            <a routerLink="/view/live-classes" class="dropbtn">
+                                <img [src]="activeSession === 'lifive' ? './assets/images/sidemenuicon/LiveClasses.svg':'./assets/images/sidemenuicon/LiveClasses.svg'"
+                                    alt="">
+                                <p>Live Classes</p>
+                                <i class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/live-classes" *ngIf="jsonFlags.isShowLiveclass"
+                                    (click)="setLiveClassType('1')">
+                                    <span>Proctur Live</span>
+                                </a>
+                                <a *ngIf="is_zoom_integration_enable" routerLink="/view/zoom"
+                                    (click)="setLiveClassType('2')">
+                                    <span>Zoom</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li *ngIf="showManageRole" [ngClass]="activeSession === 'liManageUser' ? 'liActiveBG':''"
+                        (click)="toggler('liManageUser')">
+                        <a routerLink="/view/manage/user">
+                            <img [src]="activeSession === 'liManageUser' ? './assets/images/sidemenuicon/Teacher.svg':'./assets/images/sidemenuicon/Teacher.svg'"
+                                alt="">
+                            <p>Users</p>
+
+                        </a>
+
+                    </li>
+
+                    <li
+                    (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.USER_ATTENDANCE)))"
+                    (mouseleave)="mouseleave()"
+                        [ngStyle]="{display: (checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)) ? 'block' : 'none'}"
+                        [ngClass]="(checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.USER_ATTENDANCE)) ? 'dropdown':''"
+                        (click)="toggler('liAttendance');">
+                        <div *ngIf="checkIfUserHadAccess(role_feature.ATTENDANCE_TEACHER_USER_MENU)">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'liAttendance' ? './assets/images/sidemenuicon/Attendance.svg':'./assets/images/sidemenuicon/Attendance.svg'"
+                                    alt="">
+                                <p>Attendance</p>
+                                <i *ngIf="(checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE) || checkIfUserHadAccess(role_feature.USER_ATTENDANCE))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.TEACHER_ATTENDANCE)"
+                                    routerLink="/view/manage/attendance/mark-teacher-attendance/3">
+                                    <span>Teachers</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.USER_ATTENDANCE)"
+                                    routerLink="/view/manage/attendance/mark-user-attendance/0">
+                                    <span>Users</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li [ngStyle]="{display: (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)) ? 'block' : 'none'}"
+                        (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)) || (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)) || (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER))) ? 'dropdown':''"
+                        (click)="toggler('liforteen')">
+                        <div *ngIf="checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_MENU)">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'liforteen' ? './assets/images/sidemenuicon/ContentLibrary.svg':'./assets/images/sidemenuicon/ContentLibrary.svg'"
+                                    alt="">
+                                <p>Content Library</p><i *ngIf="(checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)) || (checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER))" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a *ngIf="checkIfUserHadAccess(role_feature.STUDY_MATERIAL_MENU)" routerLink="/view/course/ecourse-file-manager/ecourses">
+                                    <span>Study Material</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.CONTENT_LIBRARY_FILE_MANAGER)" routerLink="/view/course/file-manager/drive">
+                                    <span>File/Doc. Manager</span>
+                                </a>
+                            </div>
+                        </div>
+                    
+                  </li>
+
+                  <li [ngClass]="activeSession === 'lithirteen' ?'liActiveBG':''" *ngIf="jsonCourseFlags.isShowOnlineAssignment && checkIfUserHadAccess(role_feature.ASSIGNMENTS)" (click)="toggler('lithirteen')" >
+                    <a routerLink="/view/course/online-assignment">
+                        <img [src]="activeSession === 'lithirteen' ?'./assets/images/sidemenuicon/assignment.svg':'./assets/images/sidemenuicon/assignment.svg'" alt="">
+                    <p >Assignments</p></a>
+                  </li>
+
+                  <li  [ngClass]="activeSession === 'linine' ?'liActiveBG':''" *ngIf="jsonFlags.isShoweOnlineExam" (click)="toggler('linine');openExamdesk()">
+                    <a>
+                        <img [src]="activeSession === 'linine' ? './assets/images/sidemenuicon/OnlineTest.svg':'./assets/images/sidemenuicon/OnlineTest.svg'" alt="">
+                    <p >Online Test</p></a>
+                  </li>
+    
+                    <li [ngStyle]="{display: jsonCommunicateFlags.communicateMenu ? 'block' : 'none'}"
+                        (mouseenter)="mouseenter(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents || (!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_HOME)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="(jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents || (!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_HOME)) ) ? 'dropdown':''">
+                        <div *ngIf="jsonCommunicateFlags.communicateMenu">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'lisix' ? './assets/images/sidemenuicon/Communication.svg':'./assets/images/sidemenuicon/Communication.svg'"
+                                    alt="">
+                                <p>Communicate</p><i *ngIf="jsonCommunicateFlags.showSMSReport || jsonCommunicateFlags.showEmailReport || jsonCommunicateFlags.showPTM || jsonCommunicateFlags.showEvents" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/dashboard/send-notification" *ngIf="!isProfessional && checkIfUserHadAccess(role_feature.DASHBOARD_MENU)">
+                                    <span>Send SMS/Email</span>
+                                </a>
+                                <a routerLink="/view/communicate/sms" *ngIf="jsonCommunicateFlags.showSMSReport">
+                                    <span>SMS Report</span>
+                                </a>
+                                <a routerLink="/view/communicate/email" *ngIf="jsonCommunicateFlags.showEmailReport">
+                                    <span>Email Report</span>
+                                </a>
+                                <a routerLink="/view/communicate/ptm" *ngIf="jsonCommunicateFlags.showPTM">
+                                    <span>PTM Management</span>
+                                </a>
+                                <!-- <a routerLink="/view/communicate/event" *ngIf="jsonCommunicateFlags.showEvents">
+                                    <span>Event Management</span>
+                                </a> -->
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li (mouseenter)="mouseenter(jsonEstoreFlags.isManageProduct || jsonEstoreFlags.isRegisterUser || jsonEstoreFlags.isManageOffer)"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="(jsonEstoreFlags.isManageProduct || jsonEstoreFlags.isRegisterUser || jsonEstoreFlags.isManageOffer) ? 'dropdown':''"
+                        [ngStyle]="{display: (jsonEstoreFlags.isEstoreMenu && !schoolModel) ? 'block' : 'none'}">
+                        <div *ngIf="jsonEstoreFlags.isEstoreMenu && !schoolModel">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'lieight' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/estore.svg'"
+                                    alt="">
+                                <p>Store</p><i *ngIf="(jsonEstoreFlags.isManageProduct || jsonEstoreFlags.isRegisterUser || jsonEstoreFlags.isManageOffer)" class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/e-store/details" *ngIf="jsonEstoreFlags.isManageProduct">
+                                    <span>Manage Product</span>
+                                </a>
+                                <a routerLink="/view/e-store/registered-user" *ngIf="jsonEstoreFlags.isRegisterUser">
+                                    <span>Registered Users</span>
+                                </a>
+                                <a routerLink="/view/e-store/manage-offers/coupon"
+                                    *ngIf="jsonEstoreFlags.isManageOffer">
+                                    <span>Offers/ Discounts</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+
+                    <li (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.ASSET_LOCATION)) || (checkIfUserHadAccess(role_feature.ADD_ASSET)) || (checkIfUserHadAccess(role_feature.ADD_SUPPLIER)) || (checkIfUserHadAccess(role_feature.ADD_PURCHASE_ASSET)) || (checkIfUserHadAccess(role_feature.ASSET_ASSIGNMENT)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.ASSET_LOCATION)) || (checkIfUserHadAccess(role_feature.ADD_ASSET)) || (checkIfUserHadAccess(role_feature.ADD_SUPPLIER)) || (checkIfUserHadAccess(role_feature.ADD_PURCHASE_ASSET)) || (checkIfUserHadAccess(role_feature.ASSET_ASSIGNMENT))) ? 'dropdown':''"
+                        [ngStyle]="{display: (checkIfUserHadAccess(role_feature.ASSET_MANAGEMENT_MENU)) ? 'block' : 'none'}">
+                        <div *ngIf="checkIfUserHadAccess(role_feature.ASSET_MANAGEMENT_MENU)">
+                            <a class="dropbtn">
+                                <img [src]=" activeSession === 'lione' ? './assets/images/sidemenuicon/Assets.svg':'./assets/images/sidemenuicon/Assets.svg'"
+                                    alt="">
+                                <p>Assets</p><i *ngIf="((checkIfUserHadAccess(role_feature.ASSET_LOCATION)) || (checkIfUserHadAccess(role_feature.ADD_ASSET)) || (checkIfUserHadAccess(role_feature.ADD_SUPPLIER)) || (checkIfUserHadAccess(role_feature.ADD_PURCHASE_ASSET)) || (checkIfUserHadAccess(role_feature.ASSET_ASSIGNMENT)))" class="fa fa-angle-right" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="dropdown-content">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ASSET_LOCATION)"
+                                routerLink="/view/asset-management/asset-location">
+                                <span>Location</span>
+                            </a>
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_ASSET)"
+                                routerLink="/view/asset-management/asset-category">
+                                <span>Asset</span>
+                            </a>
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_SUPPLIER)"
+                                routerLink="/view/asset-management/asset-supplier">
+                                <span>Supplier Master</span>
+                            </a>
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ADD_PURCHASE_ASSET)"
+                                routerLink="/view/asset-management/asset-purchase">
+                                <span>Purchase Asset</span>
+                            </a>
+                            <a *ngIf="checkIfUserHadAccess(role_feature.ASSET_ASSIGNMENT)"
+                                routerLink="/view/asset-management/asset-assignment">
+                                <span>Asset Assignment</span>
+                            </a>
+                        </div>
+                    </li>
+
+                    <li [ngClass]="activeSession === 'liwebsiteConf' ?'liActiveBG':''" *ngIf="enable_client_website && checkIfUserHadAccess(role_feature.WEBSITE_MANAGEMENT)"
+                        (click)="toggler('liwebsiteConf')" style="padding-right: 0;">
+                        <a routerLink="/view/website-configuration/images">
+                            <img src="../../../../assets/images/sidebar_images/Website_App.png" alt="">
+                            <p>Website/ App</p>
+                        </a>
+                    </li>
+
+                    <li class="dropdown" *ngIf="jsonFlags.isShowLibrabry"
+                        [ngClass]="activeSession === 'liseven' ?'liActiveBG':''" (click)="toggler('liseven')">
+                        <!-- <div *ngIf="jsonFlags.isShowLibrabry"> -->
+                        <a routerLink="/view/library/issue">
+                            <img [src]="activeSession === 'liseven' ? './assets/images/sidemenuicon/estoreIcon2.png':'./assets/images/sidebar_images/Library.svg'"
+                                alt="">
+                            <p>Library</p>
+                            <!-- <i class="fa fa-angle-right"></i> -->
+
+                        </a>
+                        <!-- <div class="dropdown-content">
+                            <a routerLink="/view/library/master">
+                                    <span>Setup</span>
+                            </a>
+                            <a routerLink="/view/library/issue">
+                                <span>Manage</span>
+                        </a>
+                        </div> -->
+                        <!-- </div> -->
+
+                    </li>
+
+                    <li class="dropdown" [ngStyle]="{display: (jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)) ? 'block' : 'none'}"
+                        [ngClass]="activeSession === 'liten' ?'liActiveBG':''" (click)="toggler('liten')">
+                        <div *ngIf="jsonFlags.isShowExpense && checkIfUserHadAccess(role_feature.INCOME_EXPENSE_ADMIN)">
+                            <a class="dropbtn">
+                                <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
+                                    alt="">
+                                <p>Income/ Expenses</p><i class="fa fa-angle-right"></i>
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a routerLink="/view/expense/setup">
+                                    <span>Data Setup</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.EXPENSE_USER)" routerLink="/view/expense/manage-expense">
+                                    <span>Manage Expense</span>
+                                </a>
+                                <a *ngIf="checkIfUserHadAccess(role_feature.INCOME_USER)" routerLink="/view/expense/manage-income">
+                                    <span>Manage Income</span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </li>
+                     <!-- ==========payrole==================== -->
+                     <li [ngStyle]="{display: (schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)) ? 'block' : 'none'}"
+                        (mouseenter)="mouseenter((checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)) || (checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT)))"
+                        (mouseleave)="mouseleave()"
+                        [ngClass]="((checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)) || (checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)) || (checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT))) ? 'dropdown':''"
+                        (click)="toggler('liten')" >
+                     <div *ngIf="schoolModel && checkIfUserHadAccess(role_feature.PAYROLL_MENU)" >
+                         <a class="dropbtn">
+                             <img [src]="activeSession === 'liten' ?  './assets/images/sidemenuicon/expensesIcon2.png':'./assets/images/sidebar_images/Expenses.svg'"
+                                 alt="">
+                             <p>Payroll</p><i class="fa fa-angle-right"></i>
+
+                         </a>
+                         <div class="dropdown-content">
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MONTHLY_TEMPLATE)" routerLink="/view/payrole/salary-template">
+                                 <span>Monthly Template</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_HOURLY_TEMPLATE)" routerLink="/view/payrole/hourly-template">
+                                 <span>Hourly Template</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_MANAGE_SALARY)" routerLink="/view/payrole/manage-salary">
+                                 <span>Manage Salary</span>
+                             </a>
+                             <a *ngIf="checkIfUserHadAccess(role_feature.PAYROLL_SALARY_PAYMENT)" routerLink="/view/payrole/make-payment">
+                                <span>Salary Payment</span>
+                            </a>
+
+                         </div>
+                     </div>
+
+                 </li>
+  <!-- =================end================== -->
+
+                    <li (mouseenter)="mouseenter(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM)))"(mouseleave)="mouseleave()"
+                      [ngStyle]="{display: (checkIfUserHadAccess(role_feature.INVENTORY_MENU_ITEM)) ? 'block' : 'none'}"
+                      [ngClass]="(checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM) || (checkIfUserHadAccess(role_feature.INVENTORY_ITEMS) || checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT) || checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM))) ? 'dropdown':''" (click)="toggler('liTeachers')">
+                    <div *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_MENU_ITEM)">
+                        <a  class="dropbtn">
+                            <img [src]="activeSession === 'liTeachers' ? './assets/images/sidemenuicon/liveclassIcon2.png':'./assets/images/sidemenuicon/liveclassIcon.png'" alt="">
+                    <p >Inventory</p><i class="fa fa-angle-right"></i>
+      
+                    </a>
+                        <div class="dropdown-content">
+                            <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_ITEMS)"  routerLink="/view/inventory-management/item-cm">
+                                <span>Items</span>
+                        </a>
+                        <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_SUPPLIER_MANAGEMENT)"  routerLink="/view/inventory-management/supplier">
+                            <span>Suppliers</span>
+                    </a>
+                        <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_PURCHASE_ITEM)"  routerLink="/view/inventory-management/purchase-item">
+                            <span>Purchases</span>
+                    </a>
+                    <a *ngIf="checkIfUserHadAccess(role_feature.INVENTORY_SALES_ITEM)"  routerLink="/view/inventory-management/sale-item">
+                        <span>Sales/Allocate</span>
+                </a>
+                       
+                        <!-- <a routerLink="/view/course/setup/teacher/list">
+                                <span>Leave</span>
+                        </a> -->
+                        </div>
+                     </div>
+                    
+                  </li>
+
+
+                    <li [ngClass]="activeSession ==='lieleven'?'liActiveBG':''" *ngIf="checkIfUserHadAccess(role_feature.REPORTS_MENU)" (click)="toggler('lieleven')">
+                        <a routerLink="/view/reports/list">
+                            <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/reportIcon2.png':'./assets/images/sidebar_images/Reports.svg'"
+                                alt="">
+                            <p>Reports</p>
+                        </a>
+                    
+                  </li>
+
+                   <!-- ======asha-edited========== -->
+                   <li class="dropdown" [ngStyle]="{display: (jsonFlags.isAdminforSmsGateway) ? 'block' : 'none'}" (click)="toggler('liten')">
+                    <div *ngIf="jsonFlags.isAdminforSmsGateway">
+                      <a routerLink="/view/sms-gateway">
+                          <img [src]="'./assets/images/Configuration.svg'" alt="">
+                          <p>Configuration</p><i class="fa fa-angle-right"></i>
+                          </a>
+                          <div class="dropdown-content">
+                              <a routerLink="/view/sms-gateway/sms-configuration">
+                                  <span>SMS Configuration</span>
+                          </a>
+                      </div>
+                      </div>
+                    </li>
+                    
+                    <!-- ========================= -->
+<!-- ===========================asha-work============================ -->
+
+                  <li class="dropdown">
+                    <div>
+
+                <a routerLink ="/view/leave" class="dropbtn"></a>
+                <img [src]="activeSession === 'lieleven' ? './assets/images/sidemenuicon/Leave.svg':'./assets/images/sidemenuicon/Leave.svg'" alt="">
+
+            <p >Leave</p><i class="fa fa-angle-right"></i>
+            <div class="dropdown-content">
+
+            <a  *ngIf="!jsonFlags.isAdminforLeave" routerLink="/view/leave/leave-application">
+                <span>Apply</span>
+        </a>
+        <a  *ngIf="jsonFlags.isAdminforLeave" routerLink="/view/leave/leave-category">
+            <span>Category</span>
+    </a>
+
+    <a routerLink="/view/leave/leave-permission">
+        <span>Approve</span>
+</a>
+        </div>
+    </div>
+
+        </li>
+<!-- ===============================work-end=============================== -->
+
+                </ul>
+                <p *ngIf="jsonFlags.isShowPowerBy" class="power">Powered By <span class="proctur40">Proctur V 5.0</span>
+                </p>
+                <p *ngIf="!jsonFlags.isShowPowerBy" class="power">{{(custom_text_for_power_by_proctur != 'null') ? custom_text_for_power_by_proctur : ''}}</p>
+            </div>
+        </nav>
+    </div>
+</section>
+<aside class="blur-background" id="blurBg" *ngIf="sideBar  || searchBar || helpMenu || videoplayer || quick"
+    (click)="closeMenu()">
+</aside>
+
+<!-- Modal -->
+<!-- Release Note pop up -->
+<div id="releaseNote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="transform: none;">
+
+        <!-- Modal content-->
+        <div class="modal-content" style="margin-top: 7%;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title" style="margin-bottom: 0;">Whats's New</h2>
+            </div>
+            <div class="modal-body">
+
+                <div class="new-modules-list">
+                    <div class="module-title">
+                        <span>31<sup>st</sup> July 2021</span>
+                    </div>
+                    <ol>
+                          <span style="text-decoration: underline;">New Features :</span> 
+                            <ol style="margin-top: 10px;">                        
+                                <li><span style="font-weight: 700;">Multilingual (Student App)</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Multilingual Facility is provided on Student App, where student can select the student app
+                                            Language as <span style="font-weight: 600;">“Hindi & English”</span>. As per selection Student can use app in as per selected
+                                            Language.
+                                        </li>
+                                        <li>We are coming with more languages in next Release.</li>
+                                        <li>Introducing multilingual facility on student app, where students can select the app language as <span style="font-weight: 600;">“Hindi or English”.</span> Students can then use their preferred language on our Student app.</li>
+                                        <li>We are coming up with more language options in our next release.</li>
+                                    </ul>
+                                </li>
+                            </ol>
+
+                            <span style="text-decoration: underline;">Improvements :</span> 
+                            <ol style="margin-top: 10px;">                        
+                                <li><span style="font-weight: 700;">Send SMS / Email /Push - Dashboard</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>User Interface changes has been done for Proctur Admin- Now user can send SMS/Email/Push
+                                            Notification from Proctur <span style="font-weight: 600;">Dashboard</span>                                       
+                                        </li>
+                                        <li>
+                                            As well as admin can share SMS/Email from <span style="font-weight: 600;">Communicate</span> option.
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Course /Section Creation User Interface Improvements</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>We have improved the process of creation for Course for Course Model and Section for School
+                                            Model, this will help to understand how to create course/section in better way.                                                                                      
+                                        </li>
+                                        <li>
+                                            To add <span style="font-weight: 600;">Course</span> please follow <span style="font-weight: 600;">Classes -> Course</span>
+                                        </li>
+                                        <li>
+                                            To add <span style="font-weight: 600;">Section</span>, click on <span style="font-weight: 600;">Classes > Section </span>
+                                        </li>
+                                        <li>User can filter Courses /Section as per Academic year wise.</li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Student Add and View:</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>We have improved User Interface of Add Student Page and View Page and Admin Web portal</li>
+                                        <li>Student View Page is available on Admin App as well as on Student Appp.</li>
+                                        <li>Where user can able to find the details of the student Profile, Attendance, Reports etc.</li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Download Summary Report:</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>We have provided an option of summary report Option in <span style="font-weight: 600;">Reports</span> Section, this will help user
+                                            to download summary report related <span style="font-weight: 600;">Fees, Admission, Enquiry.</span>                                                                                       
+                                        </li>
+                                        <li>
+                                            Admin can access this report from <span style="font-weight: 600;">Report->Institute Report->Summary Report.</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Custom Form Field (Enquiry & Student)</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Available for Course Model.</li>
+                                        <li>Custom form field now available on <span style="font-weight: 600;">Lead->Set Up</span> 
+                                        </li>
+                                        <li>
+                                            Student Page it is available on <span style="font-weight: 600;">More->Additional Form Fields.</span> As well as we have improved User interface of this Functionality
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Exam desk (Content NEET & JEE):</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Proctur came up with a readymade data for JEE and NEET where user can create automated
+                                            test with using these data.
+                                        </li>
+                                        <li>
+                                            Admin can create a test with this provided data through Admin App/ Web, Question selection option is available on Assign Question Page
+                                        </li>
+                                        <li>
+                                            This is paid feature to avail this please contact <span style="color: #109CF1;text-decoration: underline;">support@proctur.com</span>  / <span style="font-weight: 600;">Proctur Help. </span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><span style="font-weight: 700;">Other Changes:</span> <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Country calling code in alphabetical order with country prefix on student, faculty and enquiry.
+                                        </li>
+                                        <li>
+                                            On global search we have provided a <span style="font-weight: 600;"> View Student</span> option while searching a student, Admin can also edit the student form view student page
+                                        </li>
+                                       
+                                    </ul>
+                                </li>
+                            </ol>
+                    </ol>
+                    
+                </div>
+
+                <div class="new-modules-list">
+                    <div class="module-title">
+                        <span class="old">2<sup>nd</sup> July 2021</span>
+                    </div>
+                    <ol>                        
+                        <li><span style="font-weight: 700;">Fees (100 % Discount Facility)</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>Provided an option where user can apply a 100% discount facility against instalment.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">Fees (On Admin App)</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>Provided Fees Management Functionality on Proctur Admin App, where user can manage/update fees from admin app itself 
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">Student (UI Improvements)</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>We came up with improvements in Student Menu UI which will helps users more clarity and best user experience to use it.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">Live Classes (Enhancements)</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>Live Classes (Faculty Notification)
+                                <ul style="font-weight: 400; margin-top: 5px;">
+                                    <li>Provided hover notification on “Join” Button for that how soon faculty can start the Live class.</li>
+                                </ul>
+                                </li>
+                                <li>Live Classes (Zoom) <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Minor fixes related to Zoom Copy link option shown on Card itself, it will help user to find this option quickly. 
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>Live Classes (Search) <br>
+                                    <ul style="font-weight: 400; margin-top: 5px;">
+                                        <li>Provided search depends on Live Classes Topic Name, Faculty Name, Session ID on live classes Page. 
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        
+                    </ol>
+                </div>
+
+                <div class="new-modules-list">
+                    <div class="module-title">
+                        <span class="old">4<sup>th</sup> June 2021</span>
+                    </div>
+                    <ol>
+                        <div style="margin-bottom: 10px;text-decoration: underline;">New and enhanced features:</div>
+                        <li><span style="font-weight: 700;">USER / ROLES </span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>Users menu-> Role-> Add Role
+                                </li>
+                                <li> We improved the default features of Faulty and we have come up with multiple new features where admin can create a role as required for ex. Counsellor where we can give the permission as we required, it will enhance the security of the system and it will help admin to create a custom user and assign him a role which admin wants to assign.
+                                </li>
+                                <li> We have provided a help against the some features where you can get the details simply moving cursor on <img src="../../assets/images/InfoIcon.svg"> .
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">SMS Configuration </span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>Configuration menu->SMS Configuration
+                                </li>
+                                <li>Ad per Telecom Regulatory TRAI guidelines, for sending SMS, each SMS has to be registered with DTL platform.
+                                </li>
+                                <li>So in SMS Configuration read the “Important Note” and follow the process. Users who have not done “DLT Process Steps” can go through the details shown on the SMS Configuration page.
+                                </li>
+                                <li>Customers after DLT registration will get SMS gateway account from Proctur support side, have to upload all approved SMS template, if any approved template not added to the SMS account then message will be rejected/failed.
+                                </li>
+                                <li>Please take the help of the below video to upload the approved template <a href="https://youtu.be/3gjzArejZew" target="_blank">https://youtu.be/3gjzArejZew</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">ADMIN APP:</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li style="font-weight: 600;">Proctur Dashboard:
+                                </li>
+                                <li>User can download the Proctur Admin App from the Dashboard “Download App” Once user clicked on this user needs to provide mobile no to get the link.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">CHAT WITH US:</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li>For Help and Support kindly check “Chat with Us” present on the right bottom of the Dashboard and contact Proctur Support team or generate Ticket.
+                                </li>
+                            </ul>
+                        </li>
+                        <li><span style="font-weight: 700;">Resolved Issues</span> <br>
+                            <ul style="font-weight: 400; margin-top: 5px;">
+                                <li><span style="font-weight: 600;">INVENTORY MANAGEMENT:</span> We have fixed the issues related to Inventory Assignment as well as we have simplified process of adding inventory items to System.
+                                </li>
+                                <li>Bulk Upload of students failure count
+                                </li>
+                                <li>Minor bug fixes.</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="privacy" role="dialog" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="left:10% !important;top: 90px;">
+            <div class="modal-body privacy">
+                <h2>FOR SMS SENDER ID DLT Registration | Entity <u>[As per TRAI norms all organizations need to do DLT
+                        registration for delivering SMS through their Sender ID.]</u></h2>
+                <hr>
+                <p><b>Follow the steps below:</b></p>
+                <br>
+                <p>We have all the Operators, but for DLT Registration, we recommend <b>Videocon and Jio</b>, as they
+                    are Fast and Free for our clients. Kindly apply on both simultaneously, <b>so that you can get the
+                        Header Approved on at least one of them and then your SMS will not be impacted.</b></p>
+                <br>
+                <h3>Entity Registration Process for Jio : </h3>
+                <br>
+                <p><b>1. Signup Link : </b><a href="https://trueconnect.jio.com"
+                        target="_blank">https://trueconnect.jio.com</a></p>
+                <br>
+                <p><b>2. Form Filling : </b>Fill the form and upload the required documents.</p>
+                <br>
+                <p><b>3. Form Submission : </b>Submit the application and you will get the approval in a day or two.</p>
+                <br>
+                <p><b>4. Headers Registration : </b>You will get mail and once registration is approved, kindly login
+                    (Received on mail) and add your Headers (Sender ID) and it will be approved in a day or two.</p>
+                <br>
+                <p><b>5. Test SMS : </b>Once Header is approved on DLT platform, it will be synced on Global Platform in
+                    around 24 hrs and you will then be able to use your Header for sending SMS.</p>
+                <br>
+                <p><b>Note : </b> This is one service provider and for more service provider the same process you have
+                    to follow. You will receive an update accordingly and our team will guide you for any query.</p>
+                <br>
+                <p>Still need help email us at <b>support@proctur.com</b></p>
+            </div>
+            <div class="modal-footer" style="padding: 8px !important;">
+                <button type="button" class="btn btn-primary create-btn" data-dismiss="modal">Okay</button>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- <div class="query_popup"  *ngIf="showMaximizedPopup">
+    <div (click)="showMaximizedPopup = false">
+        <div class="white"></div>
+    </div>
+    <div class="img1">
+        <img src="../../../../assets/query_popup/headset.svg">
+    </div>
+    <div>
+        <p>Support Related Queries </p>
+        <a href="https://helpcenter.proctur.com/" target="_blank">
+            <button class="click_button">
+                Click Here
+            </button>
+        </a>
+        
+        <span>or</span>
+    </div>
+    <div class="line_sm"></div>
+    <div>
+       <p class="one">Reach us on call </p>
+        <p><img src="../../../../assets/query_popup/phone.svg">9971839153</p>
+        <p class="one">Write us on </p>
+        <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
+    </div>
+</div> -->
+
+<!--new popup code added by manisha-->
+<div id="modalapp1" class="modal" role="dialog"  >
+    <div class="modal-dialog">
+  
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="display">
+            <div></div>
+            <div class="white" data-dismiss="modal" ></div>
+          </div>
+          <div class="flex img1">
+            <div><img src="../../../../assets/popup/headphones.svg"></div>
+            <div>
+              <div>
+                <p>Support Related Queries </p>
+                <a href="https://helpcenter.proctur.com/" target="_blank"><button class="click_button"> Click Here
+                  </button></a>
+              </div>
+            </div>
+  
+          </div>
+          <div class="line_sm"></div>
+          <div class="training">
+            <p>New To Proctur? Schedule Training.</p>
+            <div class="display mt8" *ngIf="!schoolModel">
+              <span>Morning Session</span>
+              <button class="click_button"><a  href="https://bit.ly/3fkYC8M" target="_blank">Click Here</a> 
+              </button>
+            </div>
+            <div class="display mt8" *ngIf="schoolModel">
+                <span>Morning Session </span>
+                <button class="click_button" ><a  href="https://bit.ly/2VrnCUM" target="_blank">Click Here</a> 
+                </button>
+              </div>
+            <div class="display mt8"  *ngIf="!schoolModel">
+              <span>Evening Session</span>
+              <button class="click_button" > <a  href="https://bit.ly/3rKh2Vq" target="_blank">Click Here</a>
+              </button>
+            </div>
+          </div>
+          <div class="contact">
+            <p><img src="../../../../assets/query_popup/phone.svg">9971839153</p>
+            <p><img src="../../../../assets/query_popup/email.svg">support@proctur.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- <div class="query_mini" *ngIf="!showMaximizedPopup">
+    <div style="cursor: pointer;" (click)="showMaximizedPopup = true">
+        <span>Chat with Us</span>
+        <img src="../../../../assets/query_popup/question.svg">
+        <span class="white"></span>
+    </div>
+</div> -->

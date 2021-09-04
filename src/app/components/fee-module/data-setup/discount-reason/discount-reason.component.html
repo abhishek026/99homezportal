@@ -1,0 +1,91 @@
+<div class="page-content">
+  <div class="w98">
+    <div class="tab-content">
+      <div id="fee_types" class="tab-pane active">
+        <div class="padding1">
+          <input type="" class="input mr10 wid240" name="discountReason" [(ngModel)]="discountReason" placeholder="Discount Reason *">
+          <button class="blue_button" (click)="addNewDiscountReason()">Add</button>
+        </div>
+        <div class="fee_types">
+          <div class="table_heading">
+            <div>Discount Reason</div>
+            <div>Created Date</div>
+            <div>Action</div>
+          </div>
+          <div class="tableHeight">
+          <div *ngFor="let data of discountReasonArray">
+            <div class="table_body">
+              <div>{{data.reason}}</div>
+              <div>{{data.created_date}}</div>
+              <div><a (click)="editReason(data)"><img src="../../../../../assets/images/edit.svg"
+                    class="size22 pointer" title="Edit"></a></div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
+        </div>
+  </div>
+ <div class="w98">
+    <div class="bottom_pagignation flex w98">
+      <div class="w20">
+      </div>
+      <div class="w10">
+      </div>
+      <div class="w40">
+      </div>
+      <div class="w30">
+      </div>
+    </div>
+  </div> 
+</div>
+
+<div class="modal" id="discountReasonModel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Discount Reason</h4>
+        <button type="button" (click)="clearData()" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body" style="height: 116px;">
+        <div>
+          <div><input type="" name="discountReason" [(ngModel)]="discountReason" class="input w100" placeholder="Discount Reason">
+          </div>
+          <div class="padding11">
+            <span class="right">
+              <button class="white_button mr10" (click)="clearData()">
+                Cancel
+              </button>
+              <button class="blue_button" (click)="updateDiscountReason()">
+                Save
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal" id="discountModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Discount Reason</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <textarea placeholder="Reason" class="input"></textarea>
+        <div class="padding1">
+          <span class="right">
+            <button class="white_button mr10">
+              Cancel
+            </button>
+            <button class="blue_button ">
+              Save
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

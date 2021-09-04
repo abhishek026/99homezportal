@@ -1,0 +1,16 @@
+@import "./src/assets/css/common/variables.scss";
+
+
+.middle-section {
+    padding: 10px 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.row{
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.countryCallingCode{
+    float: left;
+}

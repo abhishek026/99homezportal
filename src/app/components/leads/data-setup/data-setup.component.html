@@ -1,0 +1,626 @@
+<div id="editCityArea" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title">Edit Area</h3>
+      </div>
+      <div class="modal-body">
+        <div class="edit-container">
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">Country Name </span>
+            <span>{{ (!editrecord?.country_name) ? '-' : editrecord.country_name}}</span>
+          </div>
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">State Name </span>
+            <span>{{(!editrecord?.state_name) ? '-' : editrecord.state_name}}</span>
+          </div>
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">City Name </span>
+            <span>{{ (!editrecord?.city) ? '-' : editrecord.city}}</span>
+          </div>
+          <div class="edit-item field-wrapper">
+            <span class="edit-title">Area Name </span>
+            <input type="text" name="" value="" [(ngModel)]="editAreaName" placeholder="Enter area name"
+              class="edit-area-item form-ctrl">
+          </div>
+          <div class="edit-item field-checkbox-wrapper" style="width: 100px !important">
+            <span class="edit-title" style="width: 100%;">Is Active</span>
+            <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="editIsActiveStatus">
+            <label for="active"></label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-default" (click)="updateArea()">Update</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="deleteModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <div class="alert-title-container">
+          <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+          <h4 class="modal-title">Alert</h4>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="msg-container">
+          <span>Are you sure you want to delete it?</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">No, cancel!</button>
+        <button *ngIf="activeSession == 'city_area'" type="button" class="btn btn-default delete-btn" (click)="deleteArea()">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'source'" type="button" class="btn btn-default delete-btn" (click)="deleteSource(deleteAreaId)">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'Referred_by'" type="button" class="btn btn-default delete-btn" (click)="deleteRefer(deleteAreaId)">Yes, delete it!</button>
+        <button *ngIf="activeSession == 'customForm-field'" type="button" class="btn btn-default delete-btn" (click)="deleteCustumfomField(component_id)">Yes, delete it!</button>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<main class="page-content" style="padding-left: 0 !important;">
+  <div>
+     <div class="w98 p-15">
+    <nav aria-label="breadcrumb ">
+        <ol style="padding-left: 0%;" class="breadcrumb arr-right">
+          <li class="breadcrumb-item "><a>Leads</a></li>
+          <li class="breadcrumb-item "><a >Setup</a></li>
+       </ol>
+      </nav>
+      <!-- Nav tabs -->
+<ul class="nav main-shadow">
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(activeSession == 'source') ? 'active' : ''" (click)="toggle('source');getSourceDetails()">Source</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(activeSession == 'closing_reason') ? 'active' : ''"(click)="toggle('closing_reason');getAllReasons()">Closing Reason</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(activeSession == 'city_area') ? 'active' : ''" (click)="toggle('city_area');getCountryList();searchArea();" >City/Area</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" [ngClass]="(activeSession == 'Referred_by') ? 'active' : ''" (click)="toggle('Referred_by');fetchReferInfo()">Referred By</a>
+  </li>
+  <li class="nav-item" *ngIf="!schoolModel && !isProfessional">
+    <a class="nav-link" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" (click)="toggle('customForm-field');fetchCustomFild()">Custom Field</a>
+  </li>
+
+</ul>
+  </div>
+</div>
+<!-- Tab panes -->
+<div class="tab-content" style="margin-top: 10px;">
+  <div id="Source" *ngIf="activeSession == 'source'" [ngClass]="(activeSession == 'source') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+                  <input type="text" [(ngModel)]="createSource.name" class="reason-input" name="soure" placeholder="Add Source*">
+                  <button (click)="addSourceData()" class="add_master_tag">Add</button>
+        </div>
+        <div>
+          <div class="tableContainer" >
+            <!-- <div> -->
+              <div class="tableHeader">
+                <div style="width: 80%;" class="tableData">
+                  Source Name
+                </div>
+                <div style="width: 20%;" class="tableData">
+                   <span class="right pr-40">
+                    Action
+                  </span>
+                </div>
+              </div>
+            <!-- </div> -->
+            <div class="section" *ngIf="sourceDetails?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let data of sourceDetails">
+                <div style="width: 80%;" [ngStyle]="{'padding':data.isEdit ? '0' : '10px 15px'}" class="tableData">
+                  <span *ngIf="!data.isEdit">{{data.name}}</span> 
+                  <span *ngIf="data.isEdit">
+                    <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
+                  </span> 
+                </div>
+                <div style="width: 20%;" *ngIf="!data.isEdit" class="tableData">
+                  <span class="right pr-40" style="padding-right: 20px;">
+                  <a (click)="EditSource(data, data.name)" style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(data)" style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+              <div style="width: 20%;" *ngIf="data.isEdit" class="tableData">
+                <span class="updateAction" (click)="updateSource(data)">Update</span>
+                <span class="updateAction" (click)="cancelEditSource(data)">Cancel</span>
+              </div>
+              </div>
+            </div>
+            <div class="section no-records" *ngIf="!sourceDetails?.length && !auth.isRippleLoad.getValue()">
+              No Records found
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div id="closing_reason" *ngIf="activeSession == 'closing_reason'" [ngClass]="(activeSession == 'closing_reason') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+                  <input type="text" class="reason-input" name="" [(ngModel)]="createNewReasonObj.closing_desc" placeholder="Add closing reason*">
+                  <button (click)="createNewReason()" class="add_master_tag">Add</button>
+        </div>
+        <div>
+          <div class="tableContainer" >
+            <!-- <div> -->
+              <div class="tableHeader">
+                <div style="width: 80%;" class="tableData">
+                  Closing Reason
+                </div>
+                <div style="width: 20%;" class="tableData">
+                   <span class="right pr-40">
+                    Action
+                  </span>
+                </div>
+              </div>
+            <!-- </div> -->
+            <div class="section" *ngIf="getAllClosingReasons?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let data of getAllClosingReasons">
+                <div style="width: 80%;" [ngStyle]="{'padding':data.isEdit ? '0' : '10px 15px'}" class="tableData">
+                  <span *ngIf="!data.isEdit">{{data.closing_desc}}</span> 
+                  <span *ngIf="data.isEdit">
+                    <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
+                  </span> 
+                </div>
+                <div style="width: 20%;" *ngIf="!data.isEdit" class="tableData">
+                  <span class="right pr-40">
+                  <a (click)="EditSource(data, data.closing_desc)" style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                </span>
+              </div>
+              <div style="width: 20%;" *ngIf="data.isEdit" class="tableData">
+                <span class="updateAction" (click)="saveInformation(data, 0)">Update</span>
+                <span class="updateAction" (click)="cancelEditSource(data)">Cancel</span>
+              </div>
+              </div>
+            </div>
+            <div class="section no-records" *ngIf="!getAllClosingReasons?.length && !auth.isRippleLoad.getValue()">
+              No Records found
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <div id="city_area" *ngIf="activeSession == 'city_area'" [ngClass]="(activeSession == 'city_area') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+          <div class="row">
+            <div class="col-lg-12 col-12" style="padding: 0;">
+              <div class="row">
+                <div class="col-lg-9 col-12" style="padding: 0;display: -webkit-box;-webkit-box-align: center;">
+                  <!-- <form class="p-10"> -->
+                    <div class="row">
+                      <div class="filter-item field-wrapper" style="margin-left: 0px;">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.country_ids" (ngModelChange)="getStateList()">
+                          <option value="-1">Select Country</option>
+                          <option title="{{country.country_name}}" [value]="country.id" *ngFor="let country of countryList">
+                            {{ (country.country_name.length > 30) ? (country.country_name | slice:0:30) + '...' : country.country_name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="filter-item field-wrapper">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.state_ids" (ngModelChange)="getCityList()">
+                          <option value="-1">Select State</option>
+                          <option title="{{state.state_name}}" [value]="state.state_id" *ngFor="let state of stateList">
+                            {{ (state.state_name.length > 30) ? (state.state_name | slice:0:30) + '...' : state.state_name }}</option>
+                        </select>
+                      </div>
+                      <div class="filter-item field-wrapper">
+                        <select class="form-ctrl input-select" name="" [(ngModel)]="filter.city_ids">
+                          <option value="-1">Select City</option>
+                          <option title="{{city.city_name}}" [value]="city.city_id" *ngFor="let city of cityList">
+                            {{ (city.city_name.length > 30) ? (city.city_name | slice:0:30) + '...' : city.city_name }}</option>
+                        </select>
+                      </div>
+                      <div class="filter-item field-checkbox-wrapper" style="width: 100px !important; margin-top: 30px;">
+                        <span class="edit-title" style="width: 100%;">Is Active</span>
+                        <input type="checkbox" id="active" value="" name="" class="form-checkbox" [(ngModel)]="filter.is_active">
+                        <label for="active"></label>
+                      </div>
+                      <div class="col-lg-1 col-12">
+                          <button class="search" (click)="searchArea()">Search</button>
+                      </div>
+                    </div>
+                  <!-- </form> -->
+                </div>
+                <div class="col-lg-3 col-12" style="padding: 0;">
+                 <span class="right">
+                  <input type="text" [(ngModel)]="areaSearchInput" name="areaSearchInput"
+                  (keyup)="searchDatabase(search)" placeholder="Search" class="input magnifying-glass">
+                  <button class="add_master_tag" (click)="toggleAddArea()">Add Area</button>
+              </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <div class="tableContainer">
+            <div class="tableHeader">
+              <div class="tableData small">
+                <span>State</span>
+              </div>
+              <div class="tableData small">
+                <span>City</span>
+              </div>
+              <div class="tableData large" style="width: 50%;">
+                <span>Area</span>
+              </div>
+              <!-- <div class="tableData align-center medium">
+                <span>Active Status</span>
+              </div> -->
+              <div class="tableData align-center medium">
+                <span class="pr-40 right">Action</span>
+              </div>
+            </div>
+            <div class="section" *ngIf="countryStateAreaList?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let record of countryStateAreaList">
+                <div class="tableData small">
+                  <span
+                    title="{{record?.state_name}}">{{ (!record.state_name) ? '-' : (record.state_name.length > 20) ? (record.state_name | slice:0:20) + '...' : record.state_name}}</span>
+                </div>
+                <div class="tableData small">
+                  <span
+                    title="{{record?.city}}">{{ (!record.city) ? '-' : (record.city.length > 20) ? (record.city | slice:0:20) + '...' : record.city}}</span>
+                </div>
+                <div class="tableData large" style="width: 50%;">
+                  <span
+                    title="{{record?.area}}">{{ (!record.area) ? '-' : (record.area.length > 50) ? (record.area | slice:0:50) + '...' : record.area }}</span>
+                </div>
+                <!-- <div class="tableData align-center medium">
+                  <span *ngIf="record?.is_active == 'Y'" class="yes">Yes</span>
+                  <span *ngIf="record?.is_active == 'N'" class="no">No</span>
+                </div> -->
+                <div class="tableData align-center medium">
+                  <span class="right pr-40" style="padding-right: 25px">
+                    <a (click)="editArea(record)" data-toggle="modal" data-target="#editCityArea" style="vertical-align: middle;cursor: pointer;">
+                      <img src="../../../../assets/images/EDit.png">
+                    </a>
+                    <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(record)" style="cursor: pointer;" class="pl-10">
+                      <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="section no-records" *ngIf="!countryStateAreaList.length && !auth.isRippleLoad.getValue()">
+              <span>No Records Found</span>
+            </div>
+          </div>
+        </div>
+        
+    </div>
+  </div>
+  <div id="Referred_by" *ngIf="activeSession == 'Referred_by'" [ngClass]="(activeSession == 'Referred_by') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+                  <input type="text" [(ngModel)]="createReferer.name" class="reason-input" name="" placeholder="Add Referrer*">
+                  <button (click)="addReferData()" class="add_master_tag">Add</button>
+        </div>
+        <div>
+          <div class="tableContainer" >
+            <!-- <div> -->
+              <div class="tableHeader">
+                <div style="width: 80%;" class="tableData">
+                  Referrer Name
+                </div>
+                <div style="width: 20%;" class="tableData">
+                   <span class="right pr-40">
+                    Action
+                  </span>
+                </div>
+              </div>
+            <!-- </div> -->
+            <div class="section" *ngIf="referList?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let data of referList">
+                <div style="width: 80%;" [ngStyle]="{'padding':data.isEdit ? '0' : '10px 15px'}" class="tableData">
+                  <span *ngIf="!data.isEdit">{{data.name}}</span> 
+                  <span *ngIf="data.isEdit">
+                    <input style="margin: 0" type="text" [(ngModel)]="data.new_source_name" class="reason-input" name="soure">
+                  </span> 
+                </div>
+                <div style="width: 20%;" *ngIf="!data.isEdit" class="tableData">
+                  <span class="right pr-40" style="padding-right: 25px;">
+                  <a (click)="EditSource(data, data.name)" style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="setDeleteAreaId(data)" style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+              <div style="width: 20%;" *ngIf="data.isEdit" class="tableData">
+                <span class="updateAction" (click)="updateRefer(data)">Update</span>
+                <span class="updateAction" (click)="cancelEditSource(data)">Cancel</span>
+              </div>
+              </div>
+            </div>
+            <div class="section no-records" *ngIf="!referList.length && !auth.isRippleLoad.getValue()">
+              <span>No Records Found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- ====custom-field-table=================== -->
+  <div id="customForm-field" *ngIf="activeSession == 'customForm-field'" [ngClass]="(activeSession == 'customForm-field') ? 'active' : ''" class="tab-pane">
+    <div class="w96">
+        <div style="margin-bottom: 10px;">
+          <!-- <input type="text" class="reason-input" name="" [(ngModel)]="createNewReasonObj.closing_desc" placeholder="Add closing reason*"> -->
+          <button  class="add_master_tag2" (click)="onClickAddField('Add')">Add Custom Field</button>
+        </div>
+        <div>
+          <div class="tableContainer custTable" >
+            <!-- <div> -->
+              <div class="tableHeader">
+                <div  class="tableData">
+                  Field Name
+                </div>
+                <div  class="tableData">
+                  Type
+                </div>
+                <div  class="tableData" style="padding-top: 0;">
+                  Show On Student
+                </div>
+                <div  class="tableData">
+                  Is Required
+                </div><div  class="tableData">
+                  Is Searchable
+                </div>
+                <div  class="tableData">
+                  Sequence
+                </div>
+                <div  class="tableData">
+                  Max Length
+                </div>
+                <div  class="tableData">
+                  Default Value
+                </div>
+                <div  class="tableData">
+                  Is External
+                </div>
+                <div style="padding-right: 4%;" class="tableData">
+                   <span class="right pr-40">
+                    Action
+                  </span>
+                </div>
+              </div>
+            <div class="section" *ngIf="custumFieldList?.length > 0">
+              <div class="tableBody" style="box-shadow:-1px 1px 6px 0px rgb(0 0 0 / 10%)" *ngFor="let item of custumFieldList">
+                <div   class="tableData">
+                  <span title="{{item.label}}">{{(!item.label) ? '-' : (item.label.length > 10) ? (item.label | slice : 0:10)+ '...' : item.label }}</span> 
+               
+                </div>
+                <div  class="tableData">
+                  <span title="{{item.type|checkBoxConverter}}">{{item.type|checkBoxConverter}}</span> 
+
+                </div>
+                <div  class="tableData">
+                  <span title="{{item.on_both}}">{{item.on_both}}</span> 
+
+                </div>
+                <div   class="tableData">
+                  <span title="{{item.is_required}}">{{item.is_required}}</span> 
+
+                </div>
+                <div   class="tableData">
+                  <span title="{{item.is_searchable}}">{{item.is_searchable}}</span> 
+
+                </div>
+                <div   class="tableData">
+                  <span title="{{item.sequence_number}}">{{item.sequence_number}}</span> 
+
+                </div>
+                <div  class="tableData">
+                  <span title="{{item.comp_length}}">{{item.comp_length}}</span> 
+
+                </div>
+                <div   class="tableData">
+                  <span title="{{item.defaultValue}}">{{item.defaultValue}}</span> 
+
+                </div>
+                <div  class="tableData">
+                  <span title="{{item.is_external}}">{{item.is_external}}</span> 
+
+                </div>
+
+                <div   class="tableData">
+                  <span class="right pr-40" style="padding-right: 25px;">
+                  <a  (click)="onClickeditCustomField(item)"  style="vertical-align: middle;cursor: pointer;">
+                    <img src="../../../../assets/images/EDit.png">
+                  </a>
+                 
+                  <a aria-hidden="true" data-toggle="modal" data-target="#deleteModal" (click)="selecteCustomformId(item.component_id)" style="cursor: pointer;" class="pl-10">
+                    <i style="color: red;font-size: 18px;font-weight: 400;" class="fa fa-trash"></i>
+                  </a>
+                </span>
+              </div>
+             
+              </div>
+              
+            </div>
+            <div class="empdata" *ngIf="!custumFieldList?.length">
+              <b>Note:</b>
+              <p > If want to add additional fields in enquiry form then click on <b>Add Custom Field</b>. Multiple types of field can be created through custom form field.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  
+  <!-- =======end============== -->
+</div>
+</main>
+
+<app-add-city-area *ngIf=addArea (closePopup)="toggleAddArea($event)" [selectedData]="selectedData">
+</app-add-city-area>
+<!-- ============custom-field-popups====================== -->
+<div class="custom-popus">
+
+<proctur-popup [sizeWidth]="'large'"  *ngIf="isEditCustumFormField=='Add'|| isEditCustumFormField=='Edit'">
+  <span class="closePopup pos-abs fbold show" (click)="cleareForm()" close-button>
+    <svg class="artdeco-icon" focusable="false" height="24px" preserveAspectRatio="xMinYMin meet" viewBox="0 0 24 24"
+      width="24px" x="0" y="0">
+      <path class="large-icon"
+        d="M20,5.32L13.32,12,20,18.68,18.66,20,12,13.33,5.34,20,4,18.68,10.68,12,4,5.32,5.32,4,12,10.69,18.68,4Z"
+        style="fill: currentColor"></path>
+    </svg>
+  </span>
+
+  <h2 popup-header  *ngIf="isEditCustumFormField=='Add'">Add Field</h2>
+  <h2 popup-header *ngIf="isEditCustumFormField=='Edit'">Edit Field</h2>
+
+  <div class="row updatecomponent-wrapper" style="display: flex;flex-wrap: wrap;" popup-content>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="label">Label
+          <span class="text-danger">*</span>
+        </label>
+        <input type="text" class="form-ctrl"  name="label" [(ngModel)]="editCustomFormField.label">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="opt.data_value">Type
+          <span class="text-danger">*</span>
+        </label>
+        <select id="opt.data_value" class="form-ctrl"  name="opt.data_value"  [(ngModel)]="editCustomFormField.type" (ngModelChange)="checkValuetype($event)">
+          <option value="-1">Select</option>
+          <option value="{{opt.data_key}}" *ngFor="let opt of componentShell"> 
+            {{opt.data_value}}</option>
+         
+        </select>
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="prefilledData">Prefilled Data (Non-Empty And Separated By ,)</label>
+        <input type="text" class="form-ctrl"  id="prefilledData" name="prefilledData" [(ngModel)]="editCustomFormField.prefilled_data">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="description">Description</label>
+        <input type="text" class="form-ctrl"  name="description" id="description" [(ngModel)]="editCustomFormField.description">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="onboth">Show On Student</label>
+        <select id="onboth" class="form-ctrl" name="onboth" [(ngModel)]="editCustomFormField.on_both">
+          <option value="Y">Yes</option>
+          <option value="N">No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="isrequired">Is Required</label>
+        <select id="isrequired" class="form-ctrl" name="isrequired" [(ngModel)]="editCustomFormField.is_required">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="issearchable">Is Searchable</label>
+        <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="editCustomFormField.is_searchable">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="sequencenumber">Sequence (Numerals Only)</label>
+        <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+          maxlength="3"  name="sequencenumber"  id="sequencenumber" [(ngModel)]="editCustomFormField.sequence_number">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="complength">Max- Length (Numerals Only)</label>
+        <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+           name="complength" id="complength" [(ngModel)]="editCustomFormField.comp_length">
+
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="defVal">Default Value</label>
+        <input type="text" class="form-ctrl"  name="defVal"
+          id="defVal" [(ngModel)]="editCustomFormField.defaultValue">
+      </div>
+    </div>
+
+    <div class="c-lg-4">
+      <div class="field-wrapper" >
+        <label for="isexternal">Is External</label>
+        <select id="isexternal" class="form-ctrl" name="isexternal" [(ngModel)]="editCustomFormField.is_external">
+          <option value="Y">Yes</option>
+          <option value="N" selected>No</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="" popup-footer>
+    <div class="clearfix">
+      <aside class="pull-right popup-btn" style="margin-top: 1%;">
+         <input type="button" value="Cancel" class="btn txt_font" style="background: white;color: #0084f6;" (click)="cleareForm()" >&nbsp;
+        <input type="button" value="Add" *ngIf="isEditCustumFormField =='Add'" (click)="addNewCustomField()" class="fullBlue btn txt_font"
+        >
+        <input type="button" value="Update " *ngIf="isEditCustumFormField =='Edit'" class="fullBlue btn txt_font"
+          (click)="updateCustumField()">
+      
+      </aside>
+    </div>
+  </div>
+<!-- </div> -->
+</proctur-popup>
+</div>
+
+
+
+
+<!-- =============end================== -->

@@ -1,0 +1,453 @@
+<div class="oldUI">
+<section style="margin-top: 10px; margin-bottom: 10px;" *ngIf="isLangInstitue ">
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+    <div class="field-radio-wrapper">
+      <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="false" id='Active'
+        (ngModelChange)="getAllSubjectList()">
+      <label for="Active">Active</label>
+    </div>
+  </div>
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2">
+    <div class="field-radio-wrapper">
+      <input class="form-radio" type="radio" name="isActive" [(ngModel)]="activeList" [value]="true" id='InActive'
+        (ngModelChange)="getAllSubjectList()">
+      <label for="InActive">In Active</label>
+    </div>
+  </div>
+  <div class="c-sm-2 c-xs-2 c-lg-2 c-md-2"></div>
+  <div class="c-lg-6 c-md-6 c-sm-6" style="float: right;margin-right: 1%;width: 28%;">
+    <input #searchVal type="text" class="searchBox" placeholder="Search" id="search" name="searchData "
+      (keyup)="searchInList(searchVal)">
+    <button class="btn" *ngIf="(isLangInstitue != true )" (click)="openPopup()" value="Add Subject">Add
+      Subject</button>
+
+    <button class="btn" *ngIf="(isLangInstitue == true )" (click)="openPopup()" value="Add Course">Add
+      Course</button>
+
+  </div>
+</section>
+
+<section class="" *ngIf="isLangInstitue ">
+  <div class="">
+    <div class="">
+      <table class="tableBodyScroll">
+        <thead *ngIf="schoolModel">
+          <tr>
+            <th>
+              <label style="cursor:pointer;">ID</label>
+            </th>
+            <th>
+              <label *ngIf="isLangInstitue" style="cursor:pointer;">Master
+                Course</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;">Standard</label>
+            </th>
+            <th style="width: 15%;">
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;">Course</label>
+            </th>
+            <th *ngIf="!isLangInstitue">
+              <label>Subject Code</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Total Marks</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Passing Marks</label>
+            </th>
+
+            <th>
+              <label style="cursor:pointer;">Is Active</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" *ngIf="schoolModel">Optional</label>
+            </th>
+            <th>
+              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
+                style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down"
+                style="font-family: FontAwesome;"></i>
+              <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
+            </th>
+            <th>
+              <label>Action</label>
+            </th>
+          </tr>
+        </thead>
+        <thead *ngIf="!schoolModel">
+          <tr>
+            <th>
+              <label style="cursor:pointer;" (click)="sortTable('subject_id')">ID</label>
+            </th>
+            <th style="width: 20%;">
+              <label *ngIf="isLangInstitue" style="cursor:pointer;" (click)="sortTable('standard_name')">Master
+                Course</label>
+              <label *ngIf="!isLangInstitue" style="cursor:pointer;"
+                (click)="sortTable('standard_name')">Standard</label>
+            </th>
+            <th style="width: 20%;">
+              <label *ngIf="(isLangInstitue != true )" style="cursor:pointer;"
+                (click)="sortTable('subject_name')">Subject</label>
+              <label *ngIf="(isLangInstitue == true )" style="cursor:pointer;"
+                (click)="sortTable('subject_name')">Course</label>
+            </th>
+            <th *ngIf="!isLangInstitue">
+              <label>Subject Code</label>
+            </th>
+            <th>
+              <label style="cursor:pointer;" (click)="sortTable('is_active')">Is Active</label>
+            </th>
+            <th>
+              <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
+                style="font-family: FontAwesome;"></i>
+              <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down"
+                style="font-family: FontAwesome;"></i>
+              <label style="cursor:pointer;" (click)="sortTable('created_date')">Added Date</label>
+            </th>
+            <th>
+              <label>Action</label>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody *ngIf="(subjectList.length != 0) && schoolModel"
+          [ngStyle]="{'max-height':createNewSubject == true ? '40vh' : '55vh','min-height':createNewSubject == true ? '40vh' : '55vh' }">
+          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
+            *ngFor="let row of subjectList; let i = index; trackBy: i;">
+            <td>
+              {{row.subject_id}}
+            </td>
+
+            <td>
+              {{row.standard_name}}
+            </td>
+
+            <td class="view-comp" style="width: 15%;">
+              {{row.subject_name}}
+            </td>
+            <td class="edit-comp" style="width: 15%;">
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label"
+                  style="width: 100%;text-align: left;">
+              </div>
+            </td>
+            <td class="view-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              {{row.subject_code}}
+            </td>
+
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.final_marks}}
+            </td>
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.passing_marks}}
+            </td>
+            <td class="edit-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              <div class="field-wrapper">
+                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code"
+                  name="label">
+              </div>
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              {{row.is_active}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+
+            <td class="view-comp" *ngIf="schoolModel" style="padding-left: 20px;">
+              {{row.is_optional}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_optional">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+
+            <td style="padding-left: 20px;">
+              {{row.created_date | date:'dd-MMM-yy'}}
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;color:#0084f6;    font-size: 14px;"
+                (click)="editSubject(row)" title="Edit"></i>
+              <i class="fa fa-trash" style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
+                (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
+            </td>
+            <td class="edit-comp">
+              <i class="fa fa-floppy-o" style="cursor: pointer;margin-right: 10px; font-size: 14px;color: green;"
+                (click)="updateRow(row,i)" title="Save" aria-hidden="true"></i>
+              <i class="fa fa-times" style="cursor: pointer;font-size: 14px;color: red;" (click)="cancelRow(i)"
+                title="Cancel" aria-hidden="true"></i>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="(subjectList.length != 0) && !schoolModel"
+          [ngStyle]="{'max-height':createNewSubject == true ? '40vh' : '55vh','min-height':createNewSubject == true ? '40vh' : '55vh' }">
+          <tr (click)="rowSelectEvent(i)" [class.selected]="i == selectedRow" class="displayComp" id="row{{i}}"
+            *ngFor="let row of subjectList; let i = index; trackBy: i;">
+            <td>
+              {{row.subject_id}}
+            </td>
+
+            <td style="width: 20%;">
+              {{row.standard_name}}
+            </td>
+
+            <td class="view-comp" style="width: 20%;">
+              {{row.subject_name}}
+            </td>
+            <td class="edit-comp" style="width: 20%;">
+              <div class="field-wrapper">
+                <input type="text" class="form-ctrl" [(ngModel)]="row.subject_name" name="label"
+                  style="width: 100%;text-align: left;">
+              </div>
+            </td>
+            <td class="view-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              {{row.subject_code}}
+            </td>
+            <td class="edit-comp" *ngIf="!isLangInstitue" style="padding-left: 20px;">
+              <div class="field-wrapper">
+                <input type="text" [maxlength]="subjectCodeCharLimit" class="form-ctrl" [(ngModel)]="row.subject_code"
+                  name="label">
+              </div>
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              {{row.is_active}}
+            </td>
+            <td class="edit-comp" style="padding-left: 20px;">
+              <div class="field-wrapper has-value">
+                <select id="issearchable" class="form-ctrl" name="issearchable" [(ngModel)]="row.is_active">
+                  <option value="Y">Yes</option>
+                  <option value="N">No</option>
+                </select>
+              </div>
+            </td>
+            <td style="padding-left: 20px;">
+              {{row.created_date | date:'dd-MMM-yy'}}
+            </td>
+
+            <td class="view-comp" style="padding-left: 20px;">
+              <i class="fa fa-pencil" aria-hidden="true" style="cursor: pointer;color:#0084f6;    font-size: 14px;"
+                (click)="editSubject(row)" title="Edit"></i>
+              <i class="fa fa-trash" style="cursor: pointer;color: red;font-size: 14px;margin-left: 8px;"
+                (click)="deleteRow(row)" aria-hidden="true" title="Delete"></i>
+            </td>
+            <td class="edit-comp">
+              <i class="fa fa-floppy-o" style="cursor: pointer;margin-right: 10px; font-size: 14px;color: green;"
+                (click)="updateRow(row,i)" title="Save" aria-hidden="true"></i>
+              <i class="fa fa-times" style="cursor: pointer;font-size: 14px;color: red;" (click)="cancelRow(i)"
+                title="Cancel" aria-hidden="true"></i>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="subjectList.length == 0 && dataStatus === 1">
+          <tr *ngFor="let dummy of dummyArr">
+            <td *ngFor="let c of columnMaps">
+              <div class="skeleton">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="(subjectList.length == 0 && dataStatus === 2)">
+          <tr>
+            <td colspan="6">
+              No data found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
+  </div>
+
+</section>
+</div>
+<div class="modal fade" id="addUpdateSubjectdialog" role="dialog" tabindex="-1" style="margin-top: 3%;" role="dialog"
+data-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 class="modal-title" style="margin-bottom: -5px;">{{isNewSubjectAdd ? 'Add' : 'Update'}} {{(isLangInstitue != true ) ? 'Subject' :'Course'}}
+        </h3>
+      </div>
+      <div class="modal-body">
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="masterCourse">Standard Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="masterCourse">Master Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <div class="dropdown-div">
+            <select id="masterCourse" class="form-ctrl" [disabled]="!isNewSubjectAdd" [(ngModel)]="newSubjectDetails.standard_id">
+              <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
+              <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+                {{ (opt.standard_name?.length > 70) ? (opt.standard_name | slice:0:70) + '...' : opt.standard_name }}
+              </option>
+            </select>
+            <!-- <p>* Example English, Science</p> -->
+          </div>
+        </div>
+        <div class="field-wrapper">
+          <label *ngIf="(isLangInstitue != true )" for="subname">
+            Subject Name
+            <span class="text-danger">*</span>
+          </label>
+          <label *ngIf="(isLangInstitue == true )" for="subname">
+            Course Name
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" [(ngModel)]="newSubjectDetails.subject_name" id="subname" name="label">
+          <!-- <p>(Eg. Maths or Science or Accounts)</p> -->
+        </div>
+        <div class="field-wrapper">
+          <label for="sub_code">
+            Subject Code
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" onkeypress="return event.charCode != 32" [maxlength]="subjectCodeCharLimit" class="form-ctrl"
+            [(ngModel)]="newSubjectDetails.subject_code" id="sub_code" name="sub_code">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="total_marks">Total Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" class="form-ctrl"
+            [(ngModel)]="newSubjectDetails.total_marks" id="total_marks" name="total_marks">
+        </div>
+        <div class="field-wrapper" *ngIf="schoolModel">
+          <label for="passing_marks">Passing Marks
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" class="form-ctrl" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+            [(ngModel)]="newSubjectDetails.passing_marks" id="passing_marks" name="passing_marks">
+        </div>
+        <div class="field-wrapper">
+          <div class="field-checkbox-wrapper">
+            <input type="checkbox" value="" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_active"
+              id="isAct">
+            <label for="isAct">Is Active</label>
+          </div>
+          <div class="field-checkbox-wrapper" *ngIf="schoolModel">
+            <input type="checkbox" name="check" class="form-checkbox" [(ngModel)]="newSubjectDetails.is_optional"
+              id="is_optional">
+            <label for="is_optional">Set as Optional</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clearData()">Close</button>
+          <button type="button" *ngIf="isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="addNewSubject()">Save</button>
+          <button type="button" *ngIf="!isNewSubjectAdd" class="btn btn-primary create-btn"
+            (click)="updateSubject()">Update</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div id="three" class="tab-pane active" *ngIf="!isLangInstitue ">
+
+  <div class="display space16">
+    <div class="flexc">
+      <div class="field-wrapper" style="margin-right: 15px;">
+        <div class="dropdown-div">
+          <select id="masterCourse" class="form-ctrl stdSelect" style="box-shadow: 0px 4px 10px rgb(0 0 0 / 10%)" [(ngModel)]="standard_id_filter" (ngModelChange)="getAllSubjectList()">
+            <option value="-1"> Select {{isLangInstitue ? 'Master Course Name' : 'Standard'}}</option>
+            <option *ngFor="let opt of standardList" [value]="opt.standard_id">
+              {{ (opt.standard_name?.length > 70) ? (opt.standard_name | slice:0:70) + '...' : opt.standard_name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="checkbox">
+          <span class="checkbox__input">
+            <input type="checkbox" name="is_active_checked" [(ngModel)]="activeList"
+              (ngModelChange)="getAllSubjectList()" id="is_active_checked">
+            <span class="checkbox__control">
+              <svg viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                <path fill='none' stroke='currentColor' d='M1.3 12.91l6.37 6.37L22.79 4.59' />
+              </svg>
+            </span>
+          </span>
+        </label>
+      </div>
+      <div>
+        <label class="labelactive">Is&nbsp;Active</label>
+      </div>
+    </div>
+    <div>
+      <input type="text" class="mr10 input search" #searchVal type="text" placeholder="Search" id="search"
+        name="searchData " (keyup)="searchInList(searchVal)">
+      <button class="blue_button buttonshadow" (click)="openPopup()"> Add {{(isLangInstitue != true ) ? 'Subject' :
+        'Course'}}</button>
+    </div>
+  </div>
+  <br>
+  <div class="subject">
+    <div class="table_head" [ngClass]="{'school_tbody': schoolModel}">
+      <div (click)="sortTable('subject_id')" style="cursor: pointer;">ID</div>
+      <div>{{isLangInstitue ? 'Master Course' : 'Standard'}}</div>
+      <div>{{(isLangInstitue != true ) ? 'Subject' : 'Course'}}</div>
+      <div *ngIf="!isLangInstitue">Subject Code</div>
+      <div *ngIf="schoolModel">Total Marks</div>
+      <div *ngIf="schoolModel">Passing Marks</div>
+      <div *ngIf="schoolModel">Optional</div>
+      <div (click)="sortTable('created_date')" style="cursor: pointer;">
+        <i *ngIf="sortingDir == 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-up"
+          style="font-family: FontAwesome;"></i>
+        <i *ngIf="sortingDir != 'asc'" (click)="sortTable('created_date')" class="fas fa-caret-down"
+          style="font-family: FontAwesome;"></i>
+        Added Date
+      </div>
+      <div>Actions</div>
+    </div>
+    <div class="scroll" *ngIf="(subjectList.length != 0)">
+      <div class="table_body" [ngClass]="{'school_tbody': schoolModel}" *ngFor="let row of subjectList; let i = index; trackBy: i;">
+        <div style="padding-left: 20px;">{{row.subject_id}}</div>
+        <div>{{row.standard_name}}</div>
+        <div>{{row.subject_name}}</div>
+        <div *ngIf="!isLangInstitue">{{row.subject_code}}</div>
+        <div *ngIf="schoolModel">{{row.final_marks}}</div>
+        <div *ngIf="schoolModel">{{row.passing_marks}}</div>
+        <div *ngIf="schoolModel">{{row.is_optional}}</div>
+        <div>{{row.created_date | date:'dd-MMM-yy'}}</div>
+        <div class="actionImg">
+          <img src="../../../assets/img2/edit.svg" (click)="editSubject(row)" class="mr10 table_action">
+          <img src="../../../assets/img2/delete.svg" (click)="deleteRow(row)" class="table_action">
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- Paginator Here -->
+  <div class="row filter-res pagination" style="width: 100%;">
+    <div class="c-lg-12 c-md-12 c-sm-12 align-right">
+      <pagination (goPage)="fetchTableDataByPage($event)" (goNext)="fetchNext()" (goPrev)="fetchPrevious()"
+        [pagesToShow]="10" [page]="PageIndex" [perPage]="displayBatchSize" [count]="totalRow" [sizeArr]="sizeArr"
+        (sizeChange)="updateTableBatchSize($event)">
+      </pagination>
+    </div>
+  </div>
+</div>

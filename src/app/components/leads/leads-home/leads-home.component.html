@@ -1,0 +1,180 @@
+<section style="padding-right: 2%;;">
+  <div class="status-wise-container">
+    <div class="status-wise-header-container">
+      <div class="header-title">
+        <span>Lead</span>
+      </div>
+      <div class="filter-date-container">
+        <button class="pull-right" (click)="openCalendar('enqWidDate')">
+
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <g fill="#0084F6" fill-rule="nonzero">
+              <path
+                d="M18.667 5.5H16.5v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1h-3v-1a.5.5 0 1 0-1 0v1H5.333C4.598 5.5 4 6.096 4 6.833v11.833C4 19.403 4.597 20 5.333 20h13.334c.736 0 1.333-.597 1.333-1.334V6.833c0-.737-.596-1.333-1.333-1.333zM19 18.666c0 .184-.15.334-.333.334H5.333A.334.334 0 0 1 5 18.666V6.833c0-.184.15-.333.333-.333H7.5v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h3v1a.5.5 0 1 0 1 0v-1h2.167c.183 0 .333.15.333.333v11.833z" />
+              <path
+                d="M7.5 10h2v1.5h-2zM7.5 12.5h2V14h-2zM7.5 15h2v1.5h-2zM11 15h2v1.5h-2zM11 12.5h2V14h-2zM11 10h2v1.5h-2zM14.5 15h2v1.5h-2zM14.5 12.5h2V14h-2zM14.5 10h2v1.5h-2z" />
+            </g>
+          </svg>
+        </button>
+        <input type="text" value="" id="enqWidDate" class="widgetDatepicker bsDatepicker" name="enqWidDate"
+          [(ngModel)]="enquiryDate" (ngModelChange)="updateEnqChartByDate($event)" readonly="true" bsDaterangepicker />
+        <span class="enquiry-state-date pull-right">
+          {{getEnqStartDate()| date: 'dd MMM yyyy'}} To {{getEnqEndDate()| date: 'dd MMM yyyy'}}
+        </span>
+      </div>
+    </div>
+    <div class="status-wise-dashboard-container">
+
+      <div class="status-wise-dashboard-item all">
+        <div class="count-container">
+          <span>{{totalEnquiryCount}}</span>
+        </div>
+        <div class="dashboard-item-name">
+          <span>All Enquiry</span>
+        </div>
+      </div>
+      <div class="status-wise-dashboard-item hot">
+        <div class="count-container">
+          <span>{{enquiryStatus.Open}}</span>
+        </div>
+        <div class="dashboard-item-name">
+          <span>Open</span>
+        </div>
+      </div>
+      <div class="status-wise-dashboard-item pending">
+        <div class="count-container">
+          <span>{{enquiryStatus['In Progress']}}</span>
+        </div>
+        <div class="dashboard-item-name">
+          <span>In Progress</span>
+        </div>
+      </div>
+
+
+      <div class="status-wise-dashboard-item admitted">
+        <div class="count-container">
+          <span>{{enquiryStatus['Student Admitted']}}</span>
+        </div>
+        <div class="dashboard-item-name">
+          <span> Admitted</span>
+        </div>
+      </div>
+      <div class="status-wise-dashboard-item not-converted">
+        <div class="count-container">
+          <span>{{enquiryStatus.Closed}}</span>
+        </div>
+        <div class="dashboard-item-name">
+          <span>Closed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section>
+    <div class="item_type_2" *ngIf="jsonRolesFlags.isShowAddEnquiry || jsonRolesFlags.isShowDataSetup ">
+
+      <div class="dropdown dropleft">
+        <button style="background: #0084f6;color: white;" class="btn btn-light btn-xs dropdown-toggle round"
+          type="button" (click)="toggleActionMenu($event)" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          +
+        </button>
+        <div class="dropdown-menu horizontal-menu" aria-labelledby="actionMenu">&nbsp;
+          <div style="margin-top: -8%;"><a routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry"
+              title="Add enquiries one by one or Upload in bulk with XLS" class="dropdown-item">&nbsp;&nbsp;Add
+              Enquiry&nbsp;
+            </a></div><br>
+          <div style="margin-top: -5%;margin-bottom: 2%;"><a routerLink="/view/leads/setup"
+              *ngIf="jsonRolesFlags.isShowDataSetup" title="Set up sources of leads and enquiry closing reasons"
+              class="dropdown-item">&nbsp;&nbsp;Add
+              Closing
+              Reason</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="leads-menu-section-container"><br><br><br><br><br>
+      <!-- <div class="leads-menu-item" routerLink="/view/leads/setup" *ngIf="jsonRolesFlags.isShowDataSetup">
+        <div class="menu-title">
+          <img src="./assets/images/leads/data-setup.svg" alt="data setup">
+          <span>Data Setup</span>
+        </div>
+        <div class="menu-description">
+          <span>Set up sources of leads and enquiry closing reasons.</span>
+        </div>
+      </div> -->
+      <div class="leads-menu-item" routerLink="/view/leads/campaign" *ngIf="jsonRolesFlags.isShowAddCampaign">
+        <div class="menu-title">
+          <img src="./assets/images/leads/add-campaign.svg" alt="campaign">
+          <span>Add Campaign</span>
+        </div>
+        <div class="menu-description">
+          <span>Upload Leads in bulk to run SMS Marketing Campaigns.</span>
+        </div>
+      </div>
+      <div class="leads-menu-item" routerLink="/view/leads/manage-campaign" *ngIf="jsonRolesFlags.isShowCampaign">
+        <div class="menu-title">
+          <img src="./assets/images/leads/manage-campaign.svg" alt="campaign">
+          <span>Manage Campaign</span>
+        </div>
+        <div class="menu-description">
+          <span>Manage, download and convert leads to enquiries.</span>
+        </div>
+      </div>
+      <!-- <div class="leads-menu-item" routerLink="/view/leads/add" *ngIf="jsonRolesFlags.isShowAddEnquiry">
+        <div class="menu-title">
+          <img src="./assets/images/leads/add-enquiry.svg" alt="add enquiry">
+          <span>Add Enquiry</span>
+        </div>
+        <div class="menu-description">
+          <span>Add enquiries one by one or Upload in bulk with XLS.</span>
+        </div>
+      </div> -->
+      <div class="leads-menu-item" routerLink="/view/leads/enquiry" *ngIf="jsonRolesFlags.isShowManageEnquiry">
+        <div class="menu-title">
+          <img src="./assets/images/leads/manage.svg" alt="manage enq">
+          <span>Manage Enquiry</span>
+        </div>
+        <div class="menu-description">
+          <span>Manage all enquiries, maintain status, conversation history and covert to admissions.</span>
+        </div>
+      </div>
+      <!--<div class="leads-menu-item" routerLink="/view/leads/enquiryReport" *ngIf="jsonRolesFlags.isShowReport">
+        <div class="menu-title" *ngIf="jsonRolesFlags.isShowReport">
+          <img src="./assets/images/leads/reports.svg" alt="reports">
+          <span>Enquiry Report</span>
+        </div>
+        <div class="menu-description">
+          <span>Enquiry reports counsellor wise, source wise and referral wise.</span>
+        </div>
+      </div>-->
+
+     <!-- <div class="leads-menu-item" routerLink="/view/leads/campaign-reports" *ngIf="jsonRolesFlags.isShowCampaignReport">
+        <div class="menu-title">
+          <img src="./assets/images/fee/campaign_sms_report.svg" alt="reports">
+          <span>Campaign Report</span>
+        </div>
+        <div class="menu-description">
+          <span>Campaign reports for the SMS sent to Leads.</span>
+        </div>
+      </div>-->
+      <!-- <div class="leads-menu-item" routerLink="/view/activity/timeTable">
+      <div class="menu-title">
+        <span>Settings</span>
+      </div>
+      <div class="menu-description">
+        <span></span>
+      </div>
+    </div>
+    <div class="leads-menu-item" routerLink="/view/activity/timeTable">
+      <div class="menu-title">
+        <span>Integration</span>
+      </div>
+      <div class="menu-description">
+        <span></span>
+      </div>
+    </div> -->
+    </div>
+  </section>
+</section>

@@ -1,0 +1,163 @@
+.button {
+    padding: 3px 5px;
+    background: #fff;
+    border: 1px solid #ccc;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #0084f6;
+}
+
+table {
+    // border-collapse: collapse;
+    width: 100%;
+    min-height: 58vh;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 5px;
+    word-break: break-word;
+}
+.illustration-container {
+    display: block;
+    .illustration-img {
+      width: 40%;
+      margin-left: 25%;
+      height: 54vh;
+    }
+  }
+tr:nth-child(even) {
+    background-color: white
+}
+tr:nth-child(odd) {
+    background-color: white,
+}
+
+th {
+    background-color: #e0eaec;
+    color: black;
+}
+
+i, th {
+    cursor: pointer;
+}
+
+.backC {
+    color: red;
+}
+
+.dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 100px;
+    bottom: 5px;
+    z-index: 1;
+}
+
+.dropup-content a {
+    color: black;
+    padding: 5px 10px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropup-content a:hover {
+    background-color: #ccc;
+}
+
+.dropup:hover .dropup-content {
+    display: block;
+}
+
+.updateCss {
+    color: green;
+}
+
+.deleteCss {
+    color: red;
+}
+
+input[type=checkbox] {
+    -webkit-appearance: checkbox;
+}
+
+.container-1 {
+    width: 400px;
+    height: 40px;
+    vertical-align: middle;
+    white-space: nowrap;
+    position: relative;
+}
+
+.btnCss {
+    background: #0084f6;
+    border: 1px solid #0084f6;
+    color: #fff;
+}
+
+tr {
+    border-radius: 12px;
+    border-left: 5px solid #e0eaec;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.16);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.tableBodyScroll tbody {
+    display: block;
+    max-height: 55vh;
+    overflow-y: auto;
+    background: #ffffff;
+    // border-radius: 4px;
+    // border-radius: 1px solid rgba(211, 212, 213, 0.5);
+}
+
+.tableBodyScroll thead,
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.checkBoxCss {
+    width: 50px !important;
+    padding: 8px 0px 8px 8px !important;
+}
+
+.schedule-scroller {
+    min-height: 58vh;
+    max-height: 58vh;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.ulCss {
+    // border-bottom: 1px solid rgba(211, 212, 213, 0.5);
+    background: #fff;
+    text-align: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    cursor: pointer;
+    // height: 100px;
+    // padding-top: 25px;
+    // padding-left: 10px;
+    padding: 10px;
+}
+
+.sortIcon {
+    font-size: 14px;
+    color: white;
+}
+
+.inputCss {
+    background: rgba(211, 212, 213, 0.5);
+    border: 1px black solid;
+    height: 30px;
+}

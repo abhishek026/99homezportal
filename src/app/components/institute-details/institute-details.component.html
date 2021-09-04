@@ -1,0 +1,1701 @@
+<div class="clearFix middle-one" style="width: 96%;">
+
+  <section id="divGeneral" class="setting-visible">
+    <h2 class="heading-setting-main">General</h2>
+
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Basic Information</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('0')">
+            <i *ngIf='!dividersObj[0]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[0]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[0]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch3">Institute Name
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch3"
+                [(ngModel)]="instDetails.institute_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch4">Institute Contact
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_phone != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.institute_primary_phone" id="ch4">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch4">Alternate Institute Contact(comma separated)
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper"
+              [ngClass]="{'has-value':instDetails.alternate_institute_primary_contact_numbers != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.alternate_institute_primary_contact_numbers" id="ch4">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch5">Institute Address
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_addr != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.institute_primary_addr" id="ch5">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch6">Email ID
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_primary_email != ''}">
+              <input type="text" id="ch6" class="form-ctrl newDisabled" name="slotNew" disabled
+                [(ngModel)]="instDetails.institute_primary_email">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Owner Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('1')">
+            <i *ngIf='!dividersObj[1]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[1]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[1]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch7">Owner Name(s)
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_name != ''}">
+              <input type="text" id="ch7" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch8">
+              Owner Contact No(s)
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_phone != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_primary_phone" id="ch8">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch9">Owner Primary Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_primary_email != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_primary_email" id="ch9">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch10">Owner Secondary Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.owner_secondary_email != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.owner_secondary_email" id="ch10">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-10 c-md-10 c-sm-10">
+          <h3 class="heading-setting">Admin Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('2')">
+            <i id="showAddBtn" *ngIf='!dividersObj[2]' class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i id="showCloseBtn" *ngIf='dividersObj[2]' style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[2]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch11">Admin Name
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_name != ''}">
+              <input type="text" class="form-ctrl newDisabled" id="ch11" name="slotNew"
+                [(ngModel)]="instDetails.admin_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch12">Admin Contact No.
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_phone != ''}">
+              <input type="text" maxlength="10" id="ch12" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.admin_primary_phone">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch13">Admin Email ID</label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.admin_primary_email != ''}">
+              <input type="text" id="ch11" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.admin_primary_email">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-lg-10 c-sm-10 c-md-10">
+          <h3 class="heading-setting">Additional Details</h3>
+        </div>
+        <div class="c-lg-2 c-sm-2 c-md-2">
+          <a (click)="toggleUpAndDownButton('3')">
+            <i *ngIf='!dividersObj[3]' id="showAddBtn" class="fa fa-angle-up"
+              style="border:none;margin-top: 15px;font-weight: bold;"></i>
+            <i *ngIf='dividersObj[3]' id="showCloseBtn" style="border:none;margin-top: 15px;font-weight: bold;"
+              class="fa fa-angle-down"></i>
+          </a>
+        </div>
+      </div>
+      <div [hidden]='!dividersObj[3]' class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="hour">KYC Document Type</label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.kyc_document_type != ''}">
+              <select id="hour" class="form-ctrl ng-valid ng-touched ng-dirty newDisabled" name="hour"
+                [(ngModel)]="instDetails.kyc_document_type" (ngModelChange)="changeKYCInformation($event)">
+                <option value="-1">Select KYC Document Type</option>
+                <option *ngFor="let opt of kycType" [value]="opt.data_key">
+                  {{opt.data_value}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3" *ngIf="instDetails.kyc_document_type != '-1'">
+            <div class="field-wrapper">
+              <input type="file" class="hide" #idUploadDoc accept="image/gif,image/jpeg,image/jpg,image/png">
+              <button class="btn" (click)="uploadDocument()">Upload Document</button>
+              <i class="fa fa-download hide" *ngIf="instDetails.kyc_document_type!=''"></i>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch14">FB Page Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.fb_page_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.fb_page_url"
+                id="ch14">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Website Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.website_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.website_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Youtube Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.youtube_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.youtube_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">WhatsApp Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.whatsapp_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.whatsapp_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Instagram Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.instagram_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.instagram_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">LinkedIn Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.linkedin_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.linkedin_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Question & Doubt Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.qna_doubt_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.qna_doubt_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Feedback Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.feedback_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.feedback_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Help Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.help_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.help_url"
+                id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Privacy Policy Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.privacy_policy_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.privacy_policy_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Terms and Conditions Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.terms_and_condition_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.terms_and_condition_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Form Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.form_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.form_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Blog Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.blog_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.blog_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Copyright Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.copyright_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.copyright_url" id="ch15">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch15">Twitter Url
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.twitter_url != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.twitter_url" id="ch15">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Plan</h2>
+
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-8">
+          <h3 class="heading-setting">Current Plans</h3>
+        </div>
+        <div class="c-lg-2">
+
+        </div>
+        <div class="c-lg-2" style="padding-right: 5%;">
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="getPaymentDeatils()">View
+            History</a>
+        </div>
+      </div>
+
+      <div class="table-scroll-wrapper show-left">
+        <div class="table table-responsive">
+          <table class="assign-width">
+
+            <thead>
+              <tr>
+                <th>
+                  Plan Name
+                </th>
+                <th>
+                  Students Limit
+                </th>
+                <th>
+                  Expiry Date
+                </th>
+                <th>
+                  No. of SMS
+                </th>
+                <th>
+                  Download Limit(GB)
+                </th>
+                <th>
+                  Price
+                </th>
+                <th>
+                  Tax(%)
+                </th>
+                <th>
+                  Total Price (Rs.)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="rowPlan{{i}}" *ngFor="let row of planDetail; let i = index; trackBy: i;">
+                <td>
+                  {{row.plan_name}}
+                </td>
+                <td>
+                  {{row.student_limit}}
+                </td>
+                <td>
+                  {{row.expiry_months}}
+                </td>
+                <td>
+                  {{row.sms_allocation}}
+                </td>
+                <td>
+                  {{row.download_limit}}
+                </td>
+                <td>
+                  {{row.subscription_price}}
+                </td>
+                <td>
+                  {{row.tax}}
+                </td>
+                <td>
+                  {{row.total_price}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-lg-10">
+          <h3 class="heading-setting">Additional Plans</h3>
+        </div>
+      </div>
+
+      <div class="table-scroll-wrapper show-left">
+        <div class="table table-responsive">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Option Name
+                </th>
+                <th>
+                  Price(1st Time in Rs)
+                </th>
+                <th>
+                  Price (2nd Time Onwards in Rs)
+                </th>
+                <th>
+                  Tax
+                </th>
+                <th>
+                  Total Price (Rs.)
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="rowPlan{{i}}" *ngFor="let row of instituteOptions; let i = index; trackBy: i;">
+                <td>
+                  {{row.option_name}}
+                </td>
+                <td>
+                  {{row.subscription_price}}
+                </td>
+                <td>
+                  {{row.renewal_price}}
+                </td>
+                <td>
+                  {{row.tax}}
+                </td>
+                <td>
+                  {{row.total_price}}
+                </td>
+              </tr>
+              <tr *ngIf="instituteOptions.length == 0">
+                <td colspan="5">
+                  No Option Available
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row show-left">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting ">
+          <label for="ch16">Total Price (Rs.)
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper"
+            [ngClass]="{'has-value':instDetails.total_price_based_on_chosen_plan_and_option >= '0'}">
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.total_price_based_on_chosen_plan_and_option" id="ch16" disabled>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">General Settings</h2>
+
+    <div class="general-setting">
+      <div class="row">
+        <div class="c-lg-10">
+          <h3 class="heading-setting">Basic Information</h3>
+        </div>
+      </div>
+      <div class="show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch17">Institute code
+              <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_name != ''}">
+              <input type="text" disabled class="form-ctrl newDisabled" name="slotNew" id="ch17"
+                [(ngModel)]="instDetails.institute_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch18">Generate student id manually
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <label class="switch switch-n">
+              <input type="checkbox" [checked]="!(this.instDetails.is_student_displayId_manual == 0)"
+                (click)="checkInputType($event)" name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+              <span class="slider round"></span>
+            </label>
+          </div>
+        </div>
+        <div class="row" *ngIf="(showPrefix == true)">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch20">Student Id Prefix
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="instDetails.student_id_prefix" id="ch20">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch21">Tag Line
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.tag_line != ''}">
+              <input type="text" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.tag_line"
+                id="ch21">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="logo_url">Fee Logo URL
+            </label>
+          </div>
+          <div class="c-sm-5 c-md-5 c-lg-5">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.logo_url != ''}">
+              <input type="text" [disabled]="instDetails.institute_logo!='' && instDetails.institute_logo!=null"
+                style="width: 91%;" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.logo_url"
+                id="logo_url">
+            </div>
+          </div>
+          <div class="c-md-1" *ngIf="instDetails.logo_url!=''"
+            style="padding: 0;width: 4%;margin-top: 1%;margin-right: 5px;">
+            <img src="{{instDetails.logo_url}}">
+          </div>
+          <div class="c-md-1" style="padding: 0;width: 2%;margin-top: 1%;">OR</div>
+          <div class="c-sm-2 c-md-2 c-lg-2">
+            <div class="field-wrapper" [ngClass]="{'has-value':instDetails.institute_logo != ''}">
+              <input type="file" style="width: 100%;"
+                [disabled]="instDetails.logo_url!='' && instDetails.logo_url!=null"
+                accept="image/gif,image/jpeg,image/jpg,image/png" class="form-ctrl newDisabled" (change)="file($event)"
+                name="slotNew" [(ngModel)]="instDetails.institute_logo" id="institute_logo">
+            </div>
+            <span style="font-size: 12px;">(Size 300X200)</span>
+          </div>
+          <div class="c-md-1 clearFile" (click)="clearFile()">X</div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch18">Single Device Login
+              <div class="questionInfo inline-relative">
+                <span class="qInfoIcon i-class">i</span>
+                <div class="tooltip-box-field" style="white-space: break-spaces;">
+                  Allows Students to login only from one device at a time. Note: This setting is only working for App, for white labelled websites it will not work.
+                </div>
+              </div>
+            </label>
+          </div>
+          <div class="c-sm-1 c-md-1 c-lg-1">
+            <label class="switch switch-n">
+              <input type="checkbox" [checked]="(instDetails.single_device_login)" (click)="checkSingleDevice($event)"
+                [(ngModel)]="singleDevice" name="sFilter" class="form-radio" value="singleDeviceLogin"
+                id="singleDeviceLogin">
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting" *ngIf="singleDevice">
+            <input type="checkbox" style="-webkit-appearance: checkbox;" [checked]="(instDetails.distinct_device_login)"
+              [(ngModel)]="instDetails.distinct_device_login" name="sFilter" class="form-radio"
+              value="distinct_device_login" id="distinct_device_login">
+            <label for="distinct_device_login">SSO (restriction on multiple devices)
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">SMS Settings</h2>
+
+    <div class="general-setting show-left">
+
+      <!-- <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch90">SMS sender id
+            <span class="text-danger">*</span>
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper">
+            <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.sms_shortcode" id="ch90">
+          </div>
+        </div>
+
+      </div> -->
+      <div class="row">
+        <div class="row">
+          <div class="c-lg-8 c-sm-8 c-md-8">
+            <h3 class="heading-setting">Transactional SMS</h3>
+          </div>
+          <div class="c-lg-4 c-sm-4 c-md-4" style="padding-right: 5%;">
+            <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS
+              Allocation History
+            </a>
+          </div>
+        </div>
+
+        <div class="table table-responsive show-left">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Allocated Quota
+                </th>
+                <th>
+                  Used Quota
+                </th>
+                <th>
+                  Available Quota
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {{instDetails.institute_sms_quota}}
+                </td>
+                <td>
+                  {{instDetails.institute_sms_quota_used}}
+                </td>
+                <td>
+                  {{instDetails.institute_sms_quota_available}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="row">
+          <div class="c-lg-10">
+            <h3 class="heading-setting">Promotional SMS</h3>
+          </div>
+        </div>
+        <div class="table table-responsive show-left">
+          <table class="assign-width">
+            <thead>
+              <tr>
+                <th>
+                  Allocated Quota
+                </th>
+                <th>
+                  Used Quota
+                </th>
+                <th>
+                  Available Quota
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota}}
+                </td>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota_used}}
+                </td>
+                <td>
+                  {{instDetails.institute_campaign_sms_quota_available}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Email Settings</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch28">Accounts Email sender id
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.email_sender_id != ''}">
+            <input type="text" class="form-ctrl newDisabled" id="ch28" name="slotNew"
+              [(ngModel)]="instDetails.email_sender_id" style="float: left;">
+            <div class="questionInfo inline-relative" style="margin-top: 5px;">
+              <span class="qInfoIcon i-class" style="border-color: #0084f6;color: #0084f6;">?</span>
+              <div class="tooltip-box-field">
+                For sending emails take approval <br>
+                from AWS server for which you <br>
+                have to contact with support team <br>
+                or drop a mail.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="notification_email_sender_id">Notification Email sender id
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.notification_email_sender_id != ''}">
+            <input type="text" class="form-ctrl newDisabled" id="notification_email_sender_id" name="slotNew"
+              [(ngModel)]="instDetails.notification_email_sender_id">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">FEE</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch29">GSTIN
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.gst_in != null }">
+            <input type="text" id="ch29" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.gst_in">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Storage</h2>
+
+    <div class="general-setting show-left">
+      <div class="row" *ngIf="(storageInfo != '')">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch30">Total Storage
+          </label>
+
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value': (storageInfo.limit_allocated != '') }">
+            <input type="text" disabled id="ch30" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="storageInfo.storage_allocated">
+          </div>
+        </div>
+        <div class="c-lg-3 c-md-3 c-sm-3" style="padding: 2%;">
+          <a style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit
+            Allocation History</a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch31">Used
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.sms_shortcode != ''}">
+            <input type="text" id="ch31" disabled class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="storageInfo.limit_allocated">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Mobile app details</h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="logo_url">App Home Page URL
+          </label>
+        </div>
+        <div class="c-sm-5 c-md-5 c-lg-5">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement_image_url != ''}">
+            <input type="file" style="width: 91%;" accept="image/gif,image/jpeg,image/jpg,image/png"
+              class="form-ctrl newDisabled" (change)="uploadFile($event)" name="slotNew"
+              [(ngModel)]="announcement_image_url" id="announcementImageURL">
+          </div>
+          <span style="font-size: 12px;">(Size 300X200)</span>
+        </div>
+        <div class="c-md-1 clearFile" (click)="clearAnnouncementFile()">X</div>
+        <div class="c-md-1 announcementImg"
+          *ngIf="instDetails.announcement_image_url!='' && instDetails.announcement_image_status!=3">
+          <img src="{{new_announcement_image_url}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch32">Announcement
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6" style="margin-top: 10px;width: 39%;">
+          <span> <span style="font-weight: 600;"> Note - </span> Don’t use ‘#' anywhere in the announcement. If on the
+            link '#’ comes please change to short URL through bitly.</span>
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.announcement != ''}">
+            <!-- <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew" [(ngModel)]="instDetails.announcement"> -->
+            <editor [init]="editorConf" apiKey="xix5hq71alw64jp2ufl9fo6nddnhg91n6h7w2afn043v538t"
+              [(ngModel)]="instDetails.announcement"></editor>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch33">About Us
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.about_us_text != ''}">
+            <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.about_us_text">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <div class="field-checkbox-wrapper" style="width: 100%">
+            <input type="checkbox" value="" name="enable_student_app_url" class="form-checkbox"
+              [(ngModel)]="instDetails.enable_student_app_url" id="enable_student_app_url">
+            <label for="enable_student_app_url">Enable student app URL
+            </label>
+          </div>
+        </div>
+        <div class="c-sm-1 c-md-1 c-lg-1 main-setting">
+          <label for="ch34">App Url
+          </label>
+        </div>
+        <div class="c-sm-5 c-md-5 c-lg-5" style="padding: 0;">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_app_url != ''}">
+            <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+              [disabled]="!instDetails.enable_student_app_url" style="width: 69%;"
+              [(ngModel)]="instDetails.student_app_url">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="student_app_ios_url">Student IOS App URL
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.student_ios_app_url != ''}">
+            <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.student_ios_app_url" class="form-ctrl"
+              id="student_app_ios_url">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="share_app_url">Share App URL(Android)
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_app_url != ''}">
+            <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_app_url" class="form-ctrl"
+              id="share_app_url">
+          </div>
+        </div>
+      </div>
+      <!-- Added By Ashwini Gupta   ticket 1254 -->
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="share_app_url">Share App URL(iOS)
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value' : instDetails.share_ios_app_url != ''}">
+            <input type="textbox" style="width: 75%;" [(ngModel)]="instDetails.share_ios_app_url" class="form-ctrl"
+              id="share_ios_app_url">
+          </div>
+        </div>
+      </div>
+      <!-- End -->
+    </div>
+
+    <h2 class="heading-setting-main" *ngIf="instDetails.is_proctur_live_recording_allow == 1">Live class</h2>
+
+    <div class="general-setting show-left" *ngIf="instDetails.is_proctur_live_recording_allow == 1">
+      <div class="row" style="margin: 0;margin-top: 10px;margin-bottom: 10px;">
+        <div class="c-sm-3 c-md-3 c-lg-3">Proctur Live Recorded Session Download Visibility
+          <label for="proctur_live_recorded_session_download_visibilty" style="font-size: 14px;padding-left: 5px;">
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.student != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.student" name="proctur_live_student"
+              id="proctur_live_student">
+            <label for="proctur_live_student">Student</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.teacher != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.teacher" name="proctur_live_teacher"
+              id="proctur_live_teacher">
+            <label for="proctur_live_teacher">Teacher</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.admin != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.admin" name="proctur_live_admin"
+              id="proctur_live_admin">
+            <label for="proctur_live_admin">Admin</label>
+          </div>
+          <div class="field-wrapper c-md-3"
+            [ngClass]="{'has-value':proctur_live_recorded_session_download_visibilty.openApp != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_download_visibilty.openApp" name="proctur_live_open_app"
+              id="proctur_live_open_app">
+            <label for="proctur_live_open_app">Open App</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="margin: 0;">
+        <div class="c-sm-3 c-md-3 c-lg-3">Proctur Live Recorded Session View Visibility
+          <label for="proctur_live_recorded_session_view_visibility" style="font-size: 14px;padding-left: 5px;">
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.student != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.student" name="proctur_view_student"
+              id="proctur_view_student">
+            <label for="proctur_view_student">Student</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.teacher != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.teacher" name="proctur_view_teacher"
+              id="proctur_view_teacher">
+            <label for="proctur_view_teacher">Teacher</label>
+          </div>
+          <div class="field-wrapper c-md-2"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.admin != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.admin" name="proctur_view_admin"
+              id="proctur_view_admin">
+            <label for="proctur_view_admin">Admin</label>
+          </div>
+          <div class="field-wrapper c-md-3"
+            [ngClass]="{'has-value':proctur_live_recorded_session_view_visibility.openApp != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="proctur_live_recorded_session_view_visibility.openApp" name="proctur_view_open_app"
+              id="proctur_view_open_app">
+            <label for="proctur_view_open_app">Open App</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main" *ngIf="instDetails.enable_jd_integration == 1">Integration</h2>
+
+    <div class="general-setting show-left" *ngIf="instDetails.enable_jd_integration == 1">
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="jd_contract_id">JustDial Contract ID
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.jd_contract_id != ''}">
+            <input type="textbox" id="jd_contract_id" class="form-ctrl newDisabled" name="jd_contract_id"
+              [(ngModel)]="instDetails.jd_contract_id">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="heading-setting-main">Miscellaneous setting </h2>
+
+    <div class="general-setting show-left">
+      <div class="row">
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.enable_faculty_all_file_access != ''}">
+            <input type="checkbox" style="-webkit-appearance: checkbox;"
+              [(ngModel)]="instDetails.enable_faculty_all_file_access" name="enable_faculty_all_file_access"
+              id="enable_faculty_all_file_access">
+            <label for="enable_faculty_all_file_access" style="font-size: 14px;padding-left: 5px;">File Manager
+              (Teacher)
+            </label>
+            <div class="questionInfo inline-relative">
+              <span class="qInfoIcon i-class">i</span>
+              <div class="tooltip-box-field">
+                After enabling teacher can view all<br> files in file manager but they can’t<br> delete and download the
+                files.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch21">Daily reporting SMS
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_mobile != ''}">
+            <small style="font-size: 12px;">(Enter contact(s) number with comma
+              separated.)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_mobile" id="ch21">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+          <label for="ch21">Daily reporting Email
+          </label>
+        </div>
+        <div class="c-sm-6 c-md-6 c-lg-6">
+          <div class="field-wrapper" [ngClass]="{'has-value':instDetails.eod_report_multiple_emails != ''}">
+            <small style="font-size: 12px;">(Enter email
+              id(s) with comma separated)</small>
+            <input type="text" class="form-ctrl newDisabled" name="slotNew"
+              [(ngModel)]="instDetails.eod_report_multiple_emails" id="ch21">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="instituteDetailsAll?.zoom_enabled && instituteDetailsAll?.zoom_account_type == 'CLIENT'">
+      <h2 class="heading-setting-main">Zoom details &nbsp;<span *ngIf="instituteDetailsAll?.no_of_zoom_hosts"
+          style="font-weight: normal;">(You can add upto {{instituteDetailsAll?.no_of_zoom_hosts}} hosts.)</span></h2>
+
+      <div class="general-setting show-left">
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch32">Zoom Account Name
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.account_name != ''}">
+              <input type="textbox" id="ch32" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.account_name">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch33">Zoom Email ID
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.email_id != ''}">
+              <input type="textbox" id="ch33" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.email_id">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">API Key
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_key != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_api_key">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">API Secret
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_api_secret != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_api_secret">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">JWT Token
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.jwt_access_token != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.jwt_access_token">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">SDK Key
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_key != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.sdk_api_key">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">SDK Secret
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.sdk_api_secret != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.sdk_api_secret">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">User Limit
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6">
+            <div class="field-wrapper" [ngClass]="{'has-value':zoomOBJ.user_limit != ''}">
+              <input type="textbox" id="ch34" class="form-ctrl newDisabled" name="slotNew"
+                [(ngModel)]="zoomOBJ.user_limit">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="ch34">Zoom Recording Enable
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6" style="margin:1% -1% 0% 0%">
+            <div class="field-wrapper">
+              <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="zoomOBJ.enable_recording"
+                name="enable_recording" id="enable_recording">
+            </div>
+          </div>
+        </div>
+
+        <div class="row" *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+          <div class="c-sm-3 c-md-3 c-lg-3 main-setting">
+            <label for="enable_attendance">Enable zoom Attendance 
+            </label>
+          </div>
+          <div class="c-sm-6 c-md-6 c-lg-6" style="margin:1% -1% 0% 0%">
+            <div class="field-wrapper">
+              <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="zoomOBJ.enable_attendance"
+                name="enable_attendance" id="enable_attendance">
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="c-sm-3 c-md-3 c-lg-3" style="float: right;">
+            <button class="btn" (click)="ClearZoomJSON()">Cancel</button>
+            <button class="btn fullBlue" (click)="saveZoomDetails()"
+              [disabled]="!(instituteDetailsAll?.no_of_zoom_hosts > zoomDetails?.length)">Add</button>
+          </div>
+        </div>
+        <div class="row">
+          <!-- <div class="row">
+          <div class="c-lg-10">
+            <h3 class="heading-setting">Promotional SMS</h3>
+          </div>
+        </div> -->
+          <div class="table table-responsive show-left" style="margin-top: 15px;">
+            <table class="assign-width zoomTable">
+              <thead>
+                <tr>
+                  <th>
+                    Zoom Account Name
+                  </th>
+                  <th>
+                    Zoom Email ID
+                  </th>
+                  <th>
+                    API Key
+                  </th>
+                  <th>
+                    API Secret
+                  </th>
+                  <th style="width: 20%;">
+                    JWT Token
+                  </th>
+                  <th>
+                    SDK Key
+                  </th>
+                  <th>
+                    SDK Secret
+                  </th>
+                  <th>
+                    User Limit
+                  </th>
+                  <th>
+                    Zoom Recording Enable
+                  </th>
+                  <th *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+                    Enable zoom Attendance
+                  </th>
+                  <th>
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="zoomDetails.length>0">
+                <tr class="displayComp" id="data{{i}}" *ngFor="let data of zoomDetails;let i = index">
+                  <td>
+                    <span class="view-comp" title="{{data.account_name}}">
+                      {{data.account_name}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.account_name" class="form-ctrl" id="data.account_name">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.email_id}}">
+                      {{data.email_id}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.email_id" class="form-ctrl" id="data.email_id">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.jwt_api_key}}">
+                      {{data.jwt_api_key}}
+                      <!-- {{(data.jwt_api_key?.length > 10) ? (data.jwt_api_key | slice:0:10) + '...' : data.jwt_api_key}} -->
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_api_key" class="form-ctrl" id="data.jwt_api_key">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.jwt_api_secret}}">
+                      {{data.jwt_api_secret}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_api_secret" class="form-ctrl" id="data.jwt_api_secret">
+                      </div>
+                    </span>
+                  </td>
+                  <td style="width: 20%;">
+                    <span class="view-comp" title="{{data.jwt_access_token}}">
+                      {{data.jwt_access_token}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.jwt_access_token" class="form-ctrl"
+                          id="data.jwt_access_token">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.sdk_api_key}}">
+                      {{data.sdk_api_key}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.sdk_api_key" class="form-ctrl" id="data.sdk_api_key">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.sdk_api_secret}}">
+                      {{data.sdk_api_secret}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.sdk_api_secret" class="form-ctrl" id="data.sdk_api_secret">
+                      </div>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp" title="{{data.user_limit}}">
+                      {{data.user_limit}}
+                    </span>
+                    <span class="edit-comp">
+                      <div class="field-wrapper" style="margin:0;padding: 0;">
+                        <input type="text" [(ngModel)]="data.user_limit" class="form-ctrl" id="data.user_limit">
+                      </div>
+                    </span>
+                  </td>
+                  <!-- <td>
+                    <input type="checkbox" [(ngModel)]="data.enable_recording" class="form-ctrl"
+                      id="data.enable_recording">
+                  </td> -->
+                  <td>
+                    <span class="view-comp" title="{{data.enable_recording}}">
+                      {{data.enable_recording}}
+                    </span>
+                    <span class="edit-comp">
+                      <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="data.enable_recording"
+                        name="data.enable_recording" id="data.enable_recording">
+                    </span>
+
+                  </td>
+                  <td *ngIf="instituteDetailsAll?.zoom_attendance_enable">
+                    <span class="view-comp" title="{{data.enable_attendance}}">
+                      {{data.enable_attendance}}
+                    </span>
+                    <span class="edit-comp">
+                      <input type="checkbox" style="-webkit-appearance: checkbox;" [(ngModel)]="data.enable_attendance"
+                        name="data.enable_attendance" id="data.enable_attendance">
+                    </span>
+                  </td>
+                  <td>
+                    <span class="view-comp">
+                      <span title="Edit" class="fa fa-edit" (click)="editZoom(i)" style="color: #0084f6;"></span>
+                    </span>&nbsp;
+                    <span class="edit-comp">
+                      <span (click)="updateZoom(data)"><i _ngcontent-c26="" class="fas fa-check"
+                          style="font-family: FontAwesome ;font-size: 19px;color: #0084f6;" title="Update"></i></span>
+                    </span>&nbsp;
+                    <span class="view-comp">
+                      <span title="Delete" class="fa fa-trash" (click)="deleteZoom(data.id)" style="color: red;"></span>
+                    </span>
+                    <span class="edit-comp">
+                      <span (click)="cancelRow(i)"><i _ngcontent-c26="" class="fas fa fa-times"
+                          style="font-family: FontAwesome ;font-size: 19px;color: red;" title="Cancel"></i></span>
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+              <tbody *ngIf="zoomDetails.length == 0">
+                <tr>
+                  <td colspan="10"> No Data Found</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding-bottom: 10%;"></div>
+    <section class="row setting-footer">
+      <button class="btn" routerLink="/view/dashboard/admin">Cancel</button>
+      <button class="btn fullBlue" (click)="updateAllDetails()">Update</button>
+    </section>
+  </section>
+
+  <!-- <section id="divPlanOption">
+
+      </section>
+
+      <section id="divAccount" class="general-wrapper"></section>
+      <section id="divAppDetail" class="general-wrapper"></section> -->
+
+  <!-- <aside class="pull-right setting-right" style="width:80%;">
+
+      <section id="divGeneral" class="general-wrapper">
+
+
+
+
+        <div class="row">
+
+          <fieldset style="margin-top: 10px;margin-left: 15px;">
+            <legend>Student ID</legend>
+            <div class="c-sm-4 c-md-4 c-lg-4" style="margin-top: 10px;margin-left: -15px;">
+              <div class="radio-options">
+                <div class="field-radio-wrapper">
+                  <input type="radio" disabled [checked]="(this.instDetails.is_student_displayId_manual == 0)" (click)="checkInputType($event)"
+                    name="sFilter" class="form-radio" value="Automatic" id="idAutomatic">
+                  <label for="active">Automatic</label>
+                </div>
+                <div class="field-radio-wrapper">
+                  <input type="radio" disabled [checked]="(this.instDetails.is_student_displayId_manual == 1)" (click)="checkInputType($event)"
+                    name="sFilter" value="Manual" class="form-radio" id="idManual">
+                  <label for="Inactive">Manual</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="c-sm-4 c-md-4 c-lg-4" *ngIf="(showPrefix == true)">
+              <div class="field-wrapper" [ngClass]="{'has-value':instDetails.student_id_prefix != ''}">
+                <input type="text" class="form-ctrl" name="slotNew" [(ngModel)]="instDetails.student_id_prefix" id="ch20">
+                <label for="ch20">
+                  Student ID Prefix
+                </label>
+              </div>
+            </div>
+          </fieldset>
+
+
+        </div>
+
+
+
+
+        <div class="row borderClass" style="margin-top:20px">
+          <h3 class='c-sm-4 c-md-4 c-lg-4'>SMS Setting</h3>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="smsAllocationHistoryDeatils()">SMS Allocation History
+          </a>
+        </div>
+
+
+        <div class="row borderClass" style="margin-top:20px">
+          <h3 class="c-sm-4 c-md-4 c-lg-4">Storage Setting</h3>
+          <a class="pull-right" style="cursor: pointer;padding-top: 15px;" (click)="downLoadLimitAllocationHistory()">Download Limit Allocation History</a>
+        </div>
+
+      </section>
+
+    </aside> -->
+
+
+
+</div>
+
+
+
+<!-- /////////////////////////////Pop UP HERERERERERRERER     /*///////// -->
+
+
+
+<section id="popup" class="popupWrapper fadeIn" *ngIf="showAllocationPopup">
+  <div class="popup pos-abs">
+    <div class="popup-wrapper pos-rel">
+      <span class="closePopup pos-abs fbold show" id="popupCloseBtn" (click)="closeDeletePopup()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="9310 2185 16 16">
+          <g id="Group_1228" data-name="Group 1228" transform="translate(8298 1888)">
+            <g id="Group_1213" data-name="Group 1213" transform="translate(34.189 -7.77)">
+              <line id="Line_274" data-name="Line 274" class="cls-1" y2="19.798"
+                transform="translate(992.81 305.77) rotate(45)" />
+              <line id="Line_275" data-name="Line 275" class="cls-1" x1="19.798"
+                transform="translate(978.81 305.77) rotate(45)" />
+            </g>
+            <rect id="Rectangle_686" data-name="Rectangle 686" style="stroke:none;" class="cls-2" width="16" height="16"
+              transform="translate(1012 297)" />
+          </g>
+        </svg>
+      </span>
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;" *ngIf="openPopUpName == 'SMSHistory'">
+        <div class="">
+          <h2>SMS Allocation History Details</h2>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  SMS Type
+                </th>
+                <th>
+                  Quota Allocated
+                </th>
+                <th>
+                  Reason
+                </th>
+                <th>
+                  Updated On
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of smsAllocation; let i = index; trackBy: i;">
+                <td>
+                  {{row.quoto_type}}
+                </td>
+                <td>
+                  {{row.sms_quota_allocated}}
+                </td>
+                <td>
+                  {{row.reason}}
+                </td>
+                <td>
+                  {{row.created_date}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;"
+        *ngIf="openPopUpName == 'PaymentHistory'">
+
+        <div class="">
+          <h2>Payment Details</h2>
+        </div>
+        <div class="" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Created Date
+                </th>
+                <th>
+                  Item
+                </th>
+                <th>
+                  Detail
+                </th>
+                <th>
+                  Due Date
+                </th>
+                <th>
+                  Added Date
+                </th>
+                <th>
+                  Amount Paid
+                </th>
+                <th>
+                  Payment Status
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of paymentTable; let i = index; trackBy: i;">
+                <td>
+                  {{row.added_date}}
+                </td>
+                <td>
+                  {{row.item}}
+                </td>
+                <td>
+                  {{row.detail}}
+                </td>
+                <td>
+                  {{row.due_date}}
+                </td>
+                <td>
+                  {{row.added_date}}
+                </td>
+                <td>
+                  <span *ngIf="row.amount_with_tax!=null">
+                    {{ commonService.currency_default_symbol}}{{row.amount_with_tax.toLocaleString()}}
+                  </span>
+                </td>
+                <td>
+                  {{row.pmt_status}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <div class="popup-content" style="padding: 0px 15px;margin-bottom: 20px;"
+        *ngIf="openPopUpName == 'DownloadLimit'">
+
+        <div class="">
+          <h2>Download Limit Allocation History Details</h2>
+        </div>
+        <div class="" style="margin-top: 30px;">
+          <table>
+            <thead>
+              <tr>
+                <th>
+                  Download Limit(GB)
+                </th>
+                <th>
+                  Reason
+                </th>
+                <th>
+                  Updated On
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="row{{i}}" *ngFor="let row of limitTable; let i = index; trackBy: i;">
+                <td>
+                  {{row.limit_allocated}}
+                </td>
+                <td>
+                  {{row.reason}}
+                </td>
+                <td>
+                  {{row.created_date}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

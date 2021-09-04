@@ -1,0 +1,67 @@
+.middle-section{
+  padding: 1%;
+}
+
+.header-section{
+  .header-title{
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0084f6;
+  }
+}
+
+.course-menu-section-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid rgba(10,10,10,0.5);
+  width: 100%;
+  .course-menu-item{
+    padding: 15px 10px;
+    width: 27%;
+    background: #fff;
+    height: 110px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    margin: 1%;
+    margin-right: 5%;
+    -webkit-box-shadow: 0px 3px 6px #696969;
+    box-shadow: 0px 3px 6px #696969;
+    .menu-title{
+      width: 100%;
+      justify-content: flex-start;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: row;
+      img{
+        width: 25px;
+        height: 25px;
+      }
+      span{
+        margin-left: 10px;
+        margin-top: 5px;
+      }
+    }
+    .menu-description{
+      padding: 10px;
+      font-size: 12px;
+    }
+  }
+}
+.new-keyword{
+  background-color: #27c24c;
+  color: #fff;
+  border-radius: 10px;
+  letter-spacing: 0.7px;
+  padding: 5px;
+  margin: 0 5px;
+  font-size: 12px;
+  width: 50px;
+  text-align: center;
+}
