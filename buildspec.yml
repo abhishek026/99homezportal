@@ -16,7 +16,7 @@ phases:
       # - echo testing...
       # - echo building...
       - ng build --prod
-      - npm run minify
+      # npm run minify
   post_build:
     commands:
       - mv appspec.yml ./dist
